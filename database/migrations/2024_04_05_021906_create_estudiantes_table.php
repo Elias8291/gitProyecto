@@ -14,7 +14,8 @@ class CreateEstudiantesTable extends Migration
     public function up()
     {
         Schema::create('estudiantes', function (Blueprint $table) {
-            $table->string('numeroDeControl')->primary(); // Usamos string si el número de control incluye letras
+            $table->id(); // Agrega un campo id como llave primaria autoincremental
+            $table->string('numeroDeControl')->unique(); // Número de control como campo único
             $table->string('nombre');
             $table->string('apellidoPaterno');
             $table->string('apellidoMaterno');

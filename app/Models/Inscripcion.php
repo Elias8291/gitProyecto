@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Inscripcion extends Model
 {
     protected $table = 'inscripciones';
-    protected $fillable = ['estudiantes_numeroDeControl', 'grupo_clave'];
+   protected $fillable = ['estudiante_id', 'grupo_clave'];
 
     public function alumno()
     {
@@ -17,12 +17,13 @@ class Inscripcion extends Model
         return $this->belongsTo(Estudiante::class, 'estudiantes_numeroDeControl', 'numeroDeControl');
     }
 
+    public function estudiante()
+    {
+        return $this->belongsTo(Estudiante::class, 'estudiante_id');
+    }
+
     public function grupo()
     {
         return $this->belongsTo(Grupo::class, 'grupo_clave', 'clave');
-    }
-    public function estudiante()
-    {
-        return $this->belongsTo(Estudiante::class, 'estudiantes_numeroDeControl', 'numeroDeControl');
     }
 }

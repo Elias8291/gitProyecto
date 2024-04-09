@@ -40,4 +40,30 @@
         </div>
     </div>
 </section>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<!-- DATATABLES -->
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<!-- BOOTSTRAP -->
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    new DataTable('#miTabla2', {
+lengthMenu: [
+    [2, 5, 10],
+    [2, 5, 10]
+],
+
+columns: [
+{ data: 'ID' },
+{ data: 'NumeroDeControl', title: 'Número de Control' },
+{ data: 'Nombre del estudiante', title: 'Nombre del alumno' },
+{ data: 'Clave del Grupo', title: 'clave del grupo' },
+{ data: 'Nombre de la Materia', title: 'Nombre de la materia' },
+{ data: 'Acciones', title: 'Acciones' }
+],
+
+language: {
+    url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',
+}
+});
+</script>
 @endsection

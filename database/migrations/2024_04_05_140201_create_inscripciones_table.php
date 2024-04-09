@@ -18,8 +18,8 @@ class CreateInscripcionesTable extends Migration
         
             // Corregido para que coincida con el tipo de dato de 'numeroDeControl' en 'estudiantes'
             // Asumiendo 'numeroDeControl' como VARCHAR, ajusta la longitud si es necesario
-            $table->string('estudiantes_numeroDeControl', 191); // Asegúrate de que la longitud coincida
-            $table->foreign('estudiantes_numeroDeControl')->references('numeroDeControl')->on('estudiantes')->onDelete('cascade');
+            $table->unsignedBigInteger('estudiante_id'); // Asume que 'id' en 'estudiantes' es de tipo unsignedBigInteger
+            $table->foreign('estudiante_id')->references('id')->on('estudiantes')->onDelete('cascade');
         
             // Llave foránea a la tabla 'grupos'
             $table->string('grupo_clave');

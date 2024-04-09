@@ -16,7 +16,7 @@
                         <a class="btn btn-warning" href="{{ route('estudiantes.create') }}">Nuevo</a>
                         @endcan
             
-                        <table class="table table-striped mt-2">
+                        <table class="table table-striped mt-2" id="miTabla2">
                                 <thead style="background-color:#6777ef">                                     
                                     <th style="color:#fff;">Número de Control</th>
                                     <th style="color:#fff;">Nombre</th>
@@ -35,9 +35,9 @@
                                 <td>{{ $estudiante->semestre }}</td>
                                 
                                 <td>
-                                    <form action="{{ route('estudiantes.destroy',$estudiante->numeroDeControl) }}" method="POST">                                        
+                                    <form action="{{ route('estudiantes.destroy',$estudiante->id) }}" method="POST">                                        
                                         @can('editar-estudiante')
-                                        <a class="btn btn-info" href="{{ route('estudiantes.edit',$estudiante->numeroDeControl) }}">Editar</a>
+                                        <a class="btn btn-info" href="{{ route('estudiantes.edit',$estudiante->id) }}">Editar</a>
                                         @endcan
 
                                         @csrf
@@ -62,4 +62,31 @@
             </div>
         </div>
     </section>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <!-- DATATABLES -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <!-- BOOTSTRAP -->
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <script>
+        new DataTable('#miTabla2', {
+    lengthMenu: [
+        [2, 5, 10],
+        [2, 5, 10]
+    ],
+
+    columns: [
+        { numeroDeControl: 'Número de Control' },
+        { nombre: 'Nombre' },
+        { apellidoMaterno: 'Apellido Paterno' },
+        { apellidoMaterno: 'Apellido Paterno' },
+        { semestre: 'Semestre' },
+        // { Guard_name: 'Guard_name'},
+        { Acciones: 'Acciones' }
+    ],
+
+    language: {
+        url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',
+    }
+});
+    </script>
 @endsection

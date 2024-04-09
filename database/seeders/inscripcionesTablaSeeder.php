@@ -16,11 +16,11 @@ class inscripcionesTablaSeeder extends Seeder
         public function run()
         {
             $inscripciones = [
-                ['estudiantes_numeroDeControl' => '20230101', 'grupo_clave' => 'G101'],
-                ['estudiantes_numeroDeControl' => '20230102', 'grupo_clave' => 'G101'],
-                ['estudiantes_numeroDeControl' => '20230103', 'grupo_clave' => 'G102'],
-                ['estudiantes_numeroDeControl' => '20230104', 'grupo_clave' => 'G102'],
-                ['estudiantes_numeroDeControl' => '20230105', 'grupo_clave' => 'G201'],
+                ['estudiante_id' => 1, 'grupo_clave' => 'G101'],
+                ['estudiante_id' => 2, 'grupo_clave' => 'G101'],
+                ['estudiante_id' => 3, 'grupo_clave' => 'G102'],
+                ['estudiante_id' => 4, 'grupo_clave' => 'G102'],
+                ['estudiante_id' => 5, 'grupo_clave' => 'G201'],
                 // Add more inscriptions as needed
             ];
     

@@ -7,11 +7,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class Estudiante extends Model
 {
-    protected $primaryKey = 'numeroDeControl'; // Establece 'numeroDeControl' como clave primaria
-    public $incrementing = false; // Indica que la clave primaria no es autoincremental
-    protected $keyType = 'string'; // Tipo de dato de la clave primaria
+    use HasFactory;
 
+    // Especifica el nombre de la tabla si no sigue la convención de nombres de Laravel
+    protected $table = 'estudiantes';
+
+    // Desactiva los timestamps si tu tabla no tiene las columnas created_at y updated_at
+    public $timestamps = true;
+
+    // Especifica qué campos pueden ser asignados masivamente
     protected $fillable = [
-        'numeroDeControl', 'nombre', 'apellidoPaterno', 'apellidoMaterno', 'semestre'
+        'numeroDeControl',
+        'nombre',
+        'apellidoPaterno',
+        'apellidoMaterno',
+        'semestre',
     ];
+
+    // Aquí puedes definir relaciones, scopes, y otros comportamientos del modelo
 }
