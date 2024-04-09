@@ -10,7 +10,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <table class="table table-striped mt-2">
+                        <table class="table table-striped mt-2" id="miTabla2">
                             <thead style="background-color:#6777ef">
                                 <tr>
                                     <th style="color:#fff;">Clave</th>
@@ -53,12 +53,10 @@ lengthMenu: [
 ],
 
 columns: [
-{ data: 'ID' },
-{ data: 'NumeroDeControl', title: 'Número de Control' },
-{ data: 'Nombre del estudiante', title: 'Nombre del alumno' },
-{ data: 'Clave del Grupo', title: 'clave del grupo' },
-{ data: 'Nombre de la Materia', title: 'Nombre de la materia' },
-{ data: 'Acciones', title: 'Acciones' }
+    { data: 'clave', title: 'Clave' },
+    { data: 'nombre', title: 'Nombre' },
+    { data: 'materia.nombre', title: 'Materia' },
+    { data: 'Acciones', title: 'Acciones', orderable: false }
 ],
 
 language: {
