@@ -30,7 +30,7 @@ class EstudianteController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'numeroDeControl' => 'required|unique:estudiantes,numeroDeControl',
+            'numeroDeControl' => 'required|numeric|digits:8|unique:estudiantes',
             'nombre' => 'required',
             'apellidoPaterno' => 'required',
             'apellidoMaterno' => 'required',
@@ -55,10 +55,12 @@ class EstudianteController extends Controller
     public function update(Request $request, Estudiante $estudiante)
     {
         $request->validate([
+            'numeroDeControl' => 'required|numeric|digits:8|unique:estudiantes,numeroDeControl,',
             'nombre' => 'required',
             'apellidoPaterno' => 'required',
             'apellidoMaterno' => 'required',
             'semestre' => 'required|integer|min:1', // Supone que semestre es un valor entero y el mínimo semestre válido es 1
+            
         ]);
 
         $estudiante->update($request->all());

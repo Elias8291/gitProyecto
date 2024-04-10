@@ -26,4 +26,6 @@ class Inscripcion extends Model
     {
         return $this->belongsTo(Grupo::class, 'grupo_clave', 'clave');
     }
+
+    
 }
