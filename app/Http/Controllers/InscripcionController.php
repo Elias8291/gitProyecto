@@ -42,6 +42,19 @@ class InscripcionController extends Controller
             'grupo_clave' => 'required|exists:grupos,clave',
         ]);
     
+        $grupo = Grupo::findOrFail($request->grupo_clave);
+        $estudiante = Estudiante::findOrFail($request->estudiante_id);
+    
+        // Verificar si el estudiante ya está inscrito en un grupo con horario traslapado
+        $inscripcionesExistentes = $estudiante->inscripciones()->with('grupo.horario')->get();
+    
+        foreach ($inscripcionesExistentes as $inscripcionExistente) {
+            if ($inscripcionExistente->grupo->horario->id == $grupo->horario->id) {
+                return redirect()->back()->withErrors(['El estudiante ya está inscrito en otro grupo con el mismo horario.']);
+            }
+        }
+    
+        // Crear la nueva inscripción
         Inscripcion::create([
             'estudiante_id' => $request->estudiante_id,
             'grupo_clave' => $request->grupo_clave,
@@ -49,7 +62,6 @@ class InscripcionController extends Controller
     
         return redirect()->route('inscripciones.index')->with('success', 'Inscripción creada correctamente.');
     }
-
 
 
 

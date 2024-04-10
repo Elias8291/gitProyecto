@@ -36,4 +36,5 @@ class Grupo extends Model
     {
         return $this->hasMany(Inscripcion::class, 'grupo_clave', 'clave');
     }
+    
 }

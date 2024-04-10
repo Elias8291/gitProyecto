@@ -24,5 +24,9 @@ class Estudiante extends Model
         'semestre',
     ];
 
+    public function inscripciones()
+    {
+        return $this->hasMany(Inscripcion::class, 'estudiante_id');
+    }
     // Aquí puedes definir relaciones, scopes, y otros comportamientos del modelo
 }
