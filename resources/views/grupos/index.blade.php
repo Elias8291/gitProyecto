@@ -4,6 +4,11 @@
 <section class="section">
     <div class="section-header">
         <h3 class="page__heading">Grupos</h3>
+        <div class="section-header-button">
+            <a href="{{ route('grupos.create') }}" class="btn btn-primary">
+                Crear Nuevo Grupo
+            </a>
+        </div>
     </div>
     <div class="section-body">
         <div class="row">
@@ -16,6 +21,10 @@
                                     <th style="color:#fff;">Clave</th>
                                     <th style="color:#fff;">Nombre</th>
                                     <th style="color:#fff;">Materia</th>
+                                    <th style="color:#fff;">Rango Alumnos Mínimo</th>
+                                    <th style="color:#fff;">Rango Alumnos Máximo</th>
+                                    <th style="color:#fff;">Horario inicio</th>
+                                    <th style="color:#fff;">Horario fin</th>
                                     <th style="color:#fff;">Acciones</th>
                                 </tr>
                             </thead>
@@ -25,7 +34,21 @@
                                     <td>{{ $grupo->clave }}</td>
                                     <td>{{ $grupo->nombre }}</td>
                                     <td>{{ $grupo->materia->nombre }}</td>
+                                    <td>{{ $grupo->rangoAlumno->min_alumnos }}</td>
+                                    <td>{{ $grupo->rangoAlumno->max_alumnos }}</td>
+                                    <td>{{ $grupo->Horario->hora_in}}</td>
+                                    <td>{{ $grupo->Horario->hora_fn}}</td>
                                     <td>
+                                        <a href="{{ route('grupos.edit', $grupo->clave) }}" class="btn btn-warning">
+                                            Editar
+                                        </a>
+                                        <form action="{{ route('grupos.destroy', $grupo->clave) }}" method="POST" class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar este grupo?')">
+                                                Eliminar
+                                            </button>
+                                        </form>
                                         <a href="{{ route('grupos.generarPDF', $grupo->clave) }}" class="btn btn-primary">
                                             <i class="fas fa-file-excel"></i> Generar Lista Alumnos
                                         </a>
@@ -40,6 +63,7 @@
         </div>
     </div>
 </section>
+
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <!-- DATATABLES -->
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
@@ -47,21 +71,23 @@
 <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
 <script>
     new DataTable('#miTabla2', {
-lengthMenu: [
-    [2, 5, 10],
-    [2, 5, 10]
-],
-
-columns: [
-    { data: 'clave', title: 'Clave' },
-    { data: 'nombre', title: 'Nombre' },
-    { data: 'materia.nombre', title: 'Materia' },
-    { data: 'Acciones', title: 'Acciones', orderable: false }
-],
-
-language: {
-    url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',
-}
-});
+        lengthMenu: [
+            [2, 5, 10],
+            [2, 5, 10]
+        ],
+        columns: [
+            { data: 'clave', title: 'Clave' },
+            { data: 'nombre', title: 'Nombre' },
+            { data: 'materia.nombre', title: 'Materia' },
+            { data: 'rangoAlumno.min_alumnos', title: 'Rango Alumnos Mínimo' },
+            { data: 'rangoAlumno.max_alumnos', title: 'Rango Alumnos Máximo' },
+            { data: 'horario.hora_in', title: 'Horario inicio' },
+            { data: 'horario.hora_fn', title: 'Horario fin' },
+            { data: 'Acciones', title: 'Acciones', orderable: false }
+        ],
+        language: {
+            url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',
+        }
+    });
 </script>
 @endsection
