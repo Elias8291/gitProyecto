@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,10 +10,16 @@ class Grupo extends Model
     use HasFactory;
 
     protected $table = 'grupos';
-    protected $primaryKey = 'clave';
-    public $incrementing = false;
-    protected $keyType = 'string';
-    protected $fillable = ['clave', 'nombre', 'rango_alumnos_id', 'horario_id', 'materia_clave'];
+    protected $primaryKey = 'id';
+    public $incrementing = true;
+    protected $keyType = 'integer';
+    protected $fillable = [
+        'clave',
+        'nombre',
+        'rango_alumnos_id',
+        'horario_id',
+        'materia_id',
+    ];
 
     public function rangoAlumno()
     {
@@ -26,11 +33,11 @@ class Grupo extends Model
 
     public function materia()
     {
-        return $this->belongsTo(Materia::class, 'materia_clave', 'clave');
+        return $this->belongsTo(Materia::class, 'materia_id');
     }
 
     public function inscripciones()
     {
-        return $this->hasMany(Inscripcion::class, 'grupo_clave', 'clave');
+        return $this->hasMany(Inscripcion::class, 'grupo_id');
     }
 }

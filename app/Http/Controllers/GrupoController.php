@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Grupo;
@@ -7,6 +8,7 @@ use App\Models\Horario;
 use App\Models\Materia;
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class GrupoController extends Controller
 {
@@ -21,63 +23,87 @@ class GrupoController extends Controller
 
     public function index()
     {
-        $grupos = Grupo::with('rangoAlumno', 'horario', 'materia')->get();
+        $grupos = Grupo::with('rangoAlumno', 'horario', 'materia', 'inscripciones')->get();
         $rangoAlumnos = RangoAlumno::all();
         $horarios = Horario::all();
         $materias = Materia::all();
-
+    
+        // Add the count of inscriptions for each group
+        $grupos->each(function ($grupo) {
+            $grupo->inscripcionesCount = $grupo->inscripciones()->count();
+        });
+    
         return view('grupos.index', compact('grupos', 'rangoAlumnos', 'horarios', 'materias'));
     }
 
     public function create()
-    {
-        return view('grupos.create');
-    }
+{
+    $rangoAlumnos = RangoAlumno::all();
+    $horarios = Horario::all();
+    $materias = Materia::all();
 
-    public function store(Request $request)
-    {
-        $validatedData = $request->validate([
-            'nombre' => 'required|string|max:255',
-            'clave' => 'required|string|max:50|unique:grupos',
-            // Add any other validation rules for the Grupo model
-        ]);
+    return view('grupos.crear', compact('rangoAlumnos', 'horarios', 'materias'));
+}
 
-        $grupo = Grupo::create($validatedData);
+public function store(Request $request)
+{
+    $validatedData = $request->validate([
+        'clave' => 'required|string|max:50|unique:grupos',
+        'nombre' => 'required|string|max:255',
+        'materia_id' => 'required|integer|exists:materias,id',
+        'rango_alumnos_id' => 'required|integer|exists:rango_alumnos,id',
+        'horario_id' => 'required|integer|exists:horarios,id',
+    ]);
 
-        return redirect()->route('grupos.index')->with('success', 'Grupo created successfully.');
-    }
+    $grupo = Grupo::create($validatedData);
 
-    public function edit($id)
-    {
-        $grupo = Grupo::findOrFail($id);
-        return view('grupos.edit', compact('grupo'));
-    }
+    return redirect()->route('grupos.index')->with('success', 'Grupo created successfully.');
+}
+public function edit($clave)
+{
+    $grupo = Grupo::where('clave', $clave)->firstOrFail();
+    $rangoAlumnos = RangoAlumno::all();
+    $horarios = Horario::all();
+    $materias = Materia::all();
 
-    public function update(Request $request, $id)
-    {
-        $validatedData = $request->validate([
-            'nombre' => 'required|string|max:255',
-            'clave' => 'required|string|max:50|unique:grupos,clave,' . $id,
-            // Add any other validation rules for the Grupo model
-        ]);
+    return view('grupos.editar', compact('grupo', 'rangoAlumnos', 'horarios', 'materias'));
+}
 
-        $grupo = Grupo::findOrFail($id);
-        $grupo->update($validatedData);
+public function update(Request $request, $clave)
+{
+    $grupo = Grupo::where('clave', $clave)->firstOrFail();
 
-        return redirect()->route('grupos.index')->with('success', 'Grupo updated successfully.');
-    }
+    $validatedData = $request->validate([
+        'clave' => 'required|string|max:50|unique:grupos,clave,' . $grupo->id,
+        'nombre' => 'required|string|max:255',
+        'materia_id' => 'required|integer|exists:materias,id',
+        'rango_alumnos_id' => 'required|integer|exists:rango_alumnos,id',
+        'horario_id' => 'required|integer|exists:horarios,id',
+    ]);
 
+    $grupo->update($validatedData);
+
+    return redirect()->route('grupos.index')->with('success', 'Grupo updated successfully.');
+}
     public function destroy($id)
     {
-        $grupo = Grupo::findOrFail($id);
-        $grupo->delete();
-
-        return redirect()->route('grupos.index')->with('success', 'Grupo deleted successfully.');
+        try {
+            $grupo = Grupo::findOrFail($id);
+            $grupo->delete();
+            return redirect()->route('grupos.index')->with('success', 'Grupo deleted successfully.');
+        } catch (\Exception $e) {
+            Log::error('Error deleting grupo: ' . $e->getMessage());
+            return redirect()->route('grupos.index')->with('error', 'An error occurred while deleting the group.');
+        }
+    }
+    public function materia()
+    {
+        return $this->belongsTo(Materia::class, 'materia_clave', 'clave');
     }
 
-    public function generarPDF($clave)
+    public function generarPDF($id)
     {
-        $grupo = Grupo::findOrFail($clave);
+        $grupo = Grupo::findOrFail($id);
         $estudiantes = $grupo->inscripciones()
             ->with('estudiante')
             ->get()

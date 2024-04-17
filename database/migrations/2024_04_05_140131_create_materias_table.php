@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,7 +13,8 @@ class CreateMateriasTable extends Migration
     public function up()
     {
         Schema::create('materias', function (Blueprint $table) {
-            $table->string('clave')->primary(); // Clave de la materia ingresada por el usuario como llave primaria
+            $table->id(); // Llave primaria autoincremental
+            $table->string('clave', 100); // Clave de la materia
             $table->string('nombre', 100); // Nombre de la materia
             $table->integer('creditos'); // Créditos de la materia
             $table->timestamps(); // Campos opcionales para la fecha de creación y actualización

@@ -25,6 +25,7 @@
                                     <th style="color:#fff;">Rango Alumnos Máximo</th>
                                     <th style="color:#fff;">Horario inicio</th>
                                     <th style="color:#fff;">Horario fin</th>
+                                    <th style="color:#fff;">Alumnos inscritos</th>
                                     <th style="color:#fff;">Acciones</th>
                                 </tr>
                             </thead>
@@ -36,8 +37,9 @@
                                     <td>{{ $grupo->materia->nombre }}</td>
                                     <td>{{ $grupo->rangoAlumno->min_alumnos }}</td>
                                     <td>{{ $grupo->rangoAlumno->max_alumnos }}</td>
-                                    <td>{{ $grupo->Horario->hora_in}}</td>
-                                    <td>{{ $grupo->Horario->hora_fn}}</td>
+                                    <td>{{ $grupo->Horario->hora_in }}</td>
+                                    <td>{{ $grupo->Horario->hora_fn }}</td>
+                                    <td>{{ $grupo->inscripcionesCount }}</td>
                                     <td>
                                         <a href="{{ route('grupos.edit', $grupo->clave) }}" class="btn btn-warning">
                                             Editar
@@ -76,15 +78,16 @@
             [2, 5, 10]
         ],
         columns: [
-            { data: 'clave', title: 'Clave' },
-            { data: 'nombre', title: 'Nombre' },
-            { data: 'materia.nombre', title: 'Materia' },
-            { data: 'rangoAlumno.min_alumnos', title: 'Rango Alumnos Mínimo' },
-            { data: 'rangoAlumno.max_alumnos', title: 'Rango Alumnos Máximo' },
-            { data: 'horario.hora_in', title: 'Horario inicio' },
-            { data: 'horario.hora_fn', title: 'Horario fin' },
-            { data: 'Acciones', title: 'Acciones', orderable: false }
-        ],
+        { data: 'clave', title: 'Clave' },
+        { data: 'nombre', title: 'Nombre' },
+        { data: 'materia.nombre', title: 'Materia' },
+        { data: 'rangoAlumno.min_alumnos', title: 'Rango Alumnos Mínimo' },
+        { data: 'rangoAlumno.max_alumnos', title: 'Rango Alumnos Máximo' },
+        { data: 'horario.hora_in', title: 'Horario inicio' },
+        { data: 'horario.hora_fn', title: 'Horario fin' },
+        { data: 'inscripcionesCount', title: 'Alumnos inscritos' },
+        { data: 'Acciones', title: 'Acciones', orderable: false }
+    ], ||
         language: {
             url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',
         }

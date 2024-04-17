@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,7 +13,8 @@ class CreateGruposTable extends Migration
     public function up()
     {
         Schema::create('grupos', function (Blueprint $table) {
-            $table->string('clave')->primary(); // Clave del grupo ingresada por el usuario como llave primaria
+            $table->id(); // Llave primaria autoincremental
+            $table->string('clave', 100); // Clave del grupo
             $table->string('nombre', 100); // Nombre del grupo
 
             // Llave foránea a la tabla 'rango_alumnos'
@@ -26,8 +26,8 @@ class CreateGruposTable extends Migration
             $table->foreign('horario_id')->references('id')->on('horarios')->onDelete('cascade');
 
             // Llave foránea a la tabla 'materias'
-            $table->string('materia_clave');
-            $table->foreign('materia_clave')->references('clave')->on('materias')->onDelete('cascade');
+            $table->unsignedBigInteger('materia_id');
+            $table->foreign('materia_id')->references('id')->on('materias')->onDelete('cascade');
 
             $table->timestamps(); // Campos opcionales para la fecha de creación y actualización
         });

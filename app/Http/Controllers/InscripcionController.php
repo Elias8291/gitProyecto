@@ -5,12 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Inscripcion;
-use App\Models\Estudiante; // Asegúrate de incluir los modelos necesarios
+use App\Models\Estudiante;
 use App\Models\Grupo;
 
 class InscripcionController extends Controller
 {
-    function __construct()
+    public function __construct()
     {
         $this->middleware('permission:ver-inscripcion|crear-inscripcion|editar-inscripcion|borrar-inscripcion')->only('index');
         $this->middleware('permission:crear-inscripcion', ['only' => ['create', 'store']]);
@@ -19,17 +19,15 @@ class InscripcionController extends Controller
     }
 
     public function index()
-{
-    $inscripciones = Inscripcion::with(['estudiante', 'grupo'])->paginate(10);
-    $estudiantes = Estudiante::all();
-    $grupos = Grupo::all();
-    return view('inscripciones.index', compact('inscripciones', 'estudiantes', 'grupos'));
-}
+    {
+        $inscripciones = Inscripcion::with(['estudiante', 'grupo'])->paginate(10);
+        $estudiantes = Estudiante::all();
+        $grupos = Grupo::all();
+        return view('inscripciones.index', compact('inscripciones', 'estudiantes', 'grupos'));
+    }
 
-    // Muestra el formulario para crear una nueva inscripción
     public function create()
     {
-        // Aquí también puedes pasar datos adicionales a la vista si es necesario, como la lista de estudiantes y grupos
         $estudiantes = Estudiante::all();
         $grupos = Grupo::all();
         return view('inscripciones.crear', compact('estudiantes', 'grupos'));
@@ -39,39 +37,34 @@ class InscripcionController extends Controller
     {
         $request->validate([
             'estudiante_id' => 'required|exists:estudiantes,id',
-            'grupo_clave' => 'required|exists:grupos,clave',
+            'grupo_id' => 'required|exists:grupos,id',
         ]);
-    
-        $grupo = Grupo::findOrFail($request->grupo_clave);
+
+        $grupo = Grupo::findOrFail($request->grupo_id);
         $estudiante = Estudiante::findOrFail($request->estudiante_id);
-    
+
         // Verificar si el estudiante ya está inscrito en un grupo con horario traslapado
         $inscripcionesExistentes = $estudiante->inscripciones()->with('grupo.horario')->get();
-    
         foreach ($inscripcionesExistentes as $inscripcionExistente) {
             if ($inscripcionExistente->grupo->horario->id == $grupo->horario->id) {
                 return redirect()->back()->withErrors(['El estudiante ya está inscrito en otro grupo con el mismo horario.']);
             }
         }
-    
-        // Crear la nueva inscripción
+
         Inscripcion::create([
             'estudiante_id' => $request->estudiante_id,
-            'grupo_clave' => $request->grupo_clave,
+            'grupo_id' => $request->grupo_id,
         ]);
-    
+
         return redirect()->route('inscripciones.index')->with('success', 'Inscripción creada correctamente.');
     }
 
-
-
-    // Muestra una inscripción específica
     public function show($id)
     {
         $inscripcion = Inscripcion::with(['estudiante', 'grupo'])->findOrFail($id);
         return view('inscripciones.show', compact('inscripcion'));
     }
-    // Muestra el formulario para editar una inscripción existente
+
     public function edit($id)
     {
         $inscripcion = Inscripcion::findOrFail($id);
@@ -80,23 +73,26 @@ class InscripcionController extends Controller
         return view('inscripciones.editar', compact('inscripcion', 'estudiantes', 'grupos'));
     }
 
-    // Actualiza una inscripción específica
     public function update(Request $request, $id)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'estudiante_id' => 'required|exists:estudiantes,id',
-            'grupo_clave' => 'required|exists:grupos,clave',
+            'grupo_id' => 'required|exists:grupos,id',
         ]);
 
-        Inscripcion::create($request->all());
+        $inscripcion = Inscripcion::findOrFail($id);
+        $inscripcion->update([
+            'estudiante_id' => $request->estudiante_id,
+            'grupo_id' => $request->grupo_id,
+        ]);
 
-        return redirect()->route('inscripciones.index')->with('success', 'Inscripción creada correctamente.');
+        return redirect()->route('inscripciones.index')->with('success', 'Inscripción actualizada correctamente.');
     }
 
-    // Elimina una inscripción
     public function destroy($id)
     {
-        Inscripcion::findOrFail($id)->delete();
+        $inscripcion = Inscripcion::findOrFail($id);
+        $inscripcion->delete();
         return back()->with('success', 'Inscripción eliminada correctamente.');
     }
 }
