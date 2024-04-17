@@ -29,7 +29,7 @@
                                 <div class="col-xs-12 col-sm-12 col-md-12">
                                     <div class="form-group">
                                         <label for="numeroDeControl">Número de Control</label>
-                                        <input type="text" name="numeroDeControl" class="form-control" id="numeroDeControl">
+                                        <input type="text" name="numeroDeControl" class="form-control" id="numeroDeControl" maxlength="8" pattern="[0-9]*" title="El número de control debe tener 8 dígitos numéricos" required>
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-md-12">

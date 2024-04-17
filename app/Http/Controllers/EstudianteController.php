@@ -38,8 +38,7 @@ class EstudianteController extends Controller
         ]);
 
         Estudiante::create($request->all());
-
-        return redirect()->route('estudiantes.index'); // Asegúrate de tener una ruta definida para 'alumnos.index'
+        return redirect()->route('estudiantes.index');
     }
 
     public function show($id)
@@ -55,17 +54,15 @@ class EstudianteController extends Controller
     public function update(Request $request, Estudiante $estudiante)
     {
         $request->validate([
-            'numeroDeControl' => 'required|numeric|digits:8|unique:estudiantes,numeroDeControl,',
+            'numeroDeControl' => 'required|numeric|digits:8|unique:estudiantes,numeroDeControl,' . $estudiante->id,
             'nombre' => 'required',
             'apellidoPaterno' => 'required',
             'apellidoMaterno' => 'required',
-            'semestre' => 'required|integer|min:1', // Supone que semestre es un valor entero y el mínimo semestre válido es 1
-            
+            'semestre' => 'required|integer|min:1',
         ]);
 
         $estudiante->update($request->all());
-
-        return redirect()->route('estudiantes.index'); // Asegura tener una ruta definida para 'estudiantes.index'
+        return redirect()->route('estudiantes.index');
     }
 
     public function destroy(Estudiante $estudiante)

@@ -47,7 +47,7 @@
             </div>
         </div>
     </nav>
-
+    
     <header class="bg-indigo-500 text-white w-full h-screen flex items-center justify-center">
         <div class="text-center">
             <h1 class="text-4xl font-extrabold sm:text-5xl">
@@ -66,5 +66,6 @@
             </div>
         </div>
     </header>
+    
 </body>
 </html>
