@@ -11,6 +11,7 @@ use App\Http\Controllers\InscripcionController;
 use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Middleware\RedirectIfAuthenticated;
+use App\Http\Controllers\MateriasController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -41,6 +42,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('estudiantes', EstudianteController::class);
     Route::resource('inscripciones', InscripcionController::class);
     Route::resource('grupos', GrupoController::class);
+    Route::resource('materias', MateriasController::class);
     Route::get('/grupos/{clave}/generarPDF', [GrupoController::class, 'generarPDF'])->name('grupos.generarPDF');
     Route::get('/', [WelcomeController::class, 'showWelcomePage'])->name('welcome');
 });

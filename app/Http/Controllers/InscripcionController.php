@@ -18,14 +18,23 @@ class InscripcionController extends Controller
         $this->middleware('permission:borrar-inscripcion', ['only' => ['destroy']]);
     }
 
-    public function index()
+     public function index()
     {
-        $inscripciones = Inscripcion::with(['estudiante', 'grupo'])->paginate(10);
-        $estudiantes = Estudiante::all();
-        $grupos = Grupo::all();
-        return view('inscripciones.index', compact('inscripciones', 'estudiantes', 'grupos'));
-    }
+        $inscripciones = DB::table('inscripciones')
+            ->join('estudiantes', 'inscripciones.estudiante_id', '=', 'estudiantes.id')
+            ->join('grupos', 'inscripciones.grupo_id', '=', 'grupos.id')
+            ->join('materias', 'grupos.materia_id', '=', 'materias.id')
+            ->select(
+                'inscripciones.id',
+                'estudiantes.numeroDeControl',
+                DB::raw("CONCAT(estudiantes.nombre, ' ', estudiantes.apellidoPaterno, ' ', estudiantes.apellidoMaterno) AS nombre_estudiante"),
+                'grupos.clave AS clave_grupo',
+                'materias.nombre AS nombre_materia'
+            )
+            ->paginate(30);
 
+        return view('inscripciones.index', compact('inscripciones'));
+    }
     public function create()
     {
         $estudiantes = Estudiante::all();
@@ -79,16 +88,15 @@ class InscripcionController extends Controller
             'estudiante_id' => 'required|exists:estudiantes,id',
             'grupo_id' => 'required|exists:grupos,id',
         ]);
-
+    
         $inscripcion = Inscripcion::findOrFail($id);
         $inscripcion->update([
             'estudiante_id' => $request->estudiante_id,
             'grupo_id' => $request->grupo_id,
         ]);
-
+    
         return redirect()->route('inscripciones.index')->with('success', 'Inscripción actualizada correctamente.');
     }
-
     public function destroy($id)
     {
         $inscripcion = Inscripcion::findOrFail($id);

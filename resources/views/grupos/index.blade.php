@@ -34,24 +34,24 @@
                                 <tr>
                                     <td>{{ $grupo->clave }}</td>
                                     <td>{{ $grupo->nombre }}</td>
-                                    <td>{{ $grupo->materia->nombre }}</td>
-                                    <td>{{ $grupo->rangoAlumno->min_alumnos }}</td>
-                                    <td>{{ $grupo->rangoAlumno->max_alumnos }}</td>
-                                    <td>{{ $grupo->Horario->hora_in }}</td>
-                                    <td>{{ $grupo->Horario->hora_fn }}</td>
+                                    <td>{{ $grupo->materia_nombre }}</td>
+                                    <td>{{ $grupo->min_alumnos }}</td>
+                                    <td>{{ $grupo->max_alumnos }}</td>
+                                    <td>{{ $grupo->hora_in }}</td>
+                                    <td>{{ $grupo->hora_fn }}</td>
                                     <td>{{ $grupo->inscripcionesCount }}</td>
                                     <td>
-                                        <a href="{{ route('grupos.edit', $grupo->clave) }}" class="btn btn-warning">
+                                        <a href="{{ route('grupos.edit', $grupo->id) }}" class="btn btn-warning">
                                             Editar
                                         </a>
-                                        <form action="{{ route('grupos.destroy', $grupo->clave) }}" method="POST" class="d-inline">
+                                        <form action="{{ route('grupos.destroy', $grupo->id) }}" method="POST" class="d-inline">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar este grupo?')">
                                                 Eliminar
                                             </button>
                                         </form>
-                                        <a href="{{ route('grupos.generarPDF', $grupo->clave) }}" class="btn btn-primary">
+                                        <a href="{{ route('grupos.generarPDF', $grupo->id) }}" class="btn btn-primary">
                                             <i class="fas fa-file-excel"></i> Generar Lista Alumnos
                                         </a>
                                     </td>
@@ -74,20 +74,20 @@
 <script>
     new DataTable('#miTabla2', {
         lengthMenu: [
-            [2, 5, 10],
-            [2, 5, 10]
+            [2, 5, 10,20],
+            [2, 5, 10,20]
         ],
         columns: [
-        { data: 'clave', title: 'Clave' },
-        { data: 'nombre', title: 'Nombre' },
-        { data: 'materia.nombre', title: 'Materia' },
-        { data: 'rangoAlumno.min_alumnos', title: 'Rango Alumnos Mínimo' },
-        { data: 'rangoAlumno.max_alumnos', title: 'Rango Alumnos Máximo' },
-        { data: 'horario.hora_in', title: 'Horario inicio' },
-        { data: 'horario.hora_fn', title: 'Horario fin' },
-        { data: 'inscripcionesCount', title: 'Alumnos inscritos' },
-        { data: 'Acciones', title: 'Acciones', orderable: false }
-    ], ||
+            { data: 'clave', title: 'Clave' },
+            { data: 'nombre', title: 'Nombre' },
+            { data: 'materia_nombre', title: 'Materia' },
+            { data: 'min_alumnos', title: 'Rango Alumnos Mínimo' },
+            { data: 'max_alumnos', title: 'Rango Alumnos Máximo' },
+            { data: 'hora_in', title: 'Horario inicio' },
+            { data: 'hora_fn', title: 'Horario fin' },
+            { data: 'inscripcionesCount', title: 'Alumnos inscritos' },
+            { data: 'Acciones', title: 'Acciones', orderable: false }
+        ],
         language: {
             url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',
         }

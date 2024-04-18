@@ -9,6 +9,7 @@ use App\Models\Materia;
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class GrupoController extends Controller
 {
@@ -23,16 +24,38 @@ class GrupoController extends Controller
 
     public function index()
     {
-        $grupos = Grupo::with('rangoAlumno', 'horario', 'materia', 'inscripciones')->get();
+        $grupos = DB::table('grupos')
+            ->join('rango_alumnos', 'grupos.rango_alumnos_id', '=', 'rango_alumnos.id')
+            ->join('horarios', 'grupos.horario_id', '=', 'horarios.id')
+            ->join('materias', 'grupos.materia_id', '=', 'materias.id')
+            ->select(
+                'grupos.id',
+                'grupos.clave',
+                'grupos.nombre',
+                'materias.nombre as materia_nombre',
+                'rango_alumnos.min_alumnos',
+                'rango_alumnos.max_alumnos',
+                'horarios.hora_in',
+                'horarios.hora_fn',
+                DB::raw('COUNT(inscripciones.id) AS inscripcionesCount')
+            )
+            ->leftJoin('inscripciones', 'grupos.id', '=', 'inscripciones.grupo_id')
+            ->groupBy(
+                'grupos.id',
+                'grupos.clave',
+                'grupos.nombre',
+                'materias.nombre',
+                'rango_alumnos.min_alumnos',
+                'rango_alumnos.max_alumnos',
+                'horarios.hora_in',
+                'horarios.hora_fn'
+            )
+            ->get();
+
         $rangoAlumnos = RangoAlumno::all();
         $horarios = Horario::all();
         $materias = Materia::all();
-    
-        // Add the count of inscriptions for each group
-        $grupos->each(function ($grupo) {
-            $grupo->inscripcionesCount = $grupo->inscripciones()->count();
-        });
-    
+
         return view('grupos.index', compact('grupos', 'rangoAlumnos', 'horarios', 'materias'));
     }
 
@@ -59,19 +82,18 @@ public function store(Request $request)
 
     return redirect()->route('grupos.index')->with('success', 'Grupo created successfully.');
 }
-public function edit($clave)
+public function edit($id)
 {
-    $grupo = Grupo::where('clave', $clave)->firstOrFail();
+    $grupo = Grupo::findOrFail($id);
     $rangoAlumnos = RangoAlumno::all();
     $horarios = Horario::all();
     $materias = Materia::all();
 
     return view('grupos.editar', compact('grupo', 'rangoAlumnos', 'horarios', 'materias'));
 }
-
-public function update(Request $request, $clave)
+public function update(Request $request, $id)
 {
-    $grupo = Grupo::where('clave', $clave)->firstOrFail();
+    $grupo = Grupo::findOrFail($id);
 
     $validatedData = $request->validate([
         'clave' => 'required|string|max:50|unique:grupos,clave,' . $grupo->id,

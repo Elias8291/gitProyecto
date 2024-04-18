@@ -10,9 +10,9 @@ class WelcomeController extends Controller
     public function showWelcomePage()
     {
         if (Auth::check()) {
-            return redirect()->route('home'); // Redirigir a la página de inicio si está autenticado
+            return redirect()->route('home'); // Redirige a la página de inicio si está autenticado
         } else {
-            return view('welcome'); // Mostrar la página de bienvenida si no está autenticado
+            return view('welcome'); // Muestra la página de bienvenida si no está autenticado
         }
     }
 }
