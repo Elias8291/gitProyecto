@@ -57,28 +57,35 @@
             </div>
         </section>
     <!-- JQUERY -->
-    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-    <!-- DATATABLES -->
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <!-- BOOTSTRAP -->
-    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
-    <script>
-        new DataTable('#miTabla2', {
-    lengthMenu: [
-        [2, 5, 10],
-        [2, 5, 10]
-    ],
+   <!-- JQUERY -->
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<!-- DATATABLES -->
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<!-- BOOTSTRAP -->
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    new DataTable('#miTabla2', {
+        lengthMenu: [
+            [2, 5, 10],
+            [2, 5, 10]
+        ],
+        columns: [
+            { Id: 'Id' },
+            { Name: 'Name' },
+            { Acciones: 'Acciones' }
+        ],
+        language: {
+            url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',
+        },
+        initComplete: function () {
+            var column = this.api().column('Name:name'); // specify column by name
+            var input = $('<input type="text" class="form-control form-control-sm" placeholder="Buscar...">')
+                        .appendTo($(column.header()).empty())
+                        .on('keyup', function () {
+                            column.search($(this).val()).draw();
+                        });
+        }
+    });
+</script>
 
-    columns: [
-        { Id: 'Id' },
-        { Name: 'Name' },
-        // { Guard_name: 'Guard_name'},
-        { Acciones: 'Acciones' }
-    ],
-
-    language: {
-        url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',
-    }
-});
-    </script>
 @endsection

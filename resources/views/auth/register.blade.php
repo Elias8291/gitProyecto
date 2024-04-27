@@ -54,69 +54,85 @@
         font-size: 0.875em;
     }
 </style>
-<div class="card card-primary">
-    <div class="card-header"><h4>Registro</h4></div>
+<div class="overlay" id="registerOverlay">
+    <div class="register-container">
+        <div class="register-title">Registro de Usuario</div>
+        @extends('layouts.auth_app')
+        @section('title')
+            Registro
+        @endsection
 
-    <div class="card-body pt-1">
-        <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
-            @csrf
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="firstName">Nombre Completo:</label><span class="text-danger">*</span>
-                        <input id="firstName" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" tabindex="1" placeholder="Ingresa tu nombre completo" value="{{ old('name') }}" required autofocus>
-                        @if ($errors->has('name'))
-                            <div class="invalid-feedback">
-                                {{ $errors->first('name') }}
+        @section('content')
+        <style>
+            /* Estilos CSS */
+        </style>
+        <div class="card card-primary">
+            <div class="card-header"><h4>Registro</h4></div>
+
+            <div class="card-body pt-1">
+                <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
+                    @csrf
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="firstName">Nombre Completo:</label><span class="text-danger">*</span>
+                                <input id="firstName" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" tabindex="1" placeholder="Ingresa tu nombre completo" value="{{ old('name') }}" required autofocus>
+                                @if ($errors->has('name'))
+                                    <div class="invalid-feedback">
+                                        {{ $errors->first('name') }}
+                                    </div>
+                                @endif
                             </div>
-                        @endif
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="email">Correo Electrónico:</label><span class="text-danger">*</span>
-                        <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="Ingresa tu dirección de correo" name="email" tabindex="1" value="{{ old('email') }}" required autofocus>
-                        @if ($errors->has('email'))
-                            <div class="invalid-feedback">
-                                {{ $errors->first('email') }}
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="email">Correo Electrónico:</label><span class="text-danger">*</span>
+                                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="Ingresa tu dirección de correo" name="email" tabindex="1" value="{{ old('email') }}" required autofocus>
+                                @if ($errors->has('email'))
+                                    <div class="invalid-feedback">
+                                        {{ $errors->first('email') }}
+                                    </div>
+                                @endif
                             </div>
-                        @endif
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="password" class="control-label">Contraseña:</label><span class="text-danger">*</span>
-                        <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid': '' }}" placeholder="Establece una contraseña" name="password" tabindex="2" required>
-                        @if ($errors->has('password'))
-                            <div class="invalid-feedback">
-                                {{ $errors->first('password') }}
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="password" class="control-label">Contraseña:</label><span class="text-danger">*</span>
+                                <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid': '' }}" placeholder="Establece una contraseña" name="password" tabindex="2" required>
+                                @if ($errors->has('password'))
+                                    <div class="invalid-feedback">
+                                        {{ $errors->first('password') }}
+                                    </div>
+                                @endif
                             </div>
-                        @endif
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="password_confirmation" class="control-label">Confirmar Contraseña:</label><span class="text-danger">*</span>
-                        <input id="password_confirmation" type="password" placeholder="Confirma tu contraseña" class="form-control{{ $errors->has('password_confirmation') ? ' is-invalid': '' }}" name="password_confirmation" tabindex="2">
-                        @if ($errors->has('password_confirmation'))
-                            <div class="invalid-feedback">
-                                {{ $errors->first('password_confirmation') }}
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="password_confirmation" class="control-label">Confirmar Contraseña:</label><span class="text-danger">*</span>
+                                <input id="password_confirmation" type="password" placeholder="Confirma tu contraseña" class="form-control{{ $errors->has('password_confirmation') ? ' is-invalid': '' }}" name="password_confirmation" tabindex="2">
+                                @if ($errors->has('password_confirmation'))
+                                    <div class="invalid-feedback">
+                                        {{ $errors->first('password_confirmation') }}
+                                    </div>
+                                @endif
                             </div>
-                        @endif
+                        </div>
+                        <div class="col-md-12 mt-4">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
+                                    Registrarse
+                                </button>
+                                <button type="button" class="btn btn-secondary btn-lg btn-block" onclick="hideRegisterForm()">Cancelar</button>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-12 mt-4">
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
-                            Registrarse
-                        </button>
-                    </div>
-                </div>
+                </form>
             </div>
-        </form>
+        </div>
+        <div class="mt-5 text-muted text-center">
+            ¿Ya tienes una cuenta? <a href="{{ route('login') }}">Inicia Sesión</a>
+        </div>
+        @endsection
     </div>
-</div>
-<div class="mt-5 text-muted text-center">
-    ¿Ya tienes una cuenta? <a href="{{ route('login') }}">Inicia Sesión</a>
 </div>
 @endsection

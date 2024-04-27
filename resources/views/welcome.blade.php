@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,59 +13,325 @@
             font-family: 'Nunito', sans-serif;
             height: 100%;
             margin: 0;
+            background: linear-gradient(135deg, #8e2de2, #4a00e0);
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         .hover:transform {
             transition: transform .2s ease-in-out;
         }
         .card {
-            transition: box-shadow .3s;
+            transition: box-shadow .3s, transform .3s;
             box-shadow: 0 2px 4px rgba(0,0,0,.1);
         }
         .card:hover {
             box-shadow: 0 5px 15px rgba(0,0,0,.3);
+            transform: translateY(-5px);
+        }
+        .animate {
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 10;
+            display: none; /* Inicialmente oculto */
+            justify-content: center;
+            align-items: center;
+        }
+        .login-container {
+            max-width: 400px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+        }
+        .login-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4a00e0;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            outline: none;
+        }
+        .form-control:focus {
+            border-color: #8e2de2;
+        }
+        .btn-primary {
+            background-color: #8e2de2;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .btn-primary:hover {
+            background-color: #4a00e0;
+        }
+        .btn-secondary {
+            background-color: #ccc;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .btn-secondary:hover {
+            background-color: #999;
         }
     </style>
 </head>
-<body class="bg-gray-100 full-height">
-    <nav class="bg-indigo-600 text-white shadow-lg">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16 items-center">
-                <a href="{{ url('/') }}" class="flex items-center gap-2">
-                    <i class="fas fa-graduation-cap h-8 w-8"></i>
-                    <span class="font-semibold text-xl">Sistema de Alumnos</span>
-                </a>
-                <div>
-                    @auth
-                        <a href="{{ url('/home') }}" class="px-4 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition ease-in-out duration-150">Inicio</a>
-                    @else
-                        <a href="{{ route('login') }}" class="px-4 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition ease-in-out duration-150">Iniciar Sesión</a>
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="ml-4 px-4 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition ease-in-out duration-150">Registrarse</a>
-                        @endif
-                    @endauth
+<body>
+    <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-8 flex animate">
+        <div class="mr-8 hidden md:block">
+            <img src="https://th.bing.com/th/id/OIG3.jZVBR3XuQfxj3mNQvcrg?w=1024&h=1024&rs=1&pid=ImgDetMain" alt="Imagen de alumnos" class="rounded-lg">
+        </div>
+        <div class="card w-full md:w-4/5 lg:w-3/4 md:px-12 text-center">
+            <h1 class="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600 mb-8">BIENVENIDO A MINDITO</h1>
+            <p class="text-lg text-gray-600 mb-12">Tu plataforma educativa para gestionar tus alumnos de forma eficiente.</p>
+            <div class="mb-4 flex justify-center">
+                <a href="#" class="inline-block bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg py-4 px-8 hover:bg-gradient-to-br transition-all duration-300 mr-4" onclick="showLoginForm()">Iniciar sesión</a>
+                <a href="#" class="inline-block bg-gray-300 text-gray-800 font-semibold rounded-lg py-4 px-8 hover:bg-gray-400 transition-all duration-300" onclick="showRegisterForm()">Registrarse</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay">
+        <div class="login-container">
+            <div class="login-title">Inicio de Sesión de Administrador</div>
+            <form id="loginForm" method="POST" action="{{ route('login') }}">
+                @csrf
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <p>Por favor, corrige los siguientes errores:</p>
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <div class="form-group">
+                    <label for="email">Correo Electrónico</label>
+                    <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" placeholder="Ingresa tu correo" tabindex="1" value="{{ old('email', Cookie::get('email')) }}" autofocus required>
+                    @if ($errors->has('email'))
+                        <div class="invalid-feedback">
+                            {{ $errors->first('email') }}
+                        </div>
+                    @endif
                 </div>
-            </div>
+
+                <div class="form-group">
+                    <label for="password" class="control-label">Contraseña</label>
+                    <a href="#" class="text-purple-600 hover:text-purple-800" onclick="showPasswordResetForm()">¿Olvidaste tu contraseña?</a>
+                    <input id="password" type="password" placeholder="Ingresa tu contraseña" class="form-control{{ $errors->has('password') ? ' is-invalid': '' }}" name="password" tabindex="2" required>
+                    @if ($errors->has('password'))
+                        <div class="invalid-feedback">
+                            {{ $errors->first('password') }}
+                        </div>
+                    @endif
+                </div>
+
+                <div class="form-group">
+                    <div class="flex items-center">
+                        <input type="checkbox" name="remember" id="remember" class="form-checkbox h-5 w-5 text-purple-600" {{ old('remember', Cookie::get('remember')) ? 'checked' : '' }}>
+                        <label for="remember" class="ml-2 text-gray-700">Recuérdame</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
+                        Iniciar Sesión
+                        <button type="button" class="btn btn-secondary btn-lg btn-block" onclick="hideLoginForm()">Cancelar</button>
+
+                </div>
+            </form>
         </div>
-    </nav>
-    
-    <header class="bg-indigo-500 text-white w-full h-screen flex items-center justify-center">
-        <div class="text-center">
-            <h1 class="text-4xl font-extrabold sm:text-5xl">
-                Únete al Sistema de Alumnos
-            </h1>
-            <p class="mt-4 text-lg sm:text-xl">
-                Crea tu cuenta para comenzar a gestionar la información de tus alumnos.
-            </p>
-            <div class="mt-8">
-                <a href="{{ route('register') }}" class="px-8 py-3 bg-white text-indigo-600 font-semibold rounded-lg shadow-md hover:bg-gray-100 transition ease-in-out duration-150">
-                    Registrarse
-                </a>
-                <a href="{{ route('login') }}" class="ml-4 px-8 py-3 bg-transparent border border-white text-white font-semibold rounded-lg hover:bg-white hover:text-indigo-600 transition ease-in-out duration-150">
-                    Ya tengo cuenta
-                </a>
-            </div>
+    </div>
+
+    <div class="overlay" id="registerOverlay">
+        <div class="register-container bg-white rounded-lg shadow-lg p-8">
+            <div class="register-title">Registro de Usuario</div>
+            <form id="registerForm" method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
+                @csrf
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="firstName">Nombre Completo:</label><span class="text-danger">*</span>
+                            <input id="firstName" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" tabindex="1" placeholder="Ingresa tu nombre completo" value="{{ old('name') }}" required autofocus>
+                            @if ($errors->has('name'))
+                                <div class="invalid-feedback">
+                                    {{ $errors->first('name') }}
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="email">Correo Electrónico:</label><span class="text-danger">*</span>
+                            <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="Ingresa tu dirección de correo" name="email" tabindex="1" value="{{ old('email') }}" required autofocus>
+                            @if ($errors->has('email'))
+                                <div class="invalid-feedback">
+                                    {{ $errors->first('email') }}
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="password" class="control-label">Contraseña:</label><span class="text-danger">*</span>
+                            <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid': '' }}" placeholder="Establece una contraseña" name="password" tabindex="2" required>
+                            @if ($errors->has('password'))
+                                <div class="invalid-feedback">
+                                    {{ $errors->first('password') }}
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="password_confirmation" class="control-label">Confirmar Contraseña:</label><span class="text-danger">*</span>
+                            <input id="password_confirmation" type="password" placeholder="Confirma tu contraseña" class="form-control{{ $errors->has('password_confirmation') ? ' is-invalid': '' }}" name="password_confirmation" tabindex="2">
+                            @if ($errors->has('password_confirmation'))
+                                <div class="invalid-feedback">
+                                    {{ $errors->first('password_confirmation') }}
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="col-md-12 mt-4">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
+                                Registrarse
+                            </button>
+                            <button type="button" class="btn btn-secondary btn-lg btn-block" onclick="hideRegisterForm()">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
-    </header>
-    
+    </div>
+
+    < <!-- Overlay para recuperar contraseña -->
+    <div class="overlay fixed inset-0 z-50 flex items-center justify-center" id="passwordResetOverlay" style="display: none;">
+        <div class="bg-white rounded-lg shadow-lg p-8">
+            <div class="text-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">Recuperar Contraseña</h2>
+                <p class="text-gray-600">Ingresa tu correo electrónico para recibir instrucciones para restablecer tu contraseña.</p>
+            </div>
+            <form id="passwordResetForm" method="POST" action="{{ route('password.email') }}">
+                @csrf
+                <div class="form-group">
+                    <label for="email" class="text-gray-700">Correo Electrónico</label>
+                    <input id="email" type="email" class="form-control" name="email" placeholder="Ingresa tu correo" required>
+                </div>
+                <div class="form-group text-center">
+                    <button type="submit" class="btn btn-primary">Enviar Solicitud</button>
+                    <button type="button" class="btn btn-secondary" onclick="hidePasswordResetForm()">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Fondo desenfocado -->
+    <div class="overlay-blur fixed inset-0 bg-black bg-opacity-50 hidden" id="overlayBlur"></div>
+
+    <script>
+         function showLoginForm() {
+            var registerOverlay = document.getElementById('registerOverlay');
+            registerOverlay.style.display = 'none'; // Oculta el formulario de registro
+
+            var passwordResetOverlay = document.getElementById('passwordResetOverlay');
+            passwordResetOverlay.style.display = 'none'; // Oculta el formulario de recuperación de contraseña
+
+            var overlay = document.getElementById('overlay');
+            overlay.style.display = 'flex'; // Muestra el formulario de inicio de sesión
+
+            hideBackgroundBlur(); // Oculta el fondo desenfocado
+        }
+
+        function hideLoginForm() {
+            var overlay = document.getElementById('overlay');
+            overlay.style.display = 'none';
+            hideBackgroundBlur(); // Oculta el fondo desenfocado
+        }
+
+        function showRegisterForm() {
+            var overlay = document.getElementById('overlay');
+            overlay.style.display = 'none'; // Oculta el formulario de inicio de sesión
+
+            var passwordResetOverlay = document.getElementById('passwordResetOverlay');
+            passwordResetOverlay.style.display = 'none'; // Oculta el formulario de recuperación de contraseña
+
+            var registerOverlay = document.getElementById('registerOverlay');
+            registerOverlay.style.display = 'flex'; // Muestra el formulario de registro
+
+            hideBackgroundBlur(); // Oculta el fondo desenfocado
+        }
+
+        function hideRegisterForm() {
+            var registerOverlay = document.getElementById('registerOverlay');
+            registerOverlay.style.display = 'none'; // Oculta el formulario de registro
+            hideBackgroundBlur(); // Oculta el fondo desenfocado
+        }
+
+        function showPasswordResetForm() {
+            var overlay = document.getElementById('overlay');
+            overlay.style.display = 'none'; // Oculta el formulario de inicio de sesión
+
+            var registerOverlay = document.getElementById('registerOverlay');
+            registerOverlay.style.display = 'none'; // Oculta el formulario de registro
+
+            var passwordResetOverlay = document.getElementById('passwordResetOverlay');
+            passwordResetOverlay.style.display = 'flex'; // Muestra el formulario de recuperación de contraseña
+
+            showBackgroundBlur(); // Muestra el fondo desenfocado
+        }
+
+        function hidePasswordResetForm() {
+            var passwordResetOverlay = document.getElementById('passwordResetOverlay');
+            passwordResetOverlay.style.display = 'none'; // Oculta el formulario de recuperación de contraseña
+            hideBackgroundBlur(); // Oculta el fondo desenfocado
+        }
+
+        function showBackgroundBlur() {
+            var overlayBlur = document.getElementById('overlayBlur');
+            overlayBlur.style.display = 'block';
+        }
+
+        function hideBackgroundBlur() {
+            var overlayBlur = document.getElementById('overlayBlur');
+            overlayBlur.style.display = 'none';
+        }
+    </script>
 </body>
 </html>

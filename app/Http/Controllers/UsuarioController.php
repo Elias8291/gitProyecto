@@ -24,7 +24,7 @@ class UsuarioController extends Controller
     public function index(Request $request)
     {
         $searchTerm = $request->get('search');
-        $paginationSize = $request->get('size', 5); // Por defecto, muestra 5 usuarios
+        $paginationSize = $request->get('size', 15); // Por defecto, muestra 5 usuarios
 
         // Calcular el número total de usuarios antes de aplicar la paginación
         $totalUsuarios = User::when($searchTerm, function ($query, $searchTerm) {

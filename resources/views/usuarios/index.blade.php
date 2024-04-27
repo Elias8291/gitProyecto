@@ -9,27 +9,9 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
-                    <div class="card-header">
-                        <form action="{{ route('usuarios.index') }}" method="GET" class="row">
-                            <div class="col">
-                                <input type="text" name="search" class="form-control" placeholder="Buscar usuario..." value="{{ request()->query('search') }}">
-                            </div>
-                            <div class="col-auto">
-                                <button class="btn btn-primary" type="submit">Buscar</button>
-                            </div>
-                            <div class="col-auto">
-                              <select name="size" class="form-control" onchange="this.form.submit()">
-                                  @for ($i = 1; $i <= $totalUsuarios; $i++)
-                                      <option value="{{ $i }}" {{ request()->query('size') == $i ? 'selected' : '' }}>{{ $i }}</option>
-                                  @endfor
-                              </select>
-                          </div>
-                                               
-                        </form>
-                    </div>
                     <div class="card-body">
                         <a class="btn btn-warning" href="{{ route('usuarios.create') }}">Nuevo</a>
-                        <table class="table table-striped mt-2">
+                        <table id="miTabla" class="table table-striped mt-2">
                             <thead style="background-color:#6777ef">
                                 <th style="color:#fff;">Nombre</th>
                                 <th style="color:#fff;">E-mail</th>
@@ -60,22 +42,38 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        <!-- Paginación Personalizada -->
-                        @if ($usuarios->total() > 0)
-                        <nav>
-                            <ul class="pagination">
-                                @for ($i = 1; $i <= $usuarios->lastPage(); $i++)
-                                    <li class="page-item {{ ($usuarios->currentPage() == $i) ? ' active' : '' }}">
-                                        <a class="page-link" href="{{ $usuarios->url($i) }}">{{ $i }}</a>
-                                    </li>
-                                @endfor
-                            </ul>
-                        </nav>
-                        @endif
+                       <div class="pagination justify-content-end">
+                            {!! $usuarios->links() !!}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <!-- DATATABLES -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <!-- BOOTSTRAP -->
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#miTabla').DataTable({
+                lengthMenu: [
+                    [2, 5, 10],
+                    [2, 5, 10]
+                ],
+                searching: true, // Habilita la búsqueda
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',
+                },
+                columns: [
+                    { data: 'name', title: 'Nombre' },
+                    { data: 'email', title: 'E-mail' },
+                    { data: 'roles', title: 'Rol' },
+                    { data: 'actions', title: 'Acciones' }
+                ]
+            });
+        });
+    </script>
 @endsection
