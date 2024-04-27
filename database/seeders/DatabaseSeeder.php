@@ -3,7 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\RangoAlumno;
+use Database\Seeders\UserSeeder as SeedersUserSeeder;
 use Illuminate\Database\Seeder;
+use UserSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,7 +24,8 @@ class DatabaseSeeder extends Seeder
             Materias::class,
             GruposTableSeeder::class,
             InscripcionesTableSeeder::class,
-            SeederTablaPermisos::class
+            SeederTablaPermisos::class,
+            SeedersUserSeeder::class
         ]);
     }
 }

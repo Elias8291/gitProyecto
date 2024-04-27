@@ -17,32 +17,43 @@ class SeederTablaPermisos extends Seeder
     public function run()
     {
         $permisos = [
-            //Operaciones sobre tabla roles
+            // Permisos para la tabla roles
             'ver-rol',
             'crear-rol',
             'editar-rol',
             'borrar-rol',
-
-            //Operacions sobre tabla blogs
+        
+            // Permisos para la tabla estudiantes
             'ver-estudiante',
             'crear-estudiante',
             'editar-estudiante',
             'borrar-estudiante',
-
+        
+            // Permisos para la tabla usuarios
             'ver-usuario',
             'crear-usuario',
             'editar-usuario',
             'borrar-usuario',
-            
+        
+            // Permisos para la tabla inscripciones
             'ver-inscripcion',
             'crear-inscripcion',
             'editar-inscripcion',
             'borrar-inscripcion',
-
-
+        
+            // Permisos para la tabla grupos
             'ver-grupos',
             'ver_excel_grupo',
-        ];
+            'crear-grupos',
+            'editar-grupos',
+            'eliminar-grupos',
+        
+            // Permisos para la tabla materias
+            'ver-materias',
+            'crear-materias',
+            'editar-materias',
+            'eliminar-materias',
+        ];        
 
         foreach($permisos as $permiso) {
             Permission::create(['name'=>$permiso]);

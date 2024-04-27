@@ -15,7 +15,7 @@ class GrupoController extends Controller
 {
     function __construct()
     {
-        $this->middleware('permission:ver-grupos|ver_excel_grupo')->only('index');
+        $this->middleware('permission:ver-grupos|ver_excel_grupo|crear-grupos|editar-grupos|eliminar-grupos')->only('index');
         $this->middleware('permission:ver_excel_grupo', ['only' => ['generarPDF']]);
         $this->middleware('permission:crear-grupos')->only('create', 'store');
         $this->middleware('permission:editar-grupos')->only('edit', 'update');

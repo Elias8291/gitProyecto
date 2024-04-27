@@ -5,9 +5,11 @@
     <div class="section-header">
         <h3 class="page__heading">Grupos</h3>
         <div class="section-header-button">
+            @can('creear-grupos')
             <a href="{{ route('grupos.create') }}" class="btn btn-primary">
                 Crear Nuevo Grupo
             </a>
+            @endcan
         </div>
     </div>
     <div class="section-body">
@@ -41,15 +43,18 @@
                                     <td>{{ $grupo->hora_fn }}</td>
                                     <td>{{ $grupo->inscripcionesCount }}</td>
                                     <td>
+                                        @can('editar-grupos')
                                         <a href="{{ route('grupos.edit', $grupo->id) }}" class="btn btn-warning">
                                             Editar
                                         </a>
+                                        @endcan
                                         <form action="{{ route('grupos.destroy', $grupo->id) }}" method="POST" class="d-inline">
-                                            @csrf
-                                            @method('DELETE')
+                                          
+                                             @can('eliminar-grupos')
                                             <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar este grupo?')">
                                                 Eliminar
                                             </button>
+                                            @endcan
                                         </form>
                                         <a href="{{ route('grupos.generarPDF', $grupo->id) }}" class="btn btn-primary">
                                             <i class="fas fa-file-excel"></i> Generar Lista Alumnos

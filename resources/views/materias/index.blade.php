@@ -5,9 +5,11 @@
     <div class="section-header">
         <h3 class="page__heading">Materias</h3>
         <div class="section-header-button">
+            @can('crear-materias')
             <a href="{{ route('materias.create') }}" class="btn btn-primary">
                 Crear Nueva Materia
             </a>
+            @endcan
         </div>
     </div>
     <div class="section-body">
@@ -33,15 +35,19 @@
                                     <td>{{ $materia->nombre }}</td>
                                     <td>{{ $materia->creditos }}</td>
                                     <td>
+                                        @can('editar-materias')
                                         <a href="{{ route('materias.edit', $materia->id) }}" class="btn btn-warning">
                                             Editar
                                         </a>
+                                        @endcan
+                        
                                         <form action="{{ route('materias.destroy', $materia->id) }}" method="POST" class="d-inline">
                                             @csrf
-                                            @method('DELETE')
+                                            @can('eliminar-materias')
                                             <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar esta materia?')">
                                                 Eliminar
                                             </button>
+                                            @endcan
                                         </form>
                                     </td>
                                 </tr>

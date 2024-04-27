@@ -24,11 +24,13 @@
         </a>
     </li>
     @endcan
+    @can('ver-inscripcion')
     <li class="{{ Request::is('inscripciones*') ? 'active' : '' }}">
         <a class="nav-link d-flex align-items-center" href="/inscripciones">
             <i class="fas fa-user-graduate text-danger mr-2"></i><span class="menu-text">Inscribir Estudiante</span>
         </a>
     </li>
+    @endcan
     @can('ver-grupos')
     <li class="{{ Request::is('grupos') ? 'active' : '' }}">
         <a class="nav-link d-flex align-items-center" href="/grupos">
