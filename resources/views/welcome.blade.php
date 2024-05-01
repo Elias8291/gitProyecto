@@ -127,7 +127,7 @@
     <!-- Overlay -->
     <div class="overlay" id="overlay">
         <div class="login-container">
-            <div class="login-title">Inicio de Sesión de Administrador</div>
+            <div class="login-title">Inicio de Sesión</div>
             <form id="loginForm" method="POST" action="{{ route('login') }}">
                 @csrf
                 @if ($errors->any())
@@ -153,7 +153,7 @@
 
                 <div class="form-group">
                     <label for="password" class="control-label">Contraseña</label>
-                    <a href="#" class="text-purple-600 hover:text-purple-800" onclick="showPasswordResetForm()">¿Olvidaste tu contraseña?</a>
+                    <a href="{{ route('password.request') }}" class="text-purple-600 hover:text-purple-800" onclick="showPasswordResetForm()">¿Olvidaste tu contraseña?</a>
                     <input id="password" type="password" placeholder="Ingresa tu contraseña" class="form-control{{ $errors->has('password') ? ' is-invalid': '' }}" name="password" tabindex="2" required>
                     @if ($errors->has('password'))
                         <div class="invalid-feedback">

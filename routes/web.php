@@ -10,6 +10,7 @@ use App\Http\Controllers\InscripcionController;
 use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\MateriasController;
+use App\Http\Controllers\ForgotPasswordController;
 
 // Ruta para la página de bienvenida, accesible para todos los usuarios
 Route::get('/', [WelcomeController::class, 'showWelcomePage'])->name('welcome');
@@ -27,4 +28,5 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('grupos', GrupoController::class);
     Route::resource('materias', MateriasController::class);
     Route::get('/grupos/{clave}/generarPDF', [GrupoController::class, 'generarPDF'])->name('grupos.generarPDF');
+    Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLink'])->name('password.email');
 });

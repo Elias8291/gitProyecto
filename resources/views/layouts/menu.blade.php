@@ -1,5 +1,5 @@
 @if(auth()->user()->canAny(['ver-rol', 'crear-rol', 'editar-rol', 'borrar-rol', 'ver-estudiante', 'crear-estudiante', 'editar-estudiante', 'borrar-estudiante', 'ver-grupos', 'ver-materias']))
-<li class="side-menus {{ Request::is('*') ? 'active' : '' }} bg-white shadow-sm">
+<li class="side-menus {{ Request::is('*') ? 'active' : '' }}" style="background-color: #D5EDF9;">
     @canany(['ver-rol', 'crear-rol', 'editar-rol', 'borrar-rol'])
     <li class="{{ Request::is('home*') ? 'active' : '' }}">
         <a class="nav-link d-flex align-items-center" href="/home">

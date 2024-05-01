@@ -2,29 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 
 class ForgotPasswordController extends Controller
 {
-    /**
-     * Muestra el formulario para solicitar el restablecimiento de contraseña.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function showLinkRequestForm()
-    {
-        return view('auth.passwords.email');
-    }
-
-    /**
-     * Envía el correo electrónico con el enlace de restablecimiento de contraseña.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function sendResetLinkEmail(Request $request)
+    public function sendResetLink(Request $request)
     {
         $request->validate(['email' => 'required|email']);
 
