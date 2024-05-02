@@ -53,6 +53,8 @@ class SeederTablaPermisos extends Seeder
             'crear-materias',
             'editar-materias',
             'eliminar-materias',
+
+            'ver-log',
         ];        
 
         foreach($permisos as $permiso) {

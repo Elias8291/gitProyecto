@@ -6,6 +6,14 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 //Para la paginacion
 use Illuminate\Pagination\Paginator;
+use App\Models\Log;
+use App\Models\Estudiante;
+use App\Models\Grupo;
+use App\Models\Inscripcion;
+use App\Models\Materia;
+use App\Models\User;
+use Spatie\Permission\Models\Role;
+use App\Observers\LogObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -28,5 +36,11 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
         Paginator::useBootstrap();
+        Estudiante::observe(LogObserver::class);
+        Grupo::observe(LogObserver::class);
+        Inscripcion::observe(LogObserver::class);
+        Materia::observe(LogObserver::class);
+        User::observe(LogObserver::class);
+        Role::observe(LogObserver::class);
     }
 }

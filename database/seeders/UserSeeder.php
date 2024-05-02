@@ -2,6 +2,7 @@
 namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
 
 class UserSeeder extends Seeder
 {
@@ -20,10 +21,14 @@ class UserSeeder extends Seeder
         ]);
 
         // Creamos otro usuario
-        User::create([
+        $user = User::create([
             'name' => 'Otro Usuario',
             'email' => 'abisai@gmail.com',
             'password' => bcrypt('abisai1456'), // Aseguramos la contraseña con bcrypt
         ]);
+
+        // Asignamos el rol 'Secretaria' al usuario
+        $role = Role::where('name', 'Secretaria')->first();
+        $user->assignRole($role);
     }
 }

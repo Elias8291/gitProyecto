@@ -46,7 +46,7 @@
                                                 $cant_estudiantes = Estudiante::count();
                                             @endphp
                                             <h2 class="text-right"><i class="fa fa-blog"></i> <span>{{$cant_estudiantes}}</span></h2>
-                                            <p class="mb-0 text-right"><a href="/blogs" class="text-white">Ver más</a></p>
+                                            <p class="mb-0 text-right"><a href="/estudiantes" class="text-white">Ver más</a></p>
                                         </div>
                                     </div>
                                 </div>
@@ -75,6 +75,32 @@
                                             @endphp
                                             <h2 class="text-right"><i class="fa fa-blog"></i> <span>{{$cant_grupos}}</span></h2>
                                             <p class="mb-0 text-right"><a href="/grupos" class="text-white">Ver más</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-xl-4">
+                                    <div class="card text-white shadow" style="background-color: green;">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Inscripciones</h5>
+                                            @php
+                                                use App\Models\Inscripcion;
+                                                $cant_incripciones = Inscripcion::count();
+                                            @endphp
+                                            <h2 class="text-right"><i class="fa fa-blog"></i> <span>{{$cant_incripciones}}</span></h2>
+                                            <p class="mb-0 text-right"><a href="/inscripciones" class="text-white">Ver más</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-xl-4">
+                                    <div class="card text-white shadow" style="background-color: gray;">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Logs</h5>
+                                            @php
+                                                use App\Models\Log;
+                                                $cant_logs = Log::count();
+                                            @endphp
+                                            <h2 class="text-right"><i class="fa fa-blog"></i> <span>{{$cant_logs}}</span></h2>
+                                            <p class="mb-0 text-right"><a href="/logs" class="text-white">Ver más</a></p>
                                         </div>
                                     </div>
                                 </div>

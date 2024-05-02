@@ -45,5 +45,12 @@
         </a>
     </li>
     @endcan
+    @can('ver-logs')
+    <li class="{{ Request::is('logs') ? 'active' : '' }}">
+        <a class="nav-link d-flex align-items-center" href="/logs">
+            <i class="fas fa-building text-primary mr-2"></i><span class="menu-text">Logs</span>
+        </a>
+    </li>
+    @endcan
 </ul>
 @endif

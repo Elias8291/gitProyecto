@@ -25,7 +25,8 @@ class DatabaseSeeder extends Seeder
             GruposTableSeeder::class,
             InscripcionesTableSeeder::class,
             SeederTablaPermisos::class,
-            SeedersUserSeeder::class
+            RoleSeeder::class,
+            SeedersUserSeeder::class,
         ]);
     }
 }
