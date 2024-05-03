@@ -155,6 +155,7 @@
                         
                                         <form action="{{ route('usuarios.destroy', $usuario->id) }}" method="POST" class="d-inline">
                                             @csrf
+                                            @method('DELETE') <!-- Método DELETE -->
                                             @can('eliminar-usuarios')
                                             <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar esta materia?')">
                                                 Eliminar

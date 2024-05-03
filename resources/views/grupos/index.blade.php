@@ -155,6 +155,8 @@
                                         @endcan
                                         <form action="{{ route('grupos.destroy', $grupo->id) }}" method="POST"
                                             class="d-inline-block">
+                                            @csrf <!-- Token CSRF -->
+                                            @method('DELETE') <!-- Método DELETE -->
                                             @can('eliminar-grupos')
                                             <button type="submit" class="btn btn-danger"
                                                 onclick="return confirm('¿Estás seguro de eliminar este grupo?')">

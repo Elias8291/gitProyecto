@@ -147,6 +147,7 @@
                                             @endcan
                                             <form action="{{ route('materias.destroy', $materia->id) }}" method="POST" class="d-inline">
                                                 @csrf
+                                                @method('DELETE') <!-- Método DELETE -->
                                                 @can('eliminar-materias')
                                                 <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar esta materia?')">
                                                     <i class="fas fa-trash"></i> <span class="d-none d-sm-inline">Eliminar</span>
