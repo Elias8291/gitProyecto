@@ -31,6 +31,6 @@
         </div>
     </div>
     <div class="mt-5 text-muted text-center">
-        Recalled your login info? <a href="{{ route('login') }}">Sign In</a>
+        Recalled ys login info? <a href="{{ route('login') }}">Sign In</a>
     </div>
 @endsection

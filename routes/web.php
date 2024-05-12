@@ -31,6 +31,6 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('inscripciones', InscripcionController::class);
     Route::resource('grupos', GrupoController::class);
     Route::resource('materias', MateriasController::class);
-    Route::resource('logs', LogController::class);
+    Route::resource('logss', LogController::class);
     Route::get('/grupos/{clave}/generarPDF', [GrupoController::class, 'generarPDF'])->name('grupos.generarPDF');
 });

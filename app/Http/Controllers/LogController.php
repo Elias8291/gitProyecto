@@ -19,6 +19,6 @@ class LogController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('logs.index', compact('logs'));
+        return view('logss.index', compact('logs'));
     }
 }

@@ -1,5 +1,109 @@
 @extends('layouts.app')
+<style>
+    /* Estilos para el campo de búsqueda */
+    .dataTables_filter {
+        position: relative;
+    }
 
+    .dataTables_filter input[type="search"] {
+        padding: 12px 40px 12px 20px;
+        border: none;
+        border-radius: 25px;
+        background-color: #f2f2f2;
+        font-size: 16px;
+        width: 300px;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .dataTables_filter input[type="search"]:focus {
+        outline: none;
+        width: 350px;
+        background-color: #fff;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .dataTables_filter::after {
+        content: "\f002";
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        position: absolute;
+        top: 50%;
+        right: 20px;
+        transform: translateY(-50%);
+        color: #999;
+        transition: color 0.3s ease;
+    }
+
+    .dataTables_filter input[type="search"]:focus + ::after {
+        color: #333;
+    }
+
+   /* Estilos para el menú de selección de registros */
+   .dataTables_length {
+        position: relative;
+        display: inline-block;
+        margin-bottom: 20px;
+    }
+
+    .dataTables_length label {
+        font-size: 16px;
+        font-weight: bold;
+        color: #555;
+    }
+
+    .dataTables_length select {
+        padding: 10px 40px 10px 20px;
+        border: none;
+        border-radius: 25px;
+        background-color: #f2f2f2;
+        font-size: 16px;
+        width: 120px;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23999'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 15px center;
+        background-size: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .dataTables_length select:focus {
+        outline: none;
+        background-color: #fff;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .dataTables_length select:hover {
+        background-color: #e6e6e6;
+    }
+
+    .dataTables_length::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: 30px;
+        transform: translateY(-50%);
+        width: 0;
+        height: 0;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-top: 6px solid #999;
+        pointer-events: none;
+        transition: border-color 0.3s ease;
+    }
+
+    .dataTables_length select:focus + ::after {
+        border-top-color: #333;
+    }
+
+    #miTabla2 {
+        font-size: 14px;
+    }
+</style>
 @section('content')
 <section class="section">
     <div class="section-header">
@@ -13,6 +117,7 @@
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <h4 class="card-title">Lista de Logs</h4>
                         </div>
+                        <div class="table-responsive">
                         <table class="table table-striped mt-2" id="miTabla2">
                             <thead style="background-color:#6777ef">
                                 <tr>
@@ -41,6 +146,7 @@
                                 @endforeach
                             </tbody>
                         </table>
+                    </div>
                     </div>
                 </div>
             </div>

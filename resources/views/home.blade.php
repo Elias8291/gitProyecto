@@ -100,7 +100,7 @@
                                                 $cant_logs = Log::count();
                                             @endphp
                                             <h2 class="text-right"><i class="fa fa-blog"></i> <span>{{$cant_logs}}</span></h2>
-                                            <p class="mb-0 text-right"><a href="/logs" class="text-white">Ver más</a></p>
+                                            <p class="mb-0 text-right"><a href="/logss" class="text-white">Ver más</a></p>
                                         </div>
                                     </div>
                                 </div>

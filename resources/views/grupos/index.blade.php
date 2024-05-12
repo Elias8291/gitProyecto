@@ -103,7 +103,13 @@
     .dataTables_length select:focus+::after {
         border-top-color: #333;
     }
+
+    
 </style>
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap4.min.css">
+<!-- Scroller CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/scroller/2.0.5/css/scroller.bootstrap4.min.css">
+
 @section('content')
 <section class="section">
     <div class="section-header">
@@ -178,28 +184,32 @@
         </div>
     </div>
 </section>
-
-<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-<!-- DATATABLES -->
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<!-- BOOTSTRAP -->
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+<!-- Responsive JS -->
+<script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.9/js/responsive.bootstrap4.min.js"></script>
+<!-- Scroller JS -->
+<script src="https://cdn.datatables.net/scroller/2.0.5/js/dataTables.scroller.min.js"></script>
+
 <script>
     new DataTable('#miTabla2', {
+        responsive: true,
+        scroller: true,
         lengthMenu: [
             [2, 5, 10, 20],
             [2, 5, 10, 20]
         ],
         columns: [
-            { data: 'clave', title: 'Clave' },
-            { data: 'nombre', title: 'Nombre' },
-            { data: 'materia_nombre', title: 'Materia' },
-            { data: 'min_alumnos', title: 'Rango Alumnos Mínimo' },
-            { data: 'max_alumnos', title: 'Rango Alumnos Máximo' },
-            { data: 'hora_in', title: 'Horario inicio' },
-            { data: 'hora_fn', title: 'Horario fin' },
-            { data: 'inscripcionesCount', title: 'Alumnos inscritos' },
-            { data: 'Acciones', title: 'Acciones', orderable: false }
+            { data: 'clave', title: 'Clave', responsivePriority: 1 },
+            { data: 'nombre', title: 'Nombre', responsivePriority: 2 },
+            { data: 'materia_nombre', title: 'Materia', responsivePriority: 3 },
+            { data: 'min_alumnos', title: 'Rango Alumnos Mínimo', responsivePriority: 4 },
+            { data: 'max_alumnos', title: 'Rango Alumnos Máximo', responsivePriority: 5 },
+            { data: 'hora_in', title: 'Horario inicio', responsivePriority: 6 },
+            { data: 'hora_fn', title: 'Horario fin', responsivePriority: 7 },
+            { data: 'inscripcionesCount', title: 'Alumnos inscritos', responsivePriority: 8 },
+            { data: 'Acciones', title: 'Acciones', orderable: false, responsivePriority: 9 }
         ],
         language: {
             url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',
