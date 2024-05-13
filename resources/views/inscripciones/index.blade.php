@@ -1,5 +1,9 @@
 @extends('layouts.app')
 <style>
+    #miTabla2 {
+        font-size: 14px;
+    }
+
     /* Estilos para el campo de búsqueda */
     .dataTables_filter {
         position: relative;
@@ -35,12 +39,12 @@
         transition: color 0.3s ease;
     }
 
-    .dataTables_filter input[type="search"]:focus + ::after {
+    .dataTables_filter input[type="search"]:focus+::after {
         color: #333;
     }
 
-   /* Estilos para el menú de selección de registros */
-   .dataTables_length {
+    /* Estilos para el menú de selección de registros */
+    .dataTables_length {
         position: relative;
         display: inline-block;
         margin-bottom: 20px;
@@ -96,12 +100,51 @@
         transition: border-color 0.3s ease;
     }
 
-    .dataTables_length select:focus + ::after {
+    .dataTables_length select:focus+::after {
         border-top-color: #333;
     }
 
-    #miTabla2 {
-        font-size: 14px;
+    @media (max-width: 992px) {
+        #miTabla2 {
+            display: none;
+        }
+        .mobile-table {
+            display: block;
+        }
+        .mobile-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+        .mobile-card label {
+            font-weight: bold;
+        }
+        .mobile-card .row {
+            margin-bottom: 5px;
+        }
+        .action-buttons {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+        }
+        .btn-mobile {
+            flex: 1; /* Distribuir equitativamente el espacio */
+            margin: 0 2px;
+        }
+        .btn-mobile i {
+            font-size: 18px; /* Tamaño más grande para facilitar la interacción */
+        }
+        .btn-mobile:hover {
+            opacity: 0.8;
+        }
+    }
+
+    @media (min-width: 993px) {
+        .mobile-table {
+            display: none;
+        }
     }
 </style>
 
@@ -125,7 +168,6 @@
                             </div>
                             <table class="table table-striped mt-2" id="miTabla2">
                                 <thead style="background-color:#6777ef">
-                                    <th style="color:#fff;" class="text-center">ID</th>
                                     <th style="color:#fff;" class="text-center">Número de Control</th>
                                     <th style="color:#fff;" class="text-center">Nombre del Estudiante</th>
                                     <th style="color:#fff;" class="text-center">Clave del Grupo</th>
@@ -135,7 +177,6 @@
                                 <tbody>
                                     @foreach ($inscripciones as $inscripcion)
                                         <tr>
-                                            <td class="text-center">{{ $inscripcion->id }}</td>
                                             <td class="text-center">{{ $inscripcion->numeroDeControl }}</td>
                                             <td class="text-center">{{ $inscripcion->nombre_estudiante }}</td>
                                             <td class="text-center">{{ $inscripcion->clave_grupo }}</td>
@@ -143,6 +184,7 @@
                                             <td class="text-center">
                                                 @can('editar-inscripcion')
                                                 <a href="{{ route('inscripciones.edit', $inscripcion->id) }}" class="btn btn-warning mr-1">
+                                                    <i class="fas fa-edit"></i>
                                                     Editar
                                                 </a>
                                                 @endcan
@@ -150,7 +192,8 @@
                                                     @csrf
                                                     @method('DELETE')
                                                     @can('borrar-inscripcion')
-                                                    <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar esta inscripción?')">
+                                                    <button type="submit" class="btn btn-danger btn-icon-text" onclick="return confirm('¿Estás seguro de eliminar esta inscripción?')">
+                                                        <i class="fas fa-trash-alt"></i> 
                                                         Eliminar
                                                     </button>
                                                     @endcan
@@ -160,6 +203,46 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            @foreach ($inscripciones as $inscripcion)
+                        <div class="mobile-card d-lg-none">
+                            <div class="row">
+                                <div class="col-6"><label>Número de Control</label></div>
+                                <div class="col-6">{{ $inscripcion->numeroDeControl }}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6"><label>Nombre del Estudiante</label></div>
+                                <div class="col-6">{{ $inscripcion->nombre_estudiante }}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6"><label>Clave del Grupo</label></div>
+                                <div class="col-6">{{ $inscripcion->clave_grupo }}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6"><label>Nombre de la Materia</label></div>
+                                <div class="col-6">{{ $inscripcion->nombre_materia }}</div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-6"><label>Acciones:</label></div>
+                                < <div class="row action-buttons">
+                                    @can('editar-inscripciones')
+                                    <a href="{{ route('grupos.edit', $inscripcion->id) }}" class="btn btn-warning btn-mobile">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    @endcan
+                                    @can('eliminar-inscripciones')
+                                    <form action="{{ route('grupos.destroy', $inscripcion->id) }}" method="POST" class="d-inline-block">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-mobile" onclick="return confirm('¿Estás seguro de eliminar este grupo?')">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
+                                    @endcan
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
 
                             <div class="pagination justify-content-end">
                                 {!! $inscripciones->links() !!}
@@ -183,7 +266,6 @@
                 [2, 5, 10,15]
             ],
             columns: [
-                { data: 'ID' },
                 { data: 'NumeroDeControl', title: 'Número de Control' },
                 { data: 'nombre_estudiante', title: 'Nombre del alumno' },
                 { data: 'clave_grupo', title: 'Clave del grupo' },

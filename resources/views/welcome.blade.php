@@ -261,9 +261,6 @@
                     <button type="button" class="btn btn-secondary" onclick="hidePasswordResetForm()">Cancelar</button>
                 </div>
             </form>
-            <div class="text-center mt-4">
-                <a href="#" class="text-purple-600 hover:text-purple-800" onclick="showLoginForm(); event.preventDefault();">¿Recordaste tu contraseña? Iniciar Sesión</a>
-            </div>
         </div>
     </div>
     <div class="overlay fixed inset-0 z-50 flex items-center justify-center hidden" id="successModal">

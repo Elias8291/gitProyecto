@@ -40,7 +40,7 @@
     @endcan
     @can('ver-materias')
     <li class="{{ Request::is('materias') ? 'active' : '' }}">
-        <a class="nav-link d-flex align-items-center" href="/logss">
+        <a class="nav-link d-flex align-items-center" href="/materias">
             <i class="fas fa-book text-primary mr-2"></i><span class="menu-text">Materias</span>
         </a>
     </li>

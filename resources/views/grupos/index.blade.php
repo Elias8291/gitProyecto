@@ -104,12 +104,49 @@
         border-top-color: #333;
     }
 
-    
-</style>
-<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap4.min.css">
-<!-- Scroller CSS -->
-<link rel="stylesheet" href="https://cdn.datatables.net/scroller/2.0.5/css/scroller.bootstrap4.min.css">
+    @media (max-width: 992px) {
+        #miTabla2 {
+            display: none;
+        }
+        .mobile-table {
+            display: block;
+        }
+        .mobile-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+        .mobile-card label {
+            font-weight: bold;
+        }
+        .mobile-card .row {
+            margin-bottom: 5px;
+        }
+        .action-buttons {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+        }
+        .btn-mobile {
+            flex: 1; /* Distribuir equitativamente el espacio */
+            margin: 0 2px;
+        }
+        .btn-mobile i {
+            font-size: 18px; /* Tamaño más grande para facilitar la interacción */
+        }
+        .btn-mobile:hover {
+            opacity: 0.8;
+        }
+    }
 
+    @media (min-width: 993px) {
+        .mobile-table {
+            display: none;
+        }
+    }
+</style>
 @section('content')
 <section class="section">
     <div class="section-header">
@@ -123,8 +160,9 @@
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <h4 class="card-title">Lista de Grupos</h4>
                             @can('creear-grupos')
-                            <a class="btn btn-warning" href="{{ route('grupos.create') }}">
-                                <i class="fas fa-plus"></i> Nuevo Alumno
+                            <a class="btn btn-warning btn-icon-text" href="{{ route('grupos.create') }}">
+                                <i class="fas fa-plus"></i> <!-- Icono -->
+                                <span>Nuevo Alumno</span> <!-- Texto -->
                             </a>
                             @endcan
                         </div>
@@ -155,8 +193,9 @@
                                     <td class="text-center">{{ $grupo->inscripcionesCount }}</td>
                                     <td class="text-center">
                                         @can('editar-grupos')
-                                        <a href="{{ route('grupos.edit', $grupo->id) }}" class="btn btn-warning mr-1">
-                                            Editar
+                                        <a href="{{ route('grupos.edit', $grupo->id) }}" class="btn btn-warning btn-icon-text mr-1">
+                                            <i class="fas fa-edit"></i> <!-- Icono -->
+                                            <span>Editar</span> <!-- Texto -->
                                         </a>
                                         @endcan
                                         <form action="{{ route('grupos.destroy', $grupo->id) }}" method="POST"
@@ -164,52 +203,109 @@
                                             @csrf <!-- Token CSRF -->
                                             @method('DELETE') <!-- Método DELETE -->
                                             @can('eliminar-grupos')
-                                            <button type="submit" class="btn btn-danger"
+                                            <button type="submit" class="btn btn-danger btn-icon-text"
                                                 onclick="return confirm('¿Estás seguro de eliminar este grupo?')">
-                                                Eliminar
+                                                <i class="fas fa-trash-alt"></i> <!-- Icono -->
+                                                <span>Eliminar</span> <!-- Texto -->
                                             </button>
                                             @endcan
                                         </form>
-                                        <a href="{{ route('grupos.generarPDF', $grupo->id) }}" class="btn btn-primary ml-1">
-                                            <i class="fas fa-file-excel"></i> Generar Lista Alumnos
+                                        <a href="{{ route('grupos.generarPDF', $grupo->id) }}" class="btn btn-primary btn-icon-text ml-1">
+                                            <i class="fas fa-file-excel"></i> <!-- Icono -->
+                                            <span>Generar Lista Alumnos</span> <!-- Texto -->
                                         </a>
                                     </td>
                                 </tr>
                                 @endforeach
                             </tbody>
                         </table>
+
+                        @foreach ($grupos as $grupo)
+                        <div class="mobile-card d-lg-none">
+                            <div class="row">
+                                <div class="col-6"><label>Clave:</label></div>
+                                <div class="col-6">{{ $grupo->clave }}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6"><label>Nombre:</label></div>
+                                <div class="col-6">{{ $grupo->nombre }}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6"><label>Materia:</label></div>
+                                <div class="col-6">{{ $grupo->materia_nombre }}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6"><label>Rango Alumnos Mínimo:</label></div>
+                                <div class="col-6">{{ $grupo->min_alumnos }}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6"><label>Rango Alumnos Máximo:</label></div>
+                                <div class="col-6">{{ $grupo->max_alumnos }}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6"><label>Horario inicio:</label></div>
+                                <div class="col-6">{{ $grupo->hora_in }}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6"><label>Horario fin:</label></div>
+                                <div class="col-6">{{ $grupo->hora_fn }}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6"><label>Alumnos inscritos:</label></div>
+                                <div class="col-6">{{ $grupo->inscripcionesCount }}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6"><label>Acciones:</label></div>
+                                < <div class="row action-buttons">
+                                    @can('editar-grupos')
+                                    <a href="{{ route('grupos.edit', $grupo->id) }}" class="btn btn-warning btn-mobile">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    @endcan
+                                    @can('eliminar-grupos')
+                                    <form action="{{ route('grupos.destroy', $grupo->id) }}" method="POST" class="d-inline-block">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-mobile" onclick="return confirm('¿Estás seguro de eliminar este grupo?')">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
+                                    @endcan
+                                    <a href="{{ route('grupos.generarPDF', $grupo->id) }}" class="btn btn-primary btn-mobile">
+                                        <i class="fas fa-file-excel"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
-<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
-<!-- Responsive JS -->
-<script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/2.2.9/js/responsive.bootstrap4.min.js"></script>
-<!-- Scroller JS -->
-<script src="https://cdn.datatables.net/scroller/2.0.5/js/dataTables.scroller.min.js"></script>
 
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<!-- DATATABLES -->
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<!-- BOOTSTRAP -->
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
 <script>
     new DataTable('#miTabla2', {
-        responsive: true,
-        scroller: true,
         lengthMenu: [
             [2, 5, 10, 20],
             [2, 5, 10, 20]
         ],
         columns: [
-            { data: 'clave', title: 'Clave', responsivePriority: 1 },
-            { data: 'nombre', title: 'Nombre', responsivePriority: 2 },
-            { data: 'materia_nombre', title: 'Materia', responsivePriority: 3 },
-            { data: 'min_alumnos', title: 'Rango Alumnos Mínimo', responsivePriority: 4 },
-            { data: 'max_alumnos', title: 'Rango Alumnos Máximo', responsivePriority: 5 },
-            { data: 'hora_in', title: 'Horario inicio', responsivePriority: 6 },
-            { data: 'hora_fn', title: 'Horario fin', responsivePriority: 7 },
-            { data: 'inscripcionesCount', title: 'Alumnos inscritos', responsivePriority: 8 },
-            { data: 'Acciones', title: 'Acciones', orderable: false, responsivePriority: 9 }
+            { data: 'clave', title: 'Clave' },
+            { data: 'nombre', title: 'Nombre' },
+            { data: 'materia_nombre', title: 'Materia' },
+            { data: 'min_alumnos', title: 'Rango Alumnos Mínimo' },
+            { data: 'max_alumnos', title: 'Rango Alumnos Máximo' },
+            { data: 'hora_in', title: 'Horario inicio' },
+            { data: 'hora_fn', title: 'Horario fin' },
+            { data: 'inscripcionesCount', title: 'Alumnos inscritos' },
+            { data: 'Acciones', title: 'Acciones', orderable: false }
         ],
         language: {
             url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',

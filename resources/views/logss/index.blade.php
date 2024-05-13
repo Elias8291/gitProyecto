@@ -1,5 +1,9 @@
 @extends('layouts.app')
 <style>
+      #miTabla2 {
+        font-size: 14px;
+    }
+
     /* Estilos para el campo de búsqueda */
     .dataTables_filter {
         position: relative;
@@ -35,12 +39,12 @@
         transition: color 0.3s ease;
     }
 
-    .dataTables_filter input[type="search"]:focus + ::after {
+    .dataTables_filter input[type="search"]:focus+::after {
         color: #333;
     }
 
-   /* Estilos para el menú de selección de registros */
-   .dataTables_length {
+    /* Estilos para el menú de selección de registros */
+    .dataTables_length {
         position: relative;
         display: inline-block;
         margin-bottom: 20px;
@@ -96,12 +100,51 @@
         transition: border-color 0.3s ease;
     }
 
-    .dataTables_length select:focus + ::after {
+    .dataTables_length select:focus+::after {
         border-top-color: #333;
     }
 
-    #miTabla2 {
-        font-size: 14px;
+    @media (max-width: 992px) {
+        #miTabla2 {
+            display: none;
+        }
+        .mobile-table {
+            display: block;
+        }
+        .mobile-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+        .mobile-card label {
+            font-weight: bold;
+        }
+        .mobile-card .row {
+            margin-bottom: 5px;
+        }
+        .action-buttons {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+        }
+        .btn-mobile {
+            flex: 1; /* Distribuir equitativamente el espacio */
+            margin: 0 2px;
+        }
+        .btn-mobile i {
+            font-size: 18px; /* Tamaño más grande para facilitar la interacción */
+        }
+        .btn-mobile:hover {
+            opacity: 0.8;
+        }
+    }
+
+    @media (min-width: 993px) {
+        .mobile-table {
+            display: none;
+        }
     }
 </style>
 @section('content')
@@ -146,6 +189,43 @@
                                 @endforeach
                             </tbody>
                         </table>
+
+                        @foreach ($logs as $log)
+                            <div class="mobile-card d-lg-none">
+                                <div class="row">
+                                    <div class="col-6"><label>id</label></div>
+                                    <div class="col-6">{{ $log->id  }}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6"><label>Fecha</label></div>
+                                    <div class="col-6">{{ $log->created_at }}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6"><label>Accion</label></div>
+                                    <div class="col-6">{{ $log->action}}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6"><label>Tabla</label></div>
+                                    <div class="col-6">{{ $log->table }}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6"><label>Id Afectado</label></div>
+                                    <div class="col-6">{{ $log->record_id }}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6"><label>Ejecutada</label></div>
+                                    <div class="col-6">{{ $log->executedSQL }}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6"><label>Inversa</label></div>
+                                    <div class="col-6">{{ $log->reverseSQL }}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6"><label>Usuario</label></div>
+                                    <div class="col-6">{{ $log->user_name  }}</div>
+                                </div>
+                            </div>
+                            @endforeach
                     </div>
                     </div>
                 </div>

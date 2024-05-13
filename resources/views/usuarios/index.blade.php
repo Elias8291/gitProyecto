@@ -1,5 +1,9 @@
 @extends('layouts.app')
 <style>
+      #miTabla2 {
+        font-size: 14px;
+    }
+
     /* Estilos para el campo de búsqueda */
     .dataTables_filter {
         position: relative;
@@ -35,12 +39,12 @@
         transition: color 0.3s ease;
     }
 
-    .dataTables_filter input[type="search"]:focus + ::after {
+    .dataTables_filter input[type="search"]:focus+::after {
         color: #333;
     }
 
-   /* Estilos para el menú de selección de registros */
-   .dataTables_length {
+    /* Estilos para el menú de selección de registros */
+    .dataTables_length {
         position: relative;
         display: inline-block;
         margin-bottom: 20px;
@@ -96,12 +100,52 @@
         transition: border-color 0.3s ease;
     }
 
-    .dataTables_length select:focus + ::after {
+    .dataTables_length select:focus+::after {
         border-top-color: #333;
     }
 
-    #miTabla2 {
-        font-size: 14px;
+    @media (max-width: 992px) {
+        #miTabla2 {
+            display: none;
+        }
+        .mobile-table {
+            display: block;
+        }
+        .mobile-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+        .mobile-card label {
+            font-weight: bold;
+        }
+        .mobile-card .row {
+            margin-bottom: 5px;
+        }
+        .action-buttons {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+        }
+        .btn-mobile {
+            flex: 1; /* Distribuir equitativamente el espacio */
+            margin: 0 2px;
+        }
+        .btn-mobile i {
+            font-size: 18px; /* Tamaño más grande para facilitar la interacción */
+        }
+        .btn-mobile:hover {
+            opacity: 0.8;
+        }
+         
+    }
+
+    @media (min-width: 993px) {
+        .mobile-table {
+            display: none;
+        }
     }
 </style>
 
@@ -149,6 +193,7 @@
                                     <td class="text-center"> 
                                         @can('editar-usuarios')
                                         <a href="{{ route('usuarios.edit', $usuario->id) }}" class="btn btn-warning mr-1">
+                                            <i class="fas fa-edit"></i> 
                                             Editar
                                         </a>
                                         @endcan
@@ -158,6 +203,7 @@
                                             @method('DELETE') <!-- Método DELETE -->
                                             @can('eliminar-usuarios')
                                             <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar esta materia?')">
+                                                <i class="fas fa-trash-alt"></i> 
                                                 Eliminar
                                             </button>
                                             @endcan
@@ -167,7 +213,38 @@
                                 @endforeach
                             </tbody>
                         </table>
-
+                        @foreach ($usuarios as $usuario)
+                        <div class="mobile-card d-lg-none">
+                            <div class="row">
+                                <div class="col-6"><label>Número de Control:</label></div>
+                                <div class="col-6">{{ $usuario->name }}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6"><label>Nombre:</label></div>
+                                <div class="col-6">{{ $usuario->email}}</div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-6"><label>Acciones:</label></div>
+                                <div class="row action-buttons">
+                                    @can('editar-usuarios')
+                                        <a href="{{ route('usuarios.edit', $usuario->id) }}" class="btn btn-warning btn-mobile">
+                                            <i class="fas fa-edit"></i> Editar
+                                        </a>
+                                    @endcan
+                                    @can('borrar-usuarios')
+                                        <form action="{{ route('usuarios.destroy', $usuario->id) }}" method="POST" class="d-inline-block">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-mobile" onclick="return confirm('¿Estás seguro de eliminar este estudiante?')">
+                                                <i class="fas fa-trash-alt"></i> Eliminar
+                                            </button>
+                                        </form>
+                                    @endcan
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
                     </div>
                         <div class="pagination justify-content-end">
                             {!! $usuarios->links() !!}

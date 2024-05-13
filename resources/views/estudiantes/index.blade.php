@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 <style>
+    #miTabla2 {
+        font-size: 14px;
+    }
+
     /* Estilos para el campo de búsqueda */
     .dataTables_filter {
         position: relative;
@@ -36,7 +40,7 @@
         transition: color 0.3s ease;
     }
 
-    .dataTables_filter input[type="search"]:focus + ::after {
+    .dataTables_filter input[type="search"]:focus+::after {
         color: #333;
     }
 
@@ -97,107 +101,192 @@
         transition: border-color 0.3s ease;
     }
 
-    .dataTables_length select:focus + ::after {
+    .dataTables_length select:focus+::after {
         border-top-color: #333;
     }
 
-    #miTabla2 {
-        font-size: 14px;
+    @media (max-width: 992px) {
+        #miTabla2 {
+            display: none;
+        }
+
+        .mobile-table {
+            display: block;
+        }
+
+        .mobile-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+
+        .mobile-card label {
+            font-weight: bold;
+        }
+
+        .mobile-card .row {
+            margin-bottom: 5px;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+        }
+
+        .btn-mobile {
+            flex: 1;
+            /* Distribuir equitativamente el espacio */
+            margin: 0 2px;
+        }
+
+        .btn-mobile i {
+            font-size: 18px;
+            /* Tamaño más grande para facilitar la interacción */
+        }
+
+        .btn-mobile:hover {
+            opacity: 0.8;
+        }
     }
 
-   
-    /* Estilos para los títulos */
-    .section-header h3 {
-        text-align: center;
-        font-size: 28px;
-        font-weight: bold;
-        margin-bottom: 20px;
-    }
-
-    .card-title {
-        text-align: center;
-        font-size: 24px;
-        font-weight: bold;
-        margin-bottom: 20px;
+    @media (min-width: 993px) {
+        .mobile-table {
+            display: none;
+        }
     }
 </style>
 
 @section('content')
-    <section class="section">
-        <div class="section-header">
-            <h3 class="page__heading">Estudiantes</h3>
-        </div>
-        <div class="section-body">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h4 class="card-title">Lista de Estudiantes</h4>
-                                @can('crear-estudiante')
-                                    <a class="btn btn-warning" href="{{ route('estudiantes.create') }}">
-                                        <i class="fas fa-plus"></i> Nuevo Alumno
+<section class="section">
+    <div class="section-header">
+        <h3 class="page__heading">Estudiantes</h3>
+    </div>
+    <div class="section-body">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="card-title">Lista de Estudiantes</h4>
+                            @can('crear-estudiante')
+                            <a class="btn btn-warning" href="{{ route('estudiantes.create') }}">
+                                <i class="fas fa-plus"></i> Nuevo Alumno
+                            </a>
+                            @endcan
+                        </div>
+
+                        <table class="table table-striped mt-2" id="miTabla2">
+                            <thead style="background-color:#6777ef">
+                                <th style="color:#fff;" class="text-center">Número de Control</th>
+                                <th style="color:#fff;" class="text-center">Nombre</th>
+                                <th style="color:#fff;" class="text-center">Apellido Paterno</th>
+                                <th style="color:#fff;" class="text-center">Apellido Materno</th>
+                                <th style="color:#fff;" class="text-center">Semestre</th>
+                                <th style="color:#fff;" class="text-center">Acciones</th>
+                            </thead>
+                            <tbody>
+                                @foreach ($estudiantes as $estudiante)
+                                <tr>
+                                    <td class="text-center">{{ $estudiante->numeroDeControl }}</td>
+                                    <td class="text-center">{{ $estudiante->nombre }}</td>
+                                    <td class="text-center">{{ $estudiante->apellidoPaterno }}</td>
+                                    <td class="text-center">{{ $estudiante->apellidoMaterno }}</td>
+                                    <td class="text-center">{{ $estudiante->semestre }}</td>
+                                    <td class="text-center">
+                                        @can('editar-estudiante')
+                                        <a href="{{ route('estudiantes.edit', $estudiante->id) }}"
+                                            class="btn btn-warning mr-1">
+                                            <i class="fas fa-edit"></i>
+                                            Editar
+                                        </a>
+                                        @endcan
+                                        <form action="{{ route('estudiantes.destroy', $estudiante->id) }}" method="POST"
+                                            class="d-inline-block">
+                                            @csrf
+                                            @method('DELETE')
+                                            @can('borrar-estudiante')
+                                            <button type="submit" class="btn btn-danger"
+                                                onclick="return confirm('¿Estás seguro de eliminar este estudiante?')">
+                                                <i class="fas fa-file-excel"></i>
+                                                Eliminar
+                                            </button>
+                                            @endcan
+                                        </form>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        @foreach ($estudiantes as $estudiante)
+                        <div class="mobile-card d-lg-none">
+                            <div class="row">
+                                <div class="col-6"><label>Número de Control:</label></div>
+                                <div class="col-6">{{ $estudiante->numeroDeControl }}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6"><label>Nombre:</label></div>
+                                <div class="col-6">{{ $estudiante->nombre }}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6"><label>Apellido Paterno:</label></div>
+                                <div class="col-6">{{ $estudiante->apellidoPaterno }}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6"><label>Apellido Materno:</label></div>
+                                <div class="col-6">{{ $estudiante->apellidoMaterno }}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6"><label>Semestre:</label></div>
+                                <div class="col-6">{{ $estudiante->semestre }}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6"><label>Acciones:</label></div>
+                                <div class="row action-buttons">
+                                    @can('editar-estudiante')
+                                    <a href="{{ route('estudiantes.edit', $estudiante->id) }}"
+                                        class="btn btn-warning btn-mobile">
+                                        <i class="fas fa-edit"></i> Editar
                                     </a>
-                                @endcan
+                                    @endcan
+                                    @can('borrar-estudiante')
+                                    <form action="{{ route('estudiantes.destroy', $estudiante->id) }}" method="POST"
+                                        class="d-inline-block">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-mobile"
+                                            onclick="return confirm('¿Estás seguro de eliminar este estudiante?')">
+                                            <i class="fas fa-trash-alt"></i> Eliminar
+                                        </button>
+                                    </form>
+                                    @endcan
+                                </div>
                             </div>
+                        </div>
+                        @endforeach
 
-                            <table class="table table-striped mt-2" id="miTabla2">
-                                <thead style="background-color:#6777ef">                                     
-                                    <th style="color:#fff;" class="text-center">Número de Control</th>
-                                    <th style="color:#fff;" class="text-center">Nombre</th>
-                                    <th style="color:#fff;" class="text-center">Apellido Paterno</th>
-                                    <th style="color:#fff;" class="text-center">Apellido Materno</th>
-                                    <th style="color:#fff;" class="text-center">Semestre</th>
-                                    <th style="color:#fff;" class="text-center">Acciones</th>                                                                 
-                                </thead>
-                                <tbody>
-                                    @foreach ($estudiantes as $estudiante)
-                                        <tr>                            
-                                            <td class="text-center">{{ $estudiante->numeroDeControl }}</td>
-                                            <td class="text-center">{{ $estudiante->nombre }}</td>
-                                            <td class="text-center">{{ $estudiante->apellidoPaterno }}</td>
-                                            <td class="text-center">{{ $estudiante->apellidoMaterno }}</td>
-                                            <td class="text-center">{{ $estudiante->semestre }}</td>
-                                            <td class="text-center">
-                                                @can('editar-estudiante')
-                                                <a href="{{ route('estudiantes.edit', $estudiante->id) }}" class="btn btn-warning mr-1">
-                                                    Editar
-                                                </a>
-                                                @endcan
-                                                <form action="{{ route('estudiantes.destroy', $estudiante->id) }}" method="POST" class="d-inline-block">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    @can('borrar-estudiante')
-                                                    <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar este estudiante?')">
-                                                        Eliminar
-                                                    </button>
-                                                    @endcan
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
 
-                            <!-- Ubicamos la paginación a la derecha -->
-                            <div class="pagination justify-content-end">
-                                {!! $estudiantes->links() !!}
-                            </div>
+                        <!-- Ubicamos la paginación a la derecha -->
+                        <div class="pagination justify-content-end">
+                            {!! $estudiantes->links() !!}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-    <!-- DATATABLES -->
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <!-- BOOTSTRAP -->
-    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-    <script>
-        new DataTable('#miTabla2', {
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<!-- DATATABLES -->
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<!-- BOOTSTRAP -->
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+
+<script>
+    new DataTable('#miTabla2', {
             lengthMenu: [
                 [2, 5, 10, 15, 50],
                 [2, 5, 10, 15, 50]
@@ -219,5 +308,5 @@
             dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rt<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
             pageLength: 10
         });
-    </script>
+</script>
 @endsection

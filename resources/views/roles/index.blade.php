@@ -1,8 +1,9 @@
 @extends('layouts.app')
 <style>
     #miTabla2 {
-    font-size: 14px;
+        font-size: 14px;
     }
+
     /* Estilos para el campo de búsqueda */
     .dataTables_filter {
         position: relative;
@@ -38,12 +39,12 @@
         transition: color 0.3s ease;
     }
 
-    .dataTables_filter input[type="search"]:focus + ::after {
+    .dataTables_filter input[type="search"]:focus+::after {
         color: #333;
     }
 
-   /* Estilos para el menú de selección de registros */
-   .dataTables_length {
+    /* Estilos para el menú de selección de registros */
+    .dataTables_length {
         position: relative;
         display: inline-block;
         margin-bottom: 20px;
@@ -99,81 +100,164 @@
         transition: border-color 0.3s ease;
     }
 
-    .dataTables_length select:focus + ::after {        border-top-color: #333;
+    .dataTables_length select:focus+::after {
+        border-top-color: #333;
+    }
+
+    @media (max-width: 992px) {
+        #miTabla2 {
+            display: none;
+        }
+
+        .mobile-table {
+            display: block;
+        }
+
+        .mobile-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+
+        .mobile-card label {
+            font-weight: bold;
+        }
+
+        .mobile-card .row {
+            margin-bottom: 5px;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+        }
+
+        .btn-mobile {
+            flex: 1;
+            /* Distribuir equitativamente el espacio */
+            margin: 0 2px;
+        }
+
+        .btn-mobile i {
+            font-size: 18px;
+            /* Tamaño más grande para facilitar la interacción */
+        }
+
+        .btn-mobile:hover {
+            opacity: 0.8;
+        }
+    }
+
+    @media (min-width: 993px) {
+        .mobile-table {
+            display: none;
+        }
     }
 </style>
+
 @section('content')
-    <section class="section">
-        <div class="section-header">
-            <h3 class="page__heading">Roles</h3>
-        </div>
-        <div class="section-body">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card">
-                        <div class="card-body">
-
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h4 class="card-title">Lista de Roles</h4>
-                                @can('creear-roles')
-                                    <a class="btn btn-warning" href="{{ route('roles.create') }}">
-                                        <i class="fas fa-plus"></i> Nuevo Rol
-                                    </a>
-                                @endcan
-                            </div>
-                        <div>
-                            <br>
+<section class="section">
+    <div class="section-header">
+        <h3 class="page__heading">Usuarios</h3>
+    </div>
+    <div class="section-body">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="card-title">Lista de Roles</h4>
+                            @can('crear-materias')
+                            <a class="btn btn-warning" href="{{ route('usuarios.create') }}">
+                                <i class="fas fa-plus"></i> Nuevo Rol
+                            </a>
+                            @endcan
                         </div>
-                        {{-- @can('crear-rol')
-                        <a class="btn btn-warning" href="{{ route('roles.create') }}">Nuevo</a>
-                        @endcan
-                         --}}
 
-                            <table class="table table-striped mt-2 table_id" id="miTabla2">
+
+                        <div class="table-responsive mt-3">
+                            <table class="table table-striped mt-2" id="miTabla2">
                                 <thead style="background-color:#6777ef">
-                                    <th style="display: none;" class="text-center">ID</th>
-                                    <th style="color:#fff;" class="text-center">Rol</th>
-                                    <th style="color:#fff;" class="text-center">Acciones</th>
+                                    <tr>
+                                        <th style="color:#fff;" class="text-center">Rol</th>
+                                        <th style="color:#fff;" class="text-center">Acciones</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                @foreach ($roles as $role)
-                                <tr>
-                                    <td style="display: none;" class="text-center">{{ $role->id }}</td>
-                                    <td class="text-center">{{ $role->name }}</td>
-                                    
-                                <td class="text-center">
-                                    @can('editar-rol')
-                                    <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-warning mr-1">
-                                        Editar
-                                    </a>
-                                    @endcan
-                                    <form action="{{ route('roles.destroy', $role->id) }}" method="POST" class="d-inline-block">
-                                        @csrf
-                                        @method('DELETE')
-                                        @can('borrar-rol')
-                                        <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar el rol?')">
-                                            Eliminar
-                                        </button>
-                                        @endcan
-                                    </form>
-                                </td>
-                                </tr>
-                                @endforeach
+                                    @foreach ($roles as $role)
+                                    <tr>
+                                        <td>{{ $role->name }}</td>
+                                        <td class="text-center">
+                                            @can('editar-usuarios')
+                                            <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-warning mr-1">
+                                                <i class="fas fa-edit"></i>
+                                                Editar
+                                            </a>
+                                            @endcan
+
+                                            <form action="{{ route('roles.destroy', $role->id) }}" method="POST"
+                                                class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <!-- Método DELETE -->
+                                                @can('eliminar-roles')
+                                                <button type="submit" class="btn btn-danger"
+                                                    onclick="return confirm('¿Estás seguro de eliminar esta materia?')">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                    Eliminar
+                                                </button>
+                                                @endcan
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
-
-                            <!-- Centramos la paginacion a la derecha -->
-                            <div class="pagination justify-content-end">
-                                {!! $roles->links() !!}
+                            @foreach ($roles as $role)
+                            <div class="mobile-card d-lg-none">
+                                <div class="row">
+                                    <div class="col-6"><label>Rol</label></div>
+                                    <div class="col-6">{{ $role->name }}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6"><label>Acciones:</label></div>
+                                    <div class="row action-buttons">
+                                        @can('editar-roles')
+                                        <a href="{{ route('roles.edit', $role->id) }}"
+                                            class="btn btn-warning btn-mobile">
+                                            <i class="fas fa-edit"></i> Editar
+                                        </a>
+                                        @endcan
+                                        @can('borrar-roles')
+                                        <form action="{{ route('roles.destroy', $role->id) }}" method="POST"
+                                            class="d-inline-block">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-mobile"
+                                                onclick="return confirm('¿Estás seguro de eliminar este estudiante?')">
+                                                <i class="fas fa-trash-alt"></i> Eliminar
+                                            </button>
+                                        </form>
+                                        @endcan
+                                    </div>
+                                </div>
                             </div>
-                            </div>
+                            @endforeach
+                        </div>
+                        <div class="pagination justify-content-end">
+                            {!! $roles->links() !!}
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-    <!-- JQUERY -->
-   <!-- JQUERY -->
+        </div>
+    </div>
+</section>
+
+
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <!-- DATATABLES -->
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
@@ -182,14 +266,13 @@
 <script>
     new DataTable('#miTabla2', {
         lengthMenu: [
-            [2, 5, 10],
-            [2, 5, 10]
+            [2, 5, 10, 15, 50],
+            [2, 5, 10, 15, 50]
         ],
         columns: [
-            { Id: 'Id' },
             { Name: 'Name' },
             { Acciones: 'Acciones' }
-        ],
+            ],
         language: {
             url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',
             search: "_INPUT_",
@@ -200,5 +283,4 @@
         pageLength: 10
     });
 </script>
-
 @endsection
