@@ -18,6 +18,8 @@ class SeederTablaPermisos extends Seeder
     {
         $permisos = [
             // Permisos para la tabla roles
+            'ver-dashboard',
+            
             'ver-rol',
             'crear-rol',
             'editar-rol',

@@ -27,40 +27,45 @@
                             <div class="col-xs-12 col-sm-12 col-md-12">
                                 <div class="form-group">
                                     <div class="floating-label">
+                                    <label for="name">Nombre</label>
                                         {!! Form::text('name', null, array('class' => 'form-control')) !!}
-                                        <label for="name">Nombre</label>
+                                  
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-12">
                                 <div class="form-group">
                                     <div class="floating-label">
+                                    <label for="email">E-mail</label>
                                         {!! Form::text('email', null, array('class' => 'form-control')) !!}
-                                        <label for="email">E-mail</label>
+                                     
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-12">
                                 <div class="form-group">
                                     <div class="floating-label">
+                                    <label for="password">Password</label>
                                         {!! Form::password('password', array('class' => 'form-control')) !!}
-                                        <label for="password">Password</label>
+                                       
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-12">
                                 <div class="form-group">
                                     <div class="floating-label">
+                                    <label for="confirm-password">Confirmar Password</label>
                                         {!! Form::password('confirm-password', array('class' => 'form-control')) !!}
-                                        <label for="confirm-password">Confirmar Password</label>
+                                       
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-12">
                                 <div class="form-group">
                                     <div class="floating-label">
+                                    <label for="">Roles</label>
                                         {!! Form::select('roles[]', $roles, $userRole, array('class' => 'form-control')) !!}
-                                        <label for="">Roles</label>
+                                       
                                     </div>
                                 </div>
                             </div>

@@ -161,7 +161,7 @@
 @section('content')
 <section class="section">
     <div class="section-header">
-        <h3 class="page__heading">Usuarios</h3>
+        <h3 class="page__heading">Roles</h3>
     </div>
     <div class="section-body">
         <div class="row">
@@ -170,8 +170,8 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <h4 class="card-title">Lista de Roles</h4>
-                            @can('crear-materias')
-                            <a class="btn btn-warning" href="{{ route('usuarios.create') }}">
+                            @can('crear-roles')
+                            <a class="btn btn-warning" href="{{ route('roles.create') }}">
                                 <i class="fas fa-plus"></i> Nuevo Rol
                             </a>
                             @endcan
@@ -191,7 +191,7 @@
                                     <tr>
                                         <td>{{ $role->name }}</td>
                                         <td class="text-center">
-                                            @can('editar-usuarios')
+                                            @can('editar-roles')
                                             <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-warning mr-1">
                                                 <i class="fas fa-edit"></i>
                                                 Editar

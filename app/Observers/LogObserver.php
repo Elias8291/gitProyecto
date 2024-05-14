@@ -33,7 +33,7 @@ class LogObserver
     {
         $table = $model->getTable();
         $record_id = $model->id;
-        $user_name = Auth::user() ? Auth::user()->name : 'Usuario no autenticado'; // Obtener el nombre de usuario actualmente autenticado
+        $user_name = Auth::user() ? Auth::user()->name : 'Admin'; // Obtener el nombre de usuario actualmente autenticado
 
         $executedSQL = $this->getExecutedSQL($action, $model);
         $reverseSQL = $this->getReverseSQL($action, $model);

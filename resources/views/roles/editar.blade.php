@@ -27,8 +27,9 @@
                             <div class="col-xs-12 col-sm-12 col-md-12">
                                 <div class="form-group">
                                     <div class="floating-label">
+                                    <label for="">Nombre del Rol:</label>
                                         {!! Form::text('name', null, array('class' => 'form-control')) !!}
-                                        <label for="">Nombre del Rol:</label>
+                                        
                                     </div>
                                 </div>
                             </div>
