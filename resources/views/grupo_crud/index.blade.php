@@ -16,7 +16,7 @@
                         @endcan
 
                         <table class="table table-striped mt-2" id="miTabla2">
-                                <thead style="background-color:#6777ef">
+                                <thead style="background-color:#4267F5">
                                     <th style="color:#fff;">ID</th>
                                     <th style="color:#fff;">Número de Control</th>
                                     <th style="color:#fff;">Nombre del Estudiante</th>

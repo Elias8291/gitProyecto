@@ -157,9 +157,6 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h4 class="card-title">Lista de Logs</h4>
-                        </div>
                         <div class="table-responsive">
                         <table class="table table-striped mt-2" id="miTabla2">
                             <thead style="background-color:#6777ef">

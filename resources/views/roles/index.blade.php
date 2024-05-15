@@ -169,7 +169,6 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h4 class="card-title">Lista de Roles</h4>
                             @can('crear-roles')
                             <a class="btn btn-warning" href="{{ route('roles.create') }}">
                                 <i class="fas fa-plus"></i> Nuevo Rol
@@ -180,7 +179,7 @@
 
                         <div class="table-responsive mt-3">
                             <table class="table table-striped mt-2" id="miTabla2">
-                                <thead style="background-color:#6777ef">
+                                <thead style="background-color:#4267F5">
                                     <tr>
                                         <th style="color:#fff;" class="text-center">Rol</th>
                                         <th style="color:#fff;" class="text-center">Acciones</th>

@@ -158,7 +158,6 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h4 class="card-title">Lista de Grupos</h4>
                             @can('creear-grupos')
                             <a class="btn btn-warning btn-icon-text" href="{{ route('grupos.create') }}">
                                 <i class="fas fa-plus"></i> <!-- Icono -->
@@ -167,7 +166,7 @@
                             @endcan
                         </div>
                         <table class="table table-striped mt-2" id="miTabla2">
-                            <thead style="background-color:#6777ef">
+                            <thead style="background-color:#4267F5">
                                 <tr>
                                     <th style="color:#fff;" class="text-center">Clave</th>
                                     <th style="color:#fff;" class="text-center">Nombre</th>

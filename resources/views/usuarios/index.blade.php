@@ -1,6 +1,6 @@
 @extends('layouts.app')
 <style>
-      #miTabla2 {
+    #miTabla2 {
         font-size: 14px;
     }
 
@@ -85,6 +85,45 @@
         background-color: #e6e6e6;
     }
 
+    /* Estilos para los botones de acción en modo móvil */
+    .action-buttons {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 0;
+    }
+
+    .btn-mobile {
+        flex: 0 1 48%;
+        /* Cada botón ocupa el 48% del espacio */
+        margin: 0;
+        padding: 8px;
+        border-radius: 4px;
+        font-size: 0;
+        /* Eliminar el texto */
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    .btn-mobile i {
+        font-size: 20px;
+        /* Aumentar el tamaño del icono */
+    }
+
+    .btn-mobile:hover {
+        opacity: 0.8;
+    }
+
+    /* Colores de los botones */
+    .btn-warning.btn-mobile {
+        background-color: #ffc107;
+        color: #212529;
+    }
+
+    .btn-danger.btn-mobile {
+        background-color: #dc3545;
+        color: #fff;
+    }
+
     .dataTables_length::after {
         content: "";
         position: absolute;
@@ -108,38 +147,85 @@
         #miTabla2 {
             display: none;
         }
+
         .mobile-table {
             display: block;
         }
+
+        /* Estilos para las tarjetas en modo móvil */
         .mobile-card {
             background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            margin-bottom: 10px;
-            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 16px;
+            padding: 16px;
         }
+
+        .mobile-card .row {
+            margin-bottom: 8px;
+        }
+
         .mobile-card label {
             font-weight: bold;
+            color: #333;
         }
-        .mobile-card .row {
-            margin-bottom: 5px;
-        }
+
+        /* Estilos para los botones de acción en modo móvil */
         .action-buttons {
             display: flex;
-            justify-content: space-around;
-            padding: 10px 0;
+            justify-content: space-between;
+            padding: 12px 0;
         }
+
         .btn-mobile {
-            flex: 1; /* Distribuir equitativamente el espacio */
-            margin: 0 2px;
+            flex: 0 1 48%;
+            /* Cada botón ocupa el 48% del espacio */
+            margin: 0;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            text-align: center;
+            transition: all 0.3s ease;
         }
+
         .btn-mobile i {
-            font-size: 18px; /* Tamaño más grande para facilitar la interacción */
+            font-size: 16px;
+            margin-right: 5px;
         }
+
         .btn-mobile:hover {
             opacity: 0.8;
         }
-         
+
+        /* Colores de los botones */
+        .btn-warning.btn-mobile {
+            background-color: #ffc107;
+            color: #212529;
+        }
+
+        .btn-danger.btn-mobile {
+            background-color: #dc3545;
+            color: #fff;
+        }
+.btn-mobile-action {
+        flex: 0 1 48%;
+        margin: 0;
+        padding: 10px;
+        border-radius: 4px;
+        font-size: 14px;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    .btn-mobile-action i {
+        font-size: 16px;
+        margin-right: 5px;
+    }
+
+    .btn-mobile-action:hover {
+        opacity: 0.8;
+    }
     }
 
     @media (min-width: 993px) {
@@ -160,92 +246,97 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h4 class="card-title">Lista de Usuarios</h4>
                             @can('crear-materias')
-                                <a class="btn btn-warning" href="{{ route('usuarios.create') }}">
-                                    <i class="fas fa-plus"></i> Nuevo Usuario
-                                </a>
+                            <a class="btn btn-warning" href="{{ route('usuarios.create') }}">
+                                <i class="fas fa-plus"></i> Nuevo Usuario
+                            </a>
                             @endcan
                         </div>
 
 
                         <div class="table-responsive mt-3">
-                        <table class="table table-striped mt-2" id="miTabla2">
-                            <thead style="background-color:#6777ef">
-                                <tr>
-                                <th style="color:#fff;">Nombre</th>
-                                <th style="color:#fff;">E-mail</th>
-                                <th style="color:#fff;">Rol</th>
-                                <th style="color:#fff;" class="text-center">Acciones</th>
+                            <table class="table table-striped mt-2" id="miTabla2">
+                                <thead style="background-color:#4267F5">
+                                    <tr>
+                                        <th style="color:#fff;">Nombre</th>
+                                        <th style="color:#fff;">E-mail</th>
+                                        <th style="color:#fff;">Rol</th>
+                                        <th style="color:#fff;" class="text-center">Acciones</th>
 
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($usuarios as $usuario)
-                                <tr>
-                                    <td>{{ $usuario->name }}</td>
-                                    <td>{{ $usuario->email }}</td>
-                                    <td class="text-center">
-                                        @foreach($usuario->getRoleNames() as $rolNombre)
-                                        <h5><span class="badge badge-dark">{{ $rolNombre }}</span></h5>
-                                        @endforeach
-                                    </td>
-                                    <td class="text-center"> 
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($usuarios as $usuario)
+                                    <tr>
+                                        <td>{{ $usuario->name }}</td>
+                                        <td>{{ $usuario->email }}</td>
+                                        <td class="text-center">
+                                            @foreach($usuario->getRoleNames() as $rolNombre)
+                                            <h5><span class="badge badge-dark">{{ $rolNombre }}</span></h5>
+                                            @endforeach
+                                        </td>
+                                        <td class="text-center">
+                                            @can('editar-usuarios')
+                                            <a href="{{ route('usuarios.edit', $usuario->id) }}"
+                                                class="btn btn-warning mr-1">
+                                                <i class="fas fa-edit"></i>Editar
+                                            </a>
+                                            @endcan
+
+                                            <form action="{{ route('usuarios.destroy', $usuario->id) }}" method="POST"
+                                                class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <!-- Método DELETE -->
+                                                @can('eliminar-usuarios')
+                                                <button type="submit" class="btn btn-danger"
+                                                    onclick="return confirm('¿Estás seguro de eliminar esta materia?')">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                    Eliminar
+                                                </button>
+                                                @endcan
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                            @foreach ($usuarios as $usuario)
+                            <div class="mobile-card d-lg-none">
+                                <div class="row">
+                                    <div class="col-6"><label>Número de Control:</label></div>
+                                    <div class="col-6">{{ $usuario->name }}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6"><label>Nombre:</label></div>
+                                    <div class="col-6">{{ $usuario->email}}</div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6"><label>Acciones:</label></div>
+                                    <div class="row action-buttons">
                                         @can('editar-usuarios')
-                                        <a href="{{ route('usuarios.edit', $usuario->id) }}" class="btn btn-warning mr-1">
-                                            <i class="fas fa-edit"></i> 
-                                            Editar
+                                        <a href="{{ route('usuarios.edit', $usuario->id) }}"
+                                            class="btn btn-warning btn-mobile">
+                                            <i class="fas fa-edit"></i>
                                         </a>
                                         @endcan
-                        
-                                        <form action="{{ route('usuarios.destroy', $usuario->id) }}" method="POST" class="d-inline">
-                                            @csrf
-                                            @method('DELETE') <!-- Método DELETE -->
-                                            @can('eliminar-usuarios')
-                                            <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar esta materia?')">
-                                                <i class="fas fa-trash-alt"></i> 
-                                                Eliminar
-                                            </button>
-                                            @endcan
-                                        </form>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        @foreach ($usuarios as $usuario)
-                        <div class="mobile-card d-lg-none">
-                            <div class="row">
-                                <div class="col-6"><label>Número de Control:</label></div>
-                                <div class="col-6">{{ $usuario->name }}</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-6"><label>Nombre:</label></div>
-                                <div class="col-6">{{ $usuario->email}}</div>
-                            </div>
-                            
-                            <div class="row">
-                                <div class="col-6"><label>Acciones:</label></div>
-                                <div class="row action-buttons">
-                                    @can('editar-usuarios')
-                                        <a href="{{ route('usuarios.edit', $usuario->id) }}" class="btn btn-warning btn-mobile">
-                                            <i class="fas fa-edit"></i> Editar
-                                        </a>
-                                    @endcan
-                                    @can('borrar-usuarios')
-                                        <form action="{{ route('usuarios.destroy', $usuario->id) }}" method="POST" class="d-inline-block">
+                                        @can('borrar-usuarios')
+                                        <form action="{{ route('usuarios.destroy', $usuario->id) }}" method="POST"
+                                            class="d-inline-block">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-mobile" onclick="return confirm('¿Estás seguro de eliminar este estudiante?')">
-                                                <i class="fas fa-trash-alt"></i> Eliminar
+                                            <button type="submit" class="btn btn-danger btn-mobile"
+                                                onclick="return confirm('¿Estás seguro de eliminar este estudiante?')">
+                                                <i class="fas fa-trash-alt"></i>
                                             </button>
                                         </form>
-                                    @endcan
+                                        @endcan
+                                    </div>
                                 </div>
                             </div>
+                            @endforeach
                         </div>
-                    @endforeach
-                    </div>
                         <div class="pagination justify-content-end">
                             {!! $usuarios->links() !!}
                         </div>

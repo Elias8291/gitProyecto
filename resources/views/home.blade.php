@@ -1,33 +1,74 @@
 @extends('layouts.app')
 <style>
     .welcome-section {
-        background-color: #f0f8ff; /* Light azure to make it welcoming */
-        color: #2c3e50; /* Darker text color for better readability */
-        font-family: 'Arial', sans-serif;
-        padding: 40px; /* Increased padding for a better layout */
-        border-radius: 10px; /* Slightly larger radius for a softer look */
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15); /* Softer shadow */
+        background: linear-gradient(135deg, #f4f4f9 0%, #e4e4f1 100%);
+        padding: 50px 20px;
         text-align: center;
-        margin-top: 30px;
-        animation: fadeIn 2s; /* Animation added */
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+    .welcome-section:hover {
+        transform: translateY(-5px) scale(1.02);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+    }
+    .welcome-title {
+        font-size: 28px;
+        color: #333;
+        margin-bottom: 15px;
+        font-weight: bold;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        animation: titleFadeIn 1s ease-out 0s 1;
+    }
+    .welcome-message {
+        font-size: 20px;
+        color: #666;
+        margin-bottom: 25px;
+        line-height: 1.7;
+        animation: messageFadeIn 1.5s ease-out 0s 1;
+    }
+    .welcome-button {
+        padding: 12px 30px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        text-transform: uppercase;
+        font-weight: bold;
+        text-decoration: none;
+        display: inline-block;
+        transition: background-color 0.2s ease-in-out, transform 0.2s ease;
+    }
+    .welcome-button:hover {
+        background-color: #0056b3;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+        transform: translateY(-2px);
+    }
+    img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        animation: fadeIn 2s ease-out 0s 1;
     }
 
-    .welcome-section h1 {
-        font-size: 28px; /* Larger font size */
-        color: #34495e; /* Slightly different shade for emphasis */
-        margin-bottom: 20px; /* Added spacing */
+    @keyframes titleFadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 
-    .welcome-section p {
-        font-size: 18px; /* Increased font size for better visibility */
-        color: #7f8c8d; /* Softer color */
+    @keyframes messageFadeIn {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 
-    @keyframes fadeIn { /* Define the animation */
-        from { opacity: 0; transform: translate3d(0, -10%, 0); }
-        to { opacity: 1; transform: translate3d(0, 0, 0); }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: scale(0.9); }
+        to { opacity: 1; transform: scale(1); }
     }
 </style>
+
+
 
 @section('content')
 @can('ver-dashboard')
@@ -155,8 +196,9 @@
 </section>
 @else
 <div class="welcome-section">
-    <h1>Bienvenidos</h1>
-    <p>Gracias por visitar nuestro sitio. Explore y descubra más acerca de lo que ofrecemos.</p>
+    <h1 class="welcome-title">Bienvenido al Sistema de Gestión de Alumnos</h1>
+    <p class="welcome-message">Comienza explorando nuestras funcionalidades y descubre cómo podemos mejorar tu experiencia de gestión académica.</p>
+    <img src="https://i.ibb.co/0n80XTJ/6461-fotor-bg-remover-2024051565952.png" alt="Gestión de Alumnos" style="max-width: 100%; height: auto; border-radius: 8px;">
 </div>
 @endcan
 @endsection

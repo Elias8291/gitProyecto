@@ -159,7 +159,6 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h4 class="card-title">Lista de inscripciones</h4>
                                 @can('crear-inscripcion')
                                     <a class="btn btn-warning" href="{{ route('inscripciones.create') }}">
                                         <i class="fas fa-plus"></i> Nueva inscripcion
@@ -167,7 +166,7 @@
                                 @endcan
                             </div>
                             <table class="table table-striped mt-2" id="miTabla2">
-                                <thead style="background-color:#6777ef">
+                                <thead style="background-color:#4267F5">
                                     <th style="color:#fff;" class="text-center">Número de Control</th>
                                     <th style="color:#fff;" class="text-center">Nombre del Estudiante</th>
                                     <th style="color:#fff;" class="text-center">Clave del Grupo</th>
