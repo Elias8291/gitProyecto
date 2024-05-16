@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 <style>
-      #miTabla2 {
+   #miTabla2 {
     font-family: 'Open Sans', sans-serif;
     border-collapse: collapse;
     width: 100%;
@@ -37,7 +37,7 @@
 }
 
 #miTabla2 tbody td .custom-badge {
-    background-color: #000000;
+    background-color: #483eff;
     color: #fff;
     padding: 4px 8px;
     border-radius: 4px;
@@ -153,45 +153,6 @@
         background-color: #e6e6e6;
     }
 
-    /* Estilos para los botones de acción en modo móvil */
-    .action-buttons {
-        display: flex;
-        justify-content: space-between;
-        padding: 12px 0;
-    }
-
-    .btn-mobile {
-        flex: 0 1 48%;
-        /* Cada botón ocupa el 48% del espacio */
-        margin: 0;
-        padding: 8px;
-        border-radius: 4px;
-        font-size: 0;
-        /* Eliminar el texto */
-        text-align: center;
-        transition: all 0.3s ease;
-    }
-
-    .btn-mobile i {
-        font-size: 20px;
-        /* Aumentar el tamaño del icono */
-    }
-
-    .btn-mobile:hover {
-        opacity: 0.8;
-    }
-
-    /* Colores de los botones */
-    .btn-warning.btn-mobile {
-        background-color: #ffc107;
-        color: #212529;
-    }
-
-    .btn-danger.btn-mobile {
-        background-color: #dc3545;
-        color: #fff;
-    }
-
     .dataTables_length::after {
         content: "";
         position: absolute;
@@ -210,7 +171,6 @@
     .dataTables_length select:focus+::after {
         border-top-color: #333;
     }
-
     @media (max-width: 992px) {
     #miTabla2 {
         display: none;
@@ -300,16 +260,12 @@
         opacity: 0.8;
     }
 }
+
     @media (min-width: 993px) {
         .mobile-table {
             display: none;
         }
     }
-    .custom-badge {
-    background-color: #483eff;
-    color: white; /* Cambia el color del texto a blanco para mejorar la legibilidad */
-
-  
 </style>
 
 @section('content')
@@ -324,7 +280,7 @@
                 <div class="card">
                     <div class="card-body">
                         <table class="table table-striped mt-2" id="miTabla2">
-                            <thead style="background-color:#4267F5">
+                            <thead style="background-color:#5f42d4">
                                 <th style="color:#fff;" class="text-center">Id</th>
                                 <th style="color:#fff;" class="text-center">Fecha</th>
                                 <th style="color:#fff;" class="text-center">Accion</th>
