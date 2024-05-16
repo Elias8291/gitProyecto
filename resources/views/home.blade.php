@@ -1,74 +1,125 @@
 @extends('layouts.app')
 <style>
-    .welcome-section {
-        background: linear-gradient(135deg, #f4f4f9 0%, #e4e4f1 100%);
-        padding: 50px 20px;
-        text-align: center;
-        border-radius: 10px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    }
-    .welcome-section:hover {
-        transform: translateY(-5px) scale(1.02);
-        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
-    }
-    .welcome-title {
-        font-size: 28px;
-        color: #333;
-        margin-bottom: 15px;
-        font-weight: bold;
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-        animation: titleFadeIn 1s ease-out 0s 1;
-    }
-    .welcome-message {
-        font-size: 20px;
-        color: #666;
-        margin-bottom: 25px;
-        line-height: 1.7;
-        animation: messageFadeIn 1.5s ease-out 0s 1;
-    }
-    .welcome-button {
-        padding: 12px 30px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        border-radius: 6px;
-        text-transform: uppercase;
-        font-weight: bold;
-        text-decoration: none;
-        display: inline-block;
-        transition: background-color 0.2s ease-in-out, transform 0.2s ease;
-    }
-    .welcome-button:hover {
-        background-color: #0056b3;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-        transform: translateY(-2px);
-    }
-    img {
-        max-width: 100%;
-        height: auto;
-        border-radius: 8px;
-        margin-bottom: 20px;
-        animation: fadeIn 2s ease-out 0s 1;
-    }
+.welcome-section {
+    background: linear-gradient(135deg, #FFF7BC 0%, #FFD56B 100%);
+    padding: 50px 20px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
 
-    @keyframes titleFadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
+.welcome-section:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+}
 
-    @keyframes messageFadeIn {
-        from { opacity: 0; transform: translateY(30px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
+.welcome-title {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 15px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    animation: titleFadeIn 1s ease-out 0s 1;
+}
 
-    @keyframes fadeIn {
-        from { opacity: 0; transform: scale(0.9); }
-        to { opacity: 1; transform: scale(1); }
+.welcome-message {
+    font-size: 20px;
+    color: #666;
+    margin-bottom: 25px;
+    line-height: 1.7;
+    animation: messageFadeIn 1.5s ease-out 0s 1;
+}
+
+.welcome-button {
+    padding: 12px 30px;
+    background-color: #FF6B6B;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.2s ease-in-out, transform 0.2s ease;
+}
+
+.welcome-button:hover {
+    background-color: #FF4949;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    animation: fadeIn 2s ease-out 0s 1;
+}
+
+@keyframes titleFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
     }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes messageFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.card-custom {
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    background-color: #FF9F9F;
+}
+
+.card-custom:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+.card-custom .card-title {
+    font-size: 18px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    color: #FFFFFF;
+}
+
+.card-custom .card-body {
+    padding: 20px;
+    color: #FFFFFF;
+}
+
+.custom-column {
+    margin-bottom: 20px; /* Espacio entre columnas */
+}
 </style>
-
-
 
 @section('content')
 @can('ver-dashboard')
@@ -83,7 +134,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-4 col-xl-4">
-                                <div class="card bg-primary text-white shadow">
+                                <div class="card card-custom bg-primary text-white shadow">
                                     <div class="card-body">
                                         <h5 class="card-title"><i class="fa fa-users"></i> Usuarios</h5>
                                         @php
@@ -92,13 +143,12 @@
                                         <h2 class="text-right">
                                             <span>{{$cant_usuarios}}</span>
                                         </h2>
-                                        <p class="mb-0 text-right"><a href="/usuarios" class="text-white">Ver más</a>
-                                        </p>
+                                        <p class="mb-0 text-right"><a href="/usuarios" class="text-white">Ver más</a></p>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-4 col-xl-4">
-                                <div class="card bg-warning text-white shadow">
+                                <div class="card card-custom bg-warning text-white shadow">
                                     <div class="card-body">
                                         <h5 class="card-title"><i class="fa fa-user-lock"></i> Roles</h5>
                                         @php
@@ -112,7 +162,7 @@
                                 </div>
                             </div>
                             <div class="col-md-4 col-xl-4">
-                                <div class="card bg-danger text-white shadow">
+                                <div class="card card-custom bg-danger text-white shadow">
                                     <div class="card-body">
                                         <h5 class="card-title"><i class="fa fa-user-graduate"></i> Estudiantes</h5>
                                         @php
@@ -121,13 +171,12 @@
                                         <h2 class="text-right">
                                             <span>{{$cant_estudiantes}}</span>
                                         </h2>
-                                        <p class="mb-0 text-right"><a href="/estudiantes" class="text-white">Ver más</a>
-                                        </p>
+                                        <p class="mb-0 text-right"><a href="/estudiantes" class="text-white">Ver más</a></p>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-4 col-xl-4">
-                                <div class="card bg-success text-white shadow">
+                                <div class="card card-custom bg-success text-white shadow">
                                     <div class="card-body">
                                         <h5 class="card-title"><i class="fa fa-book"></i> Materias</h5>
                                         @php
@@ -136,14 +185,12 @@
                                         <h2 class="text-right">
                                             <span>{{$cant_materias}}</span>
                                         </h2>
-                                        <p class="mb-0 text-right"><a href="/materias" class="text-white">Ver más</a>
-                                        </p>
+                                        <p class="mb-0 text-right"><a href="/materias" class="text-white">Ver más</a></p>
                                     </div>
                                 </div>
                             </div>
-
                             <div class="col-md-4 col-xl-4">
-                                <div class="card bg-dark text-white shadow">
+                                <div class="card card-custom bg-dark text-white shadow">
                                     <div class="card-body">
                                         <h5 class="card-title"><i class="fa fa-users"></i> Grupos</h5>
                                         @php
@@ -156,33 +203,31 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4 col-xl-4">
-                                <div class="card bg-info text-white shadow">
+                            <div class="col-md-4 col-xl-4 custom-column">
+                                <div class="card card-custom bg-info text-white shadow">
                                     <div class="card-body">
-                                        <h5 class="card-title"><i class="fa fa-pencil"></i> Inscripciones</h5>
+                                        <h5 class="card-title"><i class="fas fa-pencil-alt"></i> Inscripciones</h5>
                                         @php
                                         $cant_inscripciones = \App\Models\Inscripcion::count();
                                         @endphp
                                         <h2 class="text-right">
-                                            <span>{{$cant_inscripciones}}</span>
+                                            <span>{{ $cant_inscripciones }}</span>
                                         </h2>
-                                        <p class="mb-0 text-right"><a href="/inscripciones" class="text-white">Ver
-                                                más</a></p>
+                                        <p class="mb-0 text-right"><a href="/inscripciones" class="text-white">Ver más</a></p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4 col-xl-4">
-                                <div class="card bg-warning text-white shadow">
+                            <div class="col-md-4 col-xl-4 custom-column">
+                                <div class="card card-custom bg-warning text-white shadow">
                                     <div class="card-body">
-                                        <h5 class="card-title"><i class="fa fa-pencil"></i>Logs</h5>
+                                        <h5 class="card-title"><i class="fas fa-clipboard-list"></i> Logs</h5>
                                         @php
                                         $cant_logs = \App\Models\Inscripcion::count();
                                         @endphp
                                         <h2 class="text-right">
-                                            <span>{{$cant_logs}}</span>
+                                            <span>{{ $cant_logs }}</span>
                                         </h2>
-                                        <p class="mb-0 text-right"><a href="/inscripciones" class="text-white">Ver
-                                                más</a></p>
+                                        <p class="mb-0 text-right"><a href="/inscripciones" class="text-white">Ver más</a></p>
                                     </div>
                                 </div>
                             </div>

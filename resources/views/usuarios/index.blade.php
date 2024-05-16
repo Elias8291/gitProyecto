@@ -233,6 +233,11 @@
             display: none;
         }
     }
+    .custom-badge {
+    background-color: #483eff;
+    color: white; /* Cambia el color del texto a blanco para mejorar la legibilidad */
+}
+
 </style>
 
 @section('content')
@@ -258,9 +263,9 @@
                             <table class="table table-striped mt-2" id="miTabla2">
                                 <thead style="background-color:#4267F5">
                                     <tr>
-                                        <th style="color:#fff;">Nombre</th>
-                                        <th style="color:#fff;">E-mail</th>
-                                        <th style="color:#fff;">Rol</th>
+                                        <th style="color:#fff;" class="text-center">Nombre</th>
+                                        <th style="color:#fff;" class="text-center" >E-mail</th>
+                                        <th style="color:#fff;" class="text-center">Rol</th>
                                         <th style="color:#fff;" class="text-center">Acciones</th>
 
                                     </tr>
@@ -268,11 +273,11 @@
                                 <tbody>
                                     @foreach ($usuarios as $usuario)
                                     <tr>
-                                        <td>{{ $usuario->name }}</td>
-                                        <td>{{ $usuario->email }}</td>
+                                        <td class="text-center">{{ $usuario->name }}</td>
+                                        <td class="text-center">{{ $usuario->email }}</td>
                                         <td class="text-center">
                                             @foreach($usuario->getRoleNames() as $rolNombre)
-                                            <h5><span class="badge badge-dark">{{ $rolNombre }}</span></h5>
+                                            <h5><span class="badge custom-badge">{{ $rolNombre }}</span></h5>
                                             @endforeach
                                         </td>
                                         <td class="text-center">
@@ -344,6 +349,7 @@
                 </div>
             </div>
         </div>
+        
     </div>
 </section>
 

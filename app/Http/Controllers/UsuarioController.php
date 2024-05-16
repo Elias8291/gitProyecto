@@ -85,15 +85,17 @@ class UsuarioController extends Controller
             'password' => 'required|same:confirm-password',
             'roles' => 'required'
         ]);
-
+    
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
-
+    
         $user = User::create($input);
         $user->assignRole($request->input('roles'));
-
-        return redirect()->route('usuarios.index');
+    
+        // Redireccionar con mensaje de éxito
+        return redirect()->route('usuarios.index')->with('success', 'Usuario agregado con éxito');
     }
+    
 
     /**
      * Display the specified resource.
