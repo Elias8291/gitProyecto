@@ -1,6 +1,7 @@
 @extends('layouts.app')
+
 <style>
-      #miTabla2 {
+    #miTabla2 {
         font-size: 14px;
     }
 
@@ -108,9 +109,11 @@
         #miTabla2 {
             display: none;
         }
+
         .mobile-table {
             display: block;
         }
+
         .mobile-card {
             background: #fff;
             border: 1px solid #ddd;
@@ -118,24 +121,32 @@
             margin-bottom: 10px;
             padding: 10px;
         }
+
         .mobile-card label {
             font-weight: bold;
         }
+
         .mobile-card .row {
             margin-bottom: 5px;
         }
+
         .action-buttons {
             display: flex;
             justify-content: space-around;
             padding: 10px 0;
         }
+
         .btn-mobile {
-            flex: 1; /* Distribuir equitativamente el espacio */
+            flex: 1;
+            /* Distribuir equitativamente el espacio */
             margin: 0 2px;
         }
+
         .btn-mobile i {
-            font-size: 18px; /* Tamaño más grande para facilitar la interacción */
+            font-size: 18px;
+            /* Tamaño más grande para facilitar la interacción */
         }
+
         .btn-mobile:hover {
             opacity: 0.8;
         }
@@ -147,6 +158,7 @@
         }
     }
 </style>
+
 @section('content')
 <section class="section">
     <div class="section-header">
@@ -157,119 +169,105 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <div class="table-responsive">
                         <table class="table table-striped mt-2" id="miTabla2">
-                            <thead style="background-color:#6777ef">
-                                <tr>
-                                    <th style="color:#fff;" class="text-center">Id</th>
-                                    <th style="color:#fff;" class="text-center">Fecha</th>
-                                    <th style="color:#fff;" class="text-center">Accion</th>
-                                    <th style="color:#fff;" class="text-center">Tabla</th>
-                                    <th style="color:#fff;" class="text-center">Id Afectado</th>
-                                    <th style="color:#fff;" class="text-center">Ejecutada</th>
-                                    <th style="color:#fff;" class="text-center">Inversa</th>
-                                    <th style="color:#fff;" class="text-center">Usuario</th>
-                                </tr>
+                            <thead style="background-color:#4267F5">
+                                <th style="color:#fff;" class="text-center">Id</th>
+                                <th style="color:#fff;" class="text-center">Fecha</th>
+                                <th style="color:#fff;" class="text-center">Accion</th>
+                                <th style="color:#fff;" class="text-center">Tabla</th>
+                                <th style="color:#fff;" class="text-center">Id Afectado</th>
+                                <th style="color:#fff;" class="text-center">Ejecutada</th>
+                                <th style="color:#fff;" class="text-center">Usuario</th>
                             </thead>
                             <tbody>
                                 @foreach ($logs as $log)
                                 <tr>
-                                    <td class="text-center">{{ $log->id }}</td>
+                                    <td class="text-center">{{ $log->id}}</td>
                                     <td class="text-center">{{ $log->created_at }}</td>
                                     <td class="text-center">{{ $log->action }}</td>
                                     <td class="text-center">{{ $log->table }}</td>
                                     <td class="text-center">{{ $log->record_id }}</td>
                                     <td class="text-center">{{ $log->executedSQL }}</td>
-                                    <td class="text-center">{{ $log->reverseSQL }}</td>
-                                    <td class="text-center">{{ $log->user_name }}</td>
+                                    <td class="text-center">{{ $log->user_name }}</td>                                    
                                 </tr>
                                 @endforeach
                             </tbody>
                         </table>
-
                         @foreach ($logs as $log)
-                            <div class="mobile-card d-lg-none">
-                                <div class="row">
-                                    <div class="col-6"><label>id</label></div>
-                                    <div class="col-6">{{ $log->id  }}</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6"><label>Fecha</label></div>
-                                    <div class="col-6">{{ $log->created_at }}</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6"><label>Accion</label></div>
-                                    <div class="col-6">{{ $log->action}}</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6"><label>Tabla</label></div>
-                                    <div class="col-6">{{ $log->table }}</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6"><label>Id Afectado</label></div>
-                                    <div class="col-6">{{ $log->record_id }}</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6"><label>Ejecutada</label></div>
-                                    <div class="col-6">{{ $log->executedSQL }}</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6"><label>Inversa</label></div>
-                                    <div class="col-6">{{ $log->reverseSQL }}</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6"><label>Usuario</label></div>
-                                    <div class="col-6">{{ $log->user_name  }}</div>
-                                </div>
+                        <div class="mobile-card d-lg-none">
+                            <div class="row">
+                                <div class="col-6"><label>ID:</label></div>
+                                <div class="col-6">{{ $log->id }}</div>
                             </div>
-                            @endforeach
-                    </div>
+                            <div class="row">
+                                <div class="col-6"><label>Fecga:</label></div>
+                                <div class="col-6">{{ $log->created_at }}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6"><label>Accion:</label></div>
+                                <div class="col-6">{{ $log->action }}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6"><label>Tabla:</label></div>
+                                <div class="col-6">{{ $log->table }}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6"><label>Id Afectado:</label></div>
+                                <div class="col-6">{{ $log->record_id }}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6"><label>Ejecutada:</label></div>
+                                <div class="col-6">{{ $log->executedSQL }}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6"><label>Usuario:</label></div>
+                                <div class="col-6">{{ $log->user_name }}</div>
+                            </div>
+                        </div>
+                        @endforeach
+
+
+                        <!-- Ubicamos la paginación a la derecha -->
+                        <div class="pagination justify-content-end">
+                            {!! $logs->links() !!}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
-@endsection
 
-@section('scripts')
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <!-- DATATABLES -->
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <!-- BOOTSTRAP -->
 <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $('#miTabla2').DataTable({
-            lengthMenu: [
-                [2, 5, 10, 20],
-                [2, 5, 10, 20]
-            ],
-            columns: [
-                { data: 'id', title: 'Id' },
-                { data: 'created_at', title: 'Fecha' },
-                { data: 'action', title: 'Accion' },
-                { data: 'table', title: 'Tabla' },
-                { data: 'record_id', title: 'Id Afectado' },
-                { data: 'executedSQL', title: 'Ejecutada' },
-                { data: 'reverseSQL', title: 'Inversa' },
-                { data: 'user_name', title: 'Usuario' },
-            ],
-            language: {
-                url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',
-                search: "_INPUT_",
-                searchPlaceholder: "Buscar...",
-                lengthMenu: "Mostrar _MENU_ registros"
-            },
-            dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rt<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
-            pageLength: 10
-        });
-    });
-</script>
-@endsection
 
-@section('styles')
-<style>
-    /* Aquí puedes colocar los estilos CSS */
-</style>
+<script>
+    new DataTable('#miTabla2', {
+    lengthMenu: [
+        [2, 5, 10, 15, 50],
+        [2, 5, 10, 15, 50]
+    ],
+    columns: [
+        { data: 'id', name: 'Id' },
+        { data: 'created_at', name: 'Fecha' },
+        { data: 'action', name: 'Accion' },
+        { data: 'table', name: 'Tabla' },
+        { data: 'record_id', name: 'Id Afectado' },
+        { data: 'executedSQL', name: 'Ejecutada' },
+        { data: 'user_name', name: 'Usuario' }
+    ],
+    language: {
+        url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',
+        search: "_INPUT_",
+        searchPlaceholder: "Buscar...",
+        lengthMenu: "Mostrar registros _MENU_ "
+    },
+    dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rt<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+    pageLength: 10
+});
+
+</script>
 @endsection

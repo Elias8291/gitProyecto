@@ -60,8 +60,8 @@
 @endcan
 
 @can('ver-logs')
-<li class="{{ Request::is('logss') ? 'active' : '' }}">
-    <a class="nav-link d-flex align-items-center" href="/logss">
+<li class="{{ Request::is('logs') ? 'active' : '' }}">
+    <a class="nav-link d-flex align-items-center" href="/logs">
         <i class="fas fa-file-alt" style="color: #FF4500; margin-right: 8px;"></i><span class="menu-text"
             style="font-weight: 600; color: #333;">Logs</span>
     </a>
