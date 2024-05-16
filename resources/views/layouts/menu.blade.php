@@ -23,7 +23,7 @@
 </li>
 @endcanany
 
-@can(['ver-estudiante', 'crear-estudiante', 'editar-estudiante', 'borrar-estudiante'])
+@can(['ver-estudiante'])
 <li class="{{ Request::is('estudiantes*') ? 'active' : '' }}">
     <a class="nav-link d-flex align-items-center" href="/estudiantes">
         <i class="fas fa-user-graduate" style="color: #20B2AA; margin-right: 8px;"></i><span class="menu-text"
@@ -59,7 +59,7 @@
 </li>
 @endcan
 
-@can('ver-logs')
+@can('ver-log')
 <li class="{{ Request::is('logs') ? 'active' : '' }}">
     <a class="nav-link d-flex align-items-center" href="/logs">
         <i class="fas fa-file-alt" style="color: #FF4500; margin-right: 8px;"></i><span class="menu-text"

@@ -158,7 +158,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            @can('creear-grupos')
+                            @can('crear-grupos')
                             <a class="btn btn-warning btn-icon-text" href="{{ route('grupos.create') }}">
                                 <i class="fas fa-plus"></i> <!-- Icono -->
                                 <span>Nuevo Alumno</span> <!-- Texto -->
@@ -209,10 +209,12 @@
                                             </button>
                                             @endcan
                                         </form>
+                                        @can('ver_excel_grupo')
                                         <a href="{{ route('grupos.generarPDF', $grupo->id) }}" class="btn btn-primary btn-icon-text ml-1">
                                             <i class="fas fa-file-excel"></i> <!-- Icono -->
                                             <span>Generar Lista Alumnos</span> <!-- Texto -->
                                         </a>
+                                        @endcan
                                     </td>
                                 </tr>
                                 @endforeach

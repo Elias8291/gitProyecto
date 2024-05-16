@@ -251,7 +251,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            @can('crear-materias')
+                            @can('crear-usuario')
                             <a class="btn btn-warning" href="{{ route('usuarios.create') }}">
                                 <i class="fas fa-plus"></i> Nuevo Usuario
                             </a>
@@ -281,7 +281,7 @@
                                             @endforeach
                                         </td>
                                         <td class="text-center">
-                                            @can('editar-usuarios')
+                                            @can('editar-usuario')
                                             <a href="{{ route('usuarios.edit', $usuario->id) }}"
                                                 class="btn btn-warning mr-1">
                                                 <i class="fas fa-edit"></i>Editar
@@ -293,7 +293,7 @@
                                                 @csrf
                                                 @method('DELETE')
                                                 <!-- Método DELETE -->
-                                                @can('eliminar-usuarios')
+                                                @can('eliminar-usuario')
                                                 <button type="submit" class="btn btn-danger"
                                                     onclick="return confirm('¿Estás seguro de eliminar esta materia?')">
                                                     <i class="fas fa-trash-alt"></i>
