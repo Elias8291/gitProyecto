@@ -1,3 +1,3 @@
 <div class="footer-left">
-    All rights reserved &copy; {{ date('Y') }}
+    Rafa Suavicrema &copy; {{ date('Y') }}
 </div>
