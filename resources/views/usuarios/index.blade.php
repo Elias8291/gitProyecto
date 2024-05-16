@@ -1,8 +1,75 @@
 @extends('layouts.app')
 <style>
-    #miTabla2 {
-        font-size: 14px;
-    }
+   #miTabla2 {
+    font-family: 'Open Sans', sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+#miTabla2 thead {
+    background-color: #483eff;
+    color: #fff;
+}
+
+#miTabla2 thead th {
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#miTabla2 tbody tr {
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.3s ease;
+}
+
+#miTabla2 tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+#miTabla2 tbody td {
+    padding: 12px 15px;
+}
+
+#miTabla2 tbody td .custom-badge {
+    background-color: #000000;
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#miTabla2 tbody td .btn {
+    padding: 6px 12px;
+    font-size: 14px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+#miTabla2 tbody td .btn-warning {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+#miTabla2 tbody td .btn-warning:hover {
+    background-color: #e0a800;
+}
+
+#miTabla2 tbody td .btn-danger {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+#miTabla2 tbody td .btn-danger:hover {
+    background-color: #c82333;
+}
 
     /* Estilos para el campo de búsqueda */
     .dataTables_filter {
@@ -144,71 +211,76 @@
     }
 
     @media (max-width: 992px) {
-        #miTabla2 {
-            display: none;
-        }
+    #miTabla2 {
+        display: none;
+    }
 
-        .mobile-table {
-            display: block;
-        }
+    .mobile-table {
+        display: block;
+    }
 
-        /* Estilos para las tarjetas en modo móvil */
-        .mobile-card {
-            background: #fff;
-            border: none;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-bottom: 16px;
-            padding: 16px;
-        }
+    /* Estilos para las tarjetas en modo móvil */
+    .mobile-card {
+        background: #fff;
+        border: none;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 16px;
+        padding: 16px;
+    }
 
-        .mobile-card .row {
-            margin-bottom: 8px;
-        }
+    .mobile-card .row {
+        margin-bottom: 8px;
+    }
 
-        .mobile-card label {
-            font-weight: bold;
-            color: #333;
-        }
+    .mobile-card label {
+        font-weight: bold;
+        color: #333;
+    }
 
-        /* Estilos para los botones de acción en modo móvil */
-        .action-buttons {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 0;
-        }
+    .mobile-card .data {
+        font-size: 14px;
+        color: #666;
+    }
 
-        .btn-mobile {
-            flex: 0 1 48%;
-            /* Cada botón ocupa el 48% del espacio */
-            margin: 0;
-            padding: 10px;
-            border-radius: 4px;
-            font-size: 14px;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
+    /* Estilos para los botones de acción en modo móvil */
+    .action-buttons {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 0;
+    }
 
-        .btn-mobile i {
-            font-size: 16px;
-            margin-right: 5px;
-        }
+    .btn-mobile {
+        flex: 0 1 48%;
+        margin: 0;
+        padding: 10px;
+        border-radius: 4px;
+        font-size: 14px;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
 
-        .btn-mobile:hover {
-            opacity: 0.8;
-        }
+    .btn-mobile i {
+        font-size: 16px;
+        margin-right: 5px;
+    }
 
-        /* Colores de los botones */
-        .btn-warning.btn-mobile {
-            background-color: #ffc107;
-            color: #212529;
-        }
+    .btn-mobile:hover {
+        opacity: 0.8;
+    }
 
-        .btn-danger.btn-mobile {
-            background-color: #dc3545;
-            color: #fff;
-        }
-.btn-mobile-action {
+    /* Colores de los botones */
+    .btn-warning.btn-mobile {
+        background-color: #ffc107;
+        color: #212529;
+    }
+
+    .btn-danger.btn-mobile {
+        background-color: #dc3545;
+        color: #fff;
+    }
+
+    .btn-mobile-action {
         flex: 0 1 48%;
         margin: 0;
         padding: 10px;
@@ -226,8 +298,7 @@
     .btn-mobile-action:hover {
         opacity: 0.8;
     }
-    }
-
+}
     @media (min-width: 993px) {
         .mobile-table {
             display: none;
@@ -236,6 +307,8 @@
     .custom-badge {
     background-color: #483eff;
     color: white; /* Cambia el color del texto a blanco para mejorar la legibilidad */
+
+    
 }
 
 </style>
@@ -261,7 +334,7 @@
 
                         <div class="table-responsive mt-3">
                             <table class="table table-striped mt-2" id="miTabla2">
-                                <thead style="background-color:#4267F5">
+                                <thead style="background-color:#5f42d4">
                                     <tr>
                                         <th style="color:#fff;" class="text-center">Nombre</th>
                                         <th style="color:#fff;" class="text-center" >E-mail</th>

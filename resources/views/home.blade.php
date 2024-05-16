@@ -222,7 +222,7 @@ img {
                                     <div class="card-body">
                                         <h5 class="card-title"><i class="fas fa-clipboard-list"></i> Logs</h5>
                                         @php
-                                        $cant_logs = \App\Models\Inscripcion::count();
+                                        $cant_logs = \App\Models\Log::count();
                                         @endphp
                                         <h2 class="text-right">
                                             <span>{{ $cant_logs }}</span>
