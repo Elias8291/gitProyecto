@@ -317,10 +317,31 @@
                                             @method('DELETE')
                                             @can('borrar-estudiante')
                                             <button type="submit" class="btn btn-danger"
-                                                onclick="return confirm('¿Estás seguro de eliminar este estudiante?')">
+                                                onclick="exito()">
                                                 <i class="fas fa-file-excel"></i>
                                                 Eliminar
                                             </button>
+                                            <script>
+                                                function exito(){
+            Swal.fire({
+  title: "Are you sure?",
+  text: "You won't be able to revert this!",
+  icon: "warning",
+  showCancelButton: true,
+  confirmButtonColor: "#3085d6",
+  cancelButtonColor: "#d33",
+  confirmButtonText: "Yes, delete it!"
+}).then((result) => {
+  if (result.isConfirmed) {
+    Swal.fire({
+      title: "Deleted!",
+      text: "Your file has been deleted.",
+      icon: "success"
+    });
+  }
+});
+        }
+                                            </script>
                                             @endcan
                                         </form>
                                     </td>
