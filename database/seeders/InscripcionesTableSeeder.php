@@ -54,6 +54,11 @@ class InscripcionesTableSeeder extends Seeder
 
         foreach ($inscripciones as $inscripcion) {
             DB::table('inscripciones')->insert($inscripcion);
+            
+            // Incrementar el contador de inscripciones totales
+            DB::table('grupos')
+              ->where('id', $inscripcion['grupo_id'])
+              ->increment('inscripciones_totales');
         }
     }
 } 
