@@ -25,4 +25,13 @@ class Inscripcion extends Model
     {
         return $this->belongsTo(Grupo::class, 'grupo_id');
     }
+
+    // Eventos de modelo para actualizar el contador de inscripciones
+    protected static function booted()
+    {
+        static::created(function ($inscripcion) {
+            // Incrementar el contador cuando se crea una inscripción
+            $inscripcion->grupo->increment('inscripciones_totales');
+        });
+    }
 }
