@@ -311,39 +311,16 @@
                                             Editar
                                         </a>
                                         @endcan
-                                        <form action="{{ route('estudiantes.destroy', $estudiante->id) }}" method="POST"
-                                            class="d-inline-block">
+                                        @can('borrar-estudiante')
+                                        <button type="button" class="btn btn-danger" onclick="confirmarEliminacion({{ $estudiante->id }})">
+                                            <i class="fas fa-trash-alt"></i>
+                                            Eliminar
+                                        </button>
+                                        <form id="eliminar-form-{{ $estudiante->id }}" action="{{ route('estudiantes.destroy', $estudiante->id) }}" method="POST" class="d-none">
                                             @csrf
                                             @method('DELETE')
-                                            @can('borrar-estudiante')
-                                            <button type="submit" class="btn btn-danger"
-                                                onclick="exito()">
-                                                <i class="fas fa-file-excel"></i>
-                                                Eliminar
-                                            </button>
-                                            <script>
-                                                function exito(){
-            Swal.fire({
-  title: "Are you sure?",
-  text: "You won't be able to revert this!",
-  icon: "warning",
-  showCancelButton: true,
-  confirmButtonColor: "#3085d6",
-  cancelButtonColor: "#d33",
-  confirmButtonText: "Yes, delete it!"
-}).then((result) => {
-  if (result.isConfirmed) {
-    Swal.fire({
-      title: "Deleted!",
-      text: "Your file has been deleted.",
-      icon: "success"
-    });
-  }
-});
-        }
-                                            </script>
-                                            @endcan
                                         </form>
+                                        @endcan
                                     </td>
                                 </tr>
                                 @endforeach
@@ -413,6 +390,7 @@
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <!-- BOOTSTRAP -->
 <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
     new DataTable('#miTabla2', {
@@ -437,5 +415,20 @@
             dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rt<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
             pageLength: 10
         });
+        function confirmarEliminacion(estudianteId) {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "¡No podrás revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminarlo'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('eliminar-form-' + estudianteId).submit();
+            }
+        });
+    }
 </script>
 @endsection

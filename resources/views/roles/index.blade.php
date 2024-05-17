@@ -307,19 +307,16 @@
                                             </a>
                                             @endcan
 
-                                            <form action="{{ route('roles.destroy', $role->id) }}" method="POST"
-                                                class="d-inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <!-- Método DELETE -->
-                                                @can('eliminar-roles')
-                                                <button type="submit" class="btn btn-danger"
-                                                    onclick="return confirm('¿Estás seguro de eliminar esta materia?')">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                    Eliminar
-                                                </button>
-                                                @endcan
-                                            </form>
+                                            @can('eliminar-roles')
+                                        <button type="button" class="btn btn-danger" onclick="confirmarEliminacion({{ $role->id }})">
+                                            <i class="fas fa-trash-alt"></i>
+                                            Eliminar
+                                        </button>
+                                        <form id="eliminar-form-{{ $role->id }}" action="{{ route('roles.destroy', $role->id) }}" method="POST" class="d-none">
+                                            @csrf
+                                            @method('DELETE')
+                                        </form>
+                                        @endcan
                                         </td>
                                     </tr>
                                     @endforeach
@@ -372,6 +369,8 @@
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <!-- BOOTSTRAP -->
 <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
     new DataTable('#miTabla2', {
         lengthMenu: [
@@ -391,5 +390,20 @@
         dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rt<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
         pageLength: 10
     });
+    function confirmarEliminacion(estudianteId) {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "¡No podrás revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminarlo'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('eliminar-form-' + estudianteId).submit();
+            }
+        });
+    }
 </script>
 @endsection

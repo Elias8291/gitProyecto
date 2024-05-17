@@ -317,18 +317,16 @@
                                             <span>Editar</span> <!-- Texto -->
                                         </a>
                                         @endcan
-                                        <form action="{{ route('grupos.destroy', $grupo->id) }}" method="POST"
-                                            class="d-inline-block">
-                                            @csrf <!-- Token CSRF -->
-                                            @method('DELETE') <!-- Método DELETE -->
-                                            @can('eliminar-grupos')
-                                            <button type="submit" class="btn btn-danger btn-icon-text"
-                                                onclick="return confirm('¿Estás seguro de eliminar este grupo?')">
-                                                <i class="fas fa-trash-alt"></i> <!-- Icono -->
-                                                <span>Eliminar</span> <!-- Texto -->
-                                            </button>
-                                            @endcan
+                                        @can('eliminar-grupos')
+                                        <button type="button" class="btn btn-danger" onclick="confirmarEliminacion({{ $grupo->id }})">
+                                            <i class="fas fa-trash-alt"></i>
+                                            Eliminar
+                                        </button>
+                                        <form id="eliminar-form-{{ $grupo->id }}" action="{{ route('grupos.destroy', $grupo->id) }}" method="POST" class="d-none">
+                                            @csrf
+                                            @method('DELETE')
                                         </form>
+                                        @endcan
                                         @can('ver_excel_grupo')
                                         <a href="{{ route('grupos.generarPDF', $grupo->id) }}" class="btn btn-primary btn-icon-text ml-1">
                                             <i class="fas fa-file-excel"></i> <!-- Icono -->
@@ -411,6 +409,8 @@
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <!-- BOOTSTRAP -->
 <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
     new DataTable('#miTabla2', {
         lengthMenu: [
@@ -437,5 +437,20 @@
         dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rt<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
         pageLength: 10
     });
+    function confirmarEliminacion(estudianteId) {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "¡No podrás revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminarlo'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('eliminar-form-' + estudianteId).submit();
+            }
+        });
+    }
 </script>
 @endsection
