@@ -53,44 +53,6 @@
         transition: background-color 0.3s ease;
     }
 
-    #miTabla2 tbody td .btn-warning {
-        background-color: #ffc107;
-        color: #212529;
-    }
-
-    #miTabla2 tbody td .btn-warning:hover {
-        background-color: #e0a800;
-    }
-
-    #miTabla2 tbody td .btn-danger {
-        background-color: #dc3545;
-        color: #fff;
-    }
-
-    #miTabla2 tbody td .btn-danger:hover {
-        background-color: #c82333;
-    }
-
-    #miTabla2 tbody td .btn-activo {
-        background-color: #28a745;
-        /* Verde para activo */
-        color: #fff;
-    }
-
-    #miTabla2 tbody td .btn-activo:hover {
-        background-color: #218838;
-    }
-
-    #miTabla2 tbody td .btn-inactivo {
-        background-color: #dc3545;
-        /* Rojo para inactivo */
-        color: #fff;
-    }
-
-    #miTabla2 tbody td .btn-inactivo:hover {
-        background-color: #c82333;
-    }
-
     .dataTables_filter {
         position: relative;
     }
@@ -188,13 +150,50 @@
     .dataTables_length select:focus+::after {
         border-top-color: #333;
     }
-    .btn-custom {
-  /* Estilos para los botones "Editar" y "Eliminar" */
-  padding: 8px 12px;
-  font-size: 14px;
-  border-radius: 4px;
-  transition: background-color 0.3s;
-}
+
+    .action-buttons {
+        display: flex;
+        gap: 10px;
+    }
+
+    .action-buttons button, .action-buttons a {
+        background-color: transparent;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        font-size: 16px;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.3s ease;
+    }
+
+    .action-buttons button:hover, .action-buttons a:hover {
+        background-color: #d0d0d0;
+    }
+
+    .action-buttons .icon {
+        margin-right: 5px;
+    }
+
+    .edit-btn {
+        background-color: transparent;
+        border: none;
+        color: black;
+        padding: 5px 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        margin: 2px 1px;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+
+    .edit-btn:hover {
+        background-color: #ddd;
+    }
 
     @media (max-width: 992px) {
         #miTabla2 {
@@ -283,6 +282,12 @@
         }
     }
 
+    .delete-btn[disabled] {
+        background-color: #f0f0f0;
+        color: #aaa;
+        border: 1px solid #ccc;
+    }
+
     @media (min-width: 993px) {
         .mobile-table {
             display: none;
@@ -292,7 +297,10 @@
 @section('content')
 <section class="section">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <div class="section-header">
         <h3 class="page__heading">Grupos</h3>
     </div>
@@ -322,7 +330,7 @@
                                     <th style="color:#fff;" class="text-center">Alumnos inscritos</th>
                                     <th style="color:#fff;" class="text-center">Estado</th>
                                     <th style="color:#fff;" class="text-center">Acciones</th>
-                                    <th style="color:#fff;" class="text-center">Lista Excel</th>
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -338,45 +346,49 @@
                                     <td class="text-center">{{ $grupo->inscripcionesCount }}</td>
                                     <td class="text-center">
                                         @if($grupo->activo)
-                                        <button class="btn btn-estado btn-activo">
+                                        <button class="btn btn-estado btn-activo" style="color: #06b423">
                                             <i class="fas fa-check"></i> Activo
                                         </button>
                                         @else
-                                        <button class="btn btn-estado btn-inactivo">
+                                        <button class="btn btn-estado btn-inactivo" style="color: #f5270c">
                                             <i class="fas fa-times"></i> Inactivo
                                         </button>
                                         @endif
                                     </td>
-                                    <td class="text-center">
-                                        <div class="acciones-container d-flex justify-content-center">
-                                          @can('editar-grupos')
-                                            <a href="{{ route('grupos.edit', $grupo->id) }}" class="btn btn-warning btn-icon-text btn-custom">
-                                              <i class="fas fa-edit"></i> <span>Editar</span>
+                                    <td>
+                                        <div class="action-buttons">
+                                            @can('editar-grupos')
+                                            <a href="{{ route('grupos.edit', $grupo->id) }}" class="edit-btn"
+                                                style="text-decoration: none;">
+                                                <span class="icon">✏️</span> Editar
                                             </a>
-                                          @endcan
-                                          @if ($grupo->inscripcionesCount == 0)
-                                          @can('eliminar-grupos')
-                                        <button type="button" class="btn btn-danger" onclick="confirmarEliminacion({{ $grupo->id }})">
-                                            <i class="fas fa-trash-alt"></i>
-                                            Eliminar
-                                        </button>
-                                        <form id="eliminar-form-{{ $grupo->id }}" action="{{ route('grupos.destroy', $grupo->id) }}" method="POST" class="d-none">
-                                            @csrf
-                                            @method('DELETE')
-                                        </form>
+                                            @endcan
+
+                                            @can('ver_excel_grupo')
+                                            <button class="btn btn-primary" onclick="window.location.href='{{ route('grupos.generarPDF', $grupo->id) }}'" title="Generar PDF">
+                                                <i class="fas fa-file-excel" style="color: #06b423"></i> Excel
+                                            </button>
                                         @endcan
-                                          @endif
+                                            @if ($grupo->inscripcionesCount == 0)
+                                            <form action="{{ route('grupos.destroy', $grupo->id) }}" method="POST"
+                                                class="d-inline-block">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="delete-btn btn btn-danger btn-mobile"
+                                                    onclick="return confirm('¿Estás seguro de eliminar este grupo?')" style="background: transparent">
+                                                    <i class="fas fa-trash-alt"></i> Eliminar
+                                                </button>
+                                            </form>
+                                            @else
+                                            @can('eliminar-grupos')
+                                            <button class="delete-btn" disabled style="cursor: not-allowed;">
+                                                <span class="icon"><i class="fas fa-trash-alt "></i></span> Eliminar
+                                            </button>
+                                            @endcan
+                                            @endif
                                         </div>
-                                      </td>
-                                    <td class="text-center">
-                                        @can('ver_excel_grupo')
-                                        <a href="{{ route('grupos.generarPDF', $grupo->id) }}" class="btn btn-primary"
-                                            title="Generar PDF">
-                                            <i class="fas fa-file-excel"></i>
-                                            Excel
-                                        </a>
-                                        @endcan
                                     </td>
+
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -470,8 +482,7 @@
             { data: 'hora_fn', title: 'Horario fin' },
             { data: 'inscripcionesCount', title: 'Alumnos inscritos' },
             { data: 'activo', title: 'Estado' },
-            { data: 'Acciones', title: 'Acciones', orderable: false },
-            { data: ' Lista Excel', title: ' Lista Excel' },
+            { data: 'acciones', title: 'Acciones' },
         ],
         language: {
             url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',
