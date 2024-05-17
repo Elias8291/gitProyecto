@@ -478,6 +478,7 @@
             searchPlaceholder: "Buscar...",
             lengthMenu: "Mostrar registros _MENU_ "
         },
+        dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rt<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
         pageLength: 10
     });
 

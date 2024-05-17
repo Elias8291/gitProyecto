@@ -11,7 +11,6 @@ use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
 use Box\Spout\Writer\Common\Creator\Style\BorderBuilder;
 use Box\Spout\Common\Entity\Style\Border;
 use Box\Spout\Common\Entity\Style\Color;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
@@ -42,7 +41,7 @@ class GrupoController extends Controller
                 'rango_alumnos.max_alumnos',
                 'horarios.hora_in',
                 'horarios.hora_fn',
-                'grupos.activo',
+                'grupos.activo', // Asegúrate de seleccionar la propiedad 'activo'
                 DB::raw('COUNT(inscripciones.id) AS inscripcionesCount')
             )
             ->leftJoin('inscripciones', 'grupos.id', '=', 'inscripciones.grupo_id')
@@ -55,7 +54,7 @@ class GrupoController extends Controller
                 'rango_alumnos.max_alumnos',
                 'horarios.hora_in',
                 'horarios.hora_fn',
-                'grupos.activo'
+                'grupos.activo' // Asegúrate de agrupar por 'activo'
             )
             ->get();
 
@@ -100,6 +99,7 @@ class GrupoController extends Controller
 
         return view('grupos.editar', compact('grupo', 'rangoAlumnos', 'horarios', 'materias'));
     }
+
     public function update(Request $request, $id)
     {
         $grupo = Grupo::findOrFail($id);
@@ -125,7 +125,6 @@ class GrupoController extends Controller
         return redirect()->route('grupos.index')->with('success', 'Grupo actualizado correctamente.');
     }
 
-
     public function destroy($id)
     {
         try {
@@ -137,11 +136,11 @@ class GrupoController extends Controller
             return redirect()->route('grupos.index')->with('error', 'An error occurred while deleting the group.');
         }
     }
+
     public function materia()
     {
         return $this->belongsTo(Materia::class, 'materia_clave', 'clave');
     }
-
 
     public function generarPDF($id)
     {
