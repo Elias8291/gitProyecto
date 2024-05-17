@@ -391,24 +391,26 @@
         pageLength: 10
     });
     function confirmarEliminacion(roleId) {
-        Swal.fire({
-            title: '¿Estás seguro?',
-            text: "¡No podrás revertir esto!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Sí, eliminarlo'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                document.getElementById('eliminar-form-' + roleId).submit();
-                Swal.fire(
-                    'Eliminado!',
-                    'El rol ha sido eliminado correctamente.',
-                    'success'
-                )
-            }
-        });
-    }
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: "¡No podrás revertir esto!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminarlo'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById('eliminar-form-' + roleId).submit();
+            Swal.fire({
+                title: 'Eliminado!',
+                text: 'El rol ha sido eliminado correctamente.',
+                icon: 'success',
+                timer: 4000, // Duración en milisegundos
+                showConfirmButton: false
+            });
+        }
+    });
+}
 </script>
 @endsection

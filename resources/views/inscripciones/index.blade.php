@@ -402,24 +402,26 @@
         pageLength: 10
         });
         function confirmarEliminacion(inscripcionId) {
-        Swal.fire({
-            title: '¿Estás seguro?',
-            text: "¡No podrás revertir esto!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Sí, eliminarlo'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                document.getElementById('eliminar-form-' + inscripcionId).submit();
-                Swal.fire(
-                    'Eliminado!',
-                    'La inscripcion ha sido eliminada correctamente.',
-                    'success'
-                )
-            }
-        });
-    }
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: "¡No podrás revertir esto!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminarlo'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById('eliminar-form-' + inscripcionId).submit();
+            Swal.fire({
+                title: 'Eliminado!',
+                text: 'La inscripcion ha sido eliminada correctamente.',
+                icon: 'success',
+                timer: 4000, // Duración en milisegundos
+                showConfirmButton: false
+            });
+        }
+    });
+}
     </script>
 @endsection
