@@ -28,8 +28,8 @@
                                 <div class="form-group">
                                     <div class="floating-label">
                                     <label for="name">Nombre</label>
-                                        {!! Form::text('name', null, array('class' => 'form-control')) !!}
-                                  
+                                        {!! Form::text('name', null, array('class' => 'form-control', 'pattern' => '[A-Za-z\s]+', 'title' => 'El nombre debe contener solo letras y espacios', 'required')) !!}
+                                        <small class="form-text text-muted">El nombre debe contener solo letras y espacios.</small>
                                     </div>
                                 </div>
                             </div>
@@ -37,8 +37,7 @@
                                 <div class="form-group">
                                     <div class="floating-label">
                                     <label for="email">E-mail</label>
-                                        {!! Form::text('email', null, array('class' => 'form-control')) !!}
-                                     
+                                        {!! Form::email('email', null, array('class' => 'form-control', 'required')) !!}
                                     </div>
                                 </div>
                             </div>
@@ -46,8 +45,7 @@
                                 <div class="form-group">
                                     <div class="floating-label">
                                     <label for="password">Password</label>
-                                        {!! Form::password('password', array('class' => 'form-control')) !!}
-                                       
+                                        {!! Form::password('password', array('class' => 'form-control', 'pattern' => '\S*', 'title' => 'El password no debe contener espacios')) !!}
                                     </div>
                                 </div>
                             </div>
@@ -55,17 +53,15 @@
                                 <div class="form-group">
                                     <div class="floating-label">
                                     <label for="confirm-password">Confirmar Password</label>
-                                        {!! Form::password('confirm-password', array('class' => 'form-control')) !!}
-                                       
+                                        {!! Form::password('confirm-password', array('class' => 'form-control', 'pattern' => '\S*', 'title' => 'El password no debe contener espacios')) !!}
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-12">
                                 <div class="form-group">
                                     <div class="floating-label">
-                                    <label for="">Roles</label>
-                                        {!! Form::select('roles[]', $roles, $userRole, array('class' => 'form-control')) !!}
-                                       
+                                    <label for="roles">Roles</label>
+                                        {!! Form::select('roles[]', $roles, $userRole, array('class' => 'form-control', 'required')) !!}
                                     </div>
                                 </div>
                             </div>
@@ -84,13 +80,29 @@
 
 @section('scripts')
 <script>
-    // Agrega la clase 'active' cuando un campo de entrada o selección está enfocado
-    $('input, select').focus(function() {
+     function validateName(input) {
+        var regex = /^[a-zA-Z\s]*$/;
+        if (!regex.test(input.value)) {
+            input.setCustomValidity('El nombre solo debe contener letras y espacios.');
+        } else {
+            input.setCustomValidity('');
+        }
+    }
+
+    // Agrega la clase 'active' cuando un campo de entrada está enfocado
+    $('input').focus(function() {
         $(this).parent().addClass('active');
     }).blur(function() {
         if ($(this).val() === '') {
             $(this).parent().removeClass('active');
         }
+    });
+
+    // Evita que se ingresen letras o números en tiempo real
+    $('input').on('input', function(event) {
+        var regex = /[^a-zA-Z\s]/g;
+        var newValue = $(this).val().replace(regex, '');
+        $(this).val(newValue);
     });
 </script>
 @endsection
@@ -118,6 +130,12 @@
         top: -20px;
         font-size: 12px;
         color: #333;
+    }
+
+    .form-text.text-muted {
+        margin-top: 5px;
+        font-size: 12px;
+        color: #6c757d;
     }
 
     .btn-submit {

@@ -29,7 +29,7 @@
                                     <div class="form-group">
                                         <div class="floating-label">
                                             <label for="numeroDeControl">Número de Control</label>
-                                            <input type="text" name="numeroDeControl" class="form-control" id="numeroDeControl" maxlength="8" pattern="[0-9]*" title="El número de control debe tener 8 dígitos numéricos" required>
+                                            <input type="text" name="numeroDeControl" class="form-control" id="numeroDeControl" maxlength="8" pattern="[0-9]{8}" title="El número de control debe tener 8 dígitos numéricos" required>
                                         </div>
                                     </div>
                                 </div>
@@ -61,7 +61,12 @@
                                     <div class="form-group">
                                         <div class="floating-label">
                                             <label for="semestre">Semestre</label>
-                                            <input type="number" name="semestre" class="form-control" id="semestre" min="1">
+                                            <select name="semestre" class="form-control" id="semestre" required>
+                                                <option value="" disabled selected>Seleccione el semestre</option>
+                                                @for ($i = 1; $i <= 10; $i++)
+                                                    <option value="{{ $i }}">{{ $i }}</option>
+                                                @endfor
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -88,6 +93,29 @@
             $(this).parent().removeClass('active');
         }
     });
+
+    // Validación en tiempo real para "Número de Control"
+    $('#numeroDeControl').on('input', function(event) {
+        var regex = /[^0-9]/g;
+        var newValue = $(this).val().replace(regex, '');
+        if (newValue.length > 8) {
+            newValue = newValue.substring(0, 8);
+        }
+        $(this).val(newValue);
+    });
+
+    // Validación en tiempo real para los campos de nombre y apellidos
+    $('#nombre').on('input', function(event) {
+        var regex = /[^a-zA-Z\s]/g;
+        var newValue = $(this).val().replace(regex, '');
+        $(this).val(newValue);
+    });
+
+    $('#apellidoPaterno, #apellidoMaterno').on('input', function(event) {
+        var regex = /[^a-zA-Z]/g; // Elimina también los espacios para apellidos
+        var newValue = $(this).val().replace(regex, '');
+        $(this).val(newValue);
+    });
 </script>
 @endsection
 
@@ -109,6 +137,13 @@
 
     .floating-label input:focus ~ label,
     .floating-label input:not(:placeholder-shown) ~ label {
+        top: -20px;
+        font-size: 12px;
+        color: #333;
+    }
+
+    .floating-label select:focus ~ label,
+    .floating-label select:not(:placeholder-shown) ~ label {
         top: -20px;
         font-size: 12px;
         color: #333;

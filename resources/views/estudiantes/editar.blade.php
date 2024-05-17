@@ -89,6 +89,29 @@
             $(this).parent().removeClass('active');
         }
     });
+
+    // Validación en tiempo real para "Número de Control"
+    $('#numeroDeControl').on('input', function(event) {
+        var regex = /[^0-9]/g;
+        var newValue = $(this).val().replace(regex, '');
+        if (newValue.length > 8) {
+            newValue = newValue.substring(0, 8);
+        }
+        $(this).val(newValue);
+    });
+
+    // Validación en tiempo real para los campos de nombre y apellidos
+    $('#nombre').on('input', function(event) {
+        var regex = /[^a-zA-Z\s]/g;
+        var newValue = $(this).val().replace(regex, '');
+        $(this).val(newValue);
+    });
+
+    $('#apellidoPaterno, #apellidoMaterno').on('input', function(event) {
+        var regex = /[^a-zA-Z]/g; // Elimina también los espacios para apellidos
+        var newValue = $(this).val().replace(regex, '');
+        $(this).val(newValue);
+    });
 </script>
 @endsection
 

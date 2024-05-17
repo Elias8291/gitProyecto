@@ -119,6 +119,24 @@
             $(this).parent().removeClass('active');
         }
     });
+
+    // Validación en tiempo real para el campo "Clave"
+    $('#clave').on('input', function(event) {
+        var regex = /[^A-Za-z0-9]/g;
+        var newValue = $(this).val().replace(regex, '');
+        // Limita a una letra y tres números
+        if (!/^[A-Za-z]$|^[A-Za-z][0-9]{0,3}$/.test(newValue)) {
+            newValue = newValue.substring(0, 1) + newValue.substring(1).replace(/[^0-9]/g, '').substring(0, 3);
+        }
+        $(this).val(newValue);
+    });
+
+    // Validación en tiempo real para el campo "Nombre"
+    $('#nombre').on('input', function(event) {
+        var regex = /[^a-zA-Z\s]/g;
+        var newValue = $(this).val().replace(regex, '');
+        $(this).val(newValue);
+    });
 </script>
 @endsection
 

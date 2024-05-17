@@ -29,7 +29,8 @@
                                     <div class="form-group">
                                         <div class="floating-label">
                                             <label for="clave">Clave</label>
-                                            <input type="text" name="clave" class="form-control" id="clave">
+                                            <input type="text" name="clave" class="form-control" id="clave" pattern="[A-Za-z][0-9]{3}" title="La clave debe comenzar con una letra seguida de tres números (por ejemplo, G101)" required>
+                                            <small class="form-text text-muted">Inserta una letra y tres números. Ejemplo: F201</small>
                                         </div>
                                     </div>
                                 </div>
@@ -95,8 +96,6 @@
                                 <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                                     <button type="submit" class="btn btn-primary btn-block btn-submit">Guardar</button>
                                 </div>
-                            
-                                
                             </div>
                         </form>
                     </div>
@@ -116,6 +115,24 @@
         if ($(this).val() === '') {
             $(this).parent().removeClass('active');
         }
+    });
+
+    // Validación en tiempo real para el campo "Clave"
+    $('#clave').on('input', function(event) {
+        var regex = /[^A-Za-z0-9]/g;
+        var newValue = $(this).val().replace(regex, '');
+        // Limita a una letra y tres números
+        if (!/^[A-Za-z]$|^[A-Za-z][0-9]{0,3}$/.test(newValue)) {
+            newValue = newValue.substring(0, 1) + newValue.substring(1).replace(/[^0-9]/g, '').substring(0, 3);
+        }
+        $(this).val(newValue);
+    });
+
+    // Validación en tiempo real para el campo "Nombre"
+    $('#nombre').on('input', function(event) {
+        var regex = /[^a-zA-Z\s]/g;
+        var newValue = $(this).val().replace(regex, '');
+        $(this).val(newValue);
     });
 </script>
 @endsection
@@ -143,6 +160,12 @@
         top: -20px;
         font-size: 12px;
         color: #333;
+    }
+
+    .form-text.text-muted {
+        margin-top: 5px;
+        font-size: 12px;
+        color: #6c757d;
     }
 
     .btn-submit {

@@ -11,7 +11,6 @@
 
     #miTabla2 thead {
         background-color: #8c52ff;
-        /* Nuevo color combinado con #6a11cb */
         color: #fff;
     }
 
@@ -72,7 +71,26 @@
         background-color: #c82333;
     }
 
-    /* Estilos para el campo de búsqueda */
+    #miTabla2 tbody td .btn-activo {
+        background-color: #28a745;
+        /* Verde para activo */
+        color: #fff;
+    }
+
+    #miTabla2 tbody td .btn-activo:hover {
+        background-color: #218838;
+    }
+
+    #miTabla2 tbody td .btn-inactivo {
+        background-color: #dc3545;
+        /* Rojo para inactivo */
+        color: #fff;
+    }
+
+    #miTabla2 tbody td .btn-inactivo:hover {
+        background-color: #c82333;
+    }
+
     .dataTables_filter {
         position: relative;
     }
@@ -111,7 +129,6 @@
         color: #333;
     }
 
-    /* Estilos para el menú de selección de registros */
     .dataTables_length {
         position: relative;
         display: inline-block;
@@ -171,6 +188,13 @@
     .dataTables_length select:focus+::after {
         border-top-color: #333;
     }
+    .btn-custom {
+  /* Estilos para los botones "Editar" y "Eliminar" */
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
 
     @media (max-width: 992px) {
         #miTabla2 {
@@ -181,7 +205,6 @@
             display: block;
         }
 
-        /* Estilos para las tarjetas en modo móvil */
         .mobile-card {
             background: #fff;
             border: none;
@@ -205,7 +228,6 @@
             color: #666;
         }
 
-        /* Estilos para los botones de acción en modo móvil */
         .action-buttons {
             display: flex;
             justify-content: space-between;
@@ -231,7 +253,6 @@
             opacity: 0.8;
         }
 
-        /* Colores de los botones */
         .btn-warning.btn-mobile {
             background-color: #ffc107;
             color: #212529;
@@ -262,67 +283,6 @@
         }
     }
 
-    /* Estilos para los botones de estado */
-    .btn-estado {
-        padding: 10px 20px;
-        font-size: 14px;
-        border-radius: 25px;
-        /* Bordes más redondeados */
-        border: none;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        font-weight: bold;
-        letter-spacing: 0.5px;
-        cursor: pointer;
-        text-transform: uppercase;
-        color: #fff;
-        /* Texto blanco para todos los botones */
-        outline: none;
-        /* Elimina el borde que aparece al hacer clic */
-        position: relative;
-        overflow: hidden;
-        z-index: 1;
-    }
-
-    .btn-estado::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: rgba(255, 255, 255, 0.2);
-        transition: left 0.3s ease;
-        border-radius: 25px;
-        z-index: -1;
-    }
-
-    .btn-estado:hover::before {
-        left: 0;
-    }
-
-    .btn-activo {
-        background-image: linear-gradient(135deg, #b2dfdb, #e0f2f1);
-        /* Verde claro con gradiente */
-    }
-
-    .btn-activo:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 20px rgba(178, 223, 219, 0.4);
-        /* Sombra suave para el verde */
-    }
-
-    .btn-inactivo {
-        background-image: linear-gradient(135deg, #ffccbc, #ffe0e0);
-        /* Rojo claro con gradiente */
-    }
-
-    .btn-inactivo:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 20px rgba(255, 204, 188, 0.4);
-        /* Sombra suave para el rojo */
-    }
-
-
     @media (min-width: 993px) {
         .mobile-table {
             display: none;
@@ -344,8 +304,8 @@
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             @can('crear-grupos')
                             <a class="btn btn-warning btn-icon-text" href="{{ route('grupos.create') }}">
-                                <i class="fas fa-plus"></i> <!-- Icono -->
-                                <span>Nuevo Alumno</span> <!-- Texto -->
+                                <i class="fas fa-plus"></i>
+                                <span>Nuevo Grupo</span>
                             </a>
                             @endcan
                         </div>
@@ -362,6 +322,7 @@
                                     <th style="color:#fff;" class="text-center">Alumnos inscritos</th>
                                     <th style="color:#fff;" class="text-center">Estado</th>
                                     <th style="color:#fff;" class="text-center">Acciones</th>
+                                    <th style="color:#fff;" class="text-center">Lista Excel</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -387,33 +348,31 @@
                                         @endif
                                     </td>
                                     <td class="text-center">
-                                        @can('editar-grupos')
-                                        <a href="{{ route('grupos.edit', $grupo->id) }}"
-                                            class="btn btn-warning btn-icon-text mr-1">
-                                            <i class="fas fa-edit"></i> <!-- Icono -->
-                                            <span>Editar</span> <!-- Texto -->
-                                        </a>
-                                        @endcan
-                                        @if ($grupo->inscripcionesCount == 0)
-                                        @can('eliminar-grupos')
-                                        <button type="button" class="btn btn-danger"
-                                            onclick="confirmarEliminacion({{ $grupo->id }})">
-                                            <i class="fas fa-trash-alt"></i>
-                                            Eliminar
-                                        </button>
-                                        <form id="eliminar-form-{{ $grupo->id }}"
-                                            action="{{ route('grupos.destroy', $grupo->id) }}" method="POST"
-                                            class="d-none">
-                                            @csrf
-                                            @method('DELETE')
-                                        </form>
-                                        @endcan
-                                        @endif
+                                        <div class="acciones-container d-flex justify-content-center">
+                                          @can('editar-grupos')
+                                            <a href="{{ route('grupos.edit', $grupo->id) }}" class="btn btn-warning btn-icon-text btn-custom">
+                                              <i class="fas fa-edit"></i> <span>Editar</span>
+                                            </a>
+                                          @endcan
+                                          @if ($grupo->inscripcionesCount == 0)
+                                            @can('eliminar-grupos')
+                                              <form action="{{ route('grupos.destroy', $grupo->id) }}" method="POST" class="d-inline-block">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-icon-text btn-custom" onclick="return confirm('¿Estás seguro de eliminar este grupo?')">
+                                                  <i class="fas fa-trash-alt"></i> <span>Eliminar</span>
+                                                </button>
+                                              </form>
+                                            @endcan
+                                          @endif
+                                        </div>
+                                      </td>
+                                    <td class="text-center">
                                         @can('ver_excel_grupo')
-                                        <a href="{{ route('grupos.generarPDF', $grupo->id) }}"
-                                            class="btn btn-primary btn-icon-text ml-1">
-                                            <i class="fas fa-file-excel"></i> <!-- Icono -->
-                                            <span>Generar Lista Alumnos</span> <!-- Texto -->
+                                        <a href="{{ route('grupos.generarPDF', $grupo->id) }}" class="btn btn-primary"
+                                            title="Generar PDF">
+                                            <i class="fas fa-file-excel"></i>
+                                            Excel
                                         </a>
                                         @endcan
                                     </td>
@@ -421,7 +380,6 @@
                                 @endforeach
                             </tbody>
                         </table>
-
                         @foreach ($grupos as $grupo)
                         <div class="mobile-card d-lg-none">
                             <div class="row">
@@ -491,9 +449,7 @@
 </section>
 
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-<!-- DATATABLES -->
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<!-- BOOTSTRAP -->
 <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -514,8 +470,7 @@
             { data: 'inscripcionesCount', title: 'Alumnos inscritos' },
             { data: 'activo', title: 'Estado' },
             { data: 'Acciones', title: 'Acciones', orderable: false }
-
-            
+            { data: ' Lista Excel', title: ' Lista Excel' },
         ],
         language: {
             url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',
@@ -523,9 +478,9 @@
             searchPlaceholder: "Buscar...",
             lengthMenu: "Mostrar registros _MENU_ "
         },
-        dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rt<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
         pageLength: 10
     });
+
     function confirmarEliminacion(estudianteId) {
         Swal.fire({
             title: '¿Estás seguro?',

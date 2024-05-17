@@ -37,9 +37,15 @@
                             <div class="form-group">
                                 <div class="floating-label">
                                     <label for="creditos">Créditos</label>
-                                    <input type="number" name="creditos" class="form-control" id="creditos" value="{{ old('creditos') }} " min="1">
+                                    <select name="creditos" class="form-control" id="creditos">
+                                        <option value="" disabled selected>Seleccione los créditos</option>
+                                        @for ($i = 1; $i <= 10; $i++)
+                                            <option value="{{ $i }}" {{ old('creditos') == $i ? 'selected' : '' }}>{{ $i }}</option>
+                                        @endfor
+                                    </select>
                                 </div>
                             </div>
+                            
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary btn-block btn-submit">Crear Materia</button>
                             </div>

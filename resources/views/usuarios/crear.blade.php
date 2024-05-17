@@ -28,11 +28,10 @@
                                 <div class="form-group">
                                     <div class="floating-label">
                                         <label for="name">Nombre</label>
-                                        {!! Form::text('name', null, array('class' => 'form-control', 'placeholder' => 'Nombre')) !!}
-                                      
+                                        {!! Form::text('name', null, array('class' => 'form-control', 'placeholder' => 'Nombre', 'oninput' => 'validateName(this)')) !!}
                                     </div>
                                 </div>
-                            </div>
+                            </div>                            
                             <div class="col-xs-12 col-sm-12 col-md-12">
                                 <div class="form-group">
                                     <div class="floating-label">
@@ -81,6 +80,15 @@
 
 @section('scripts')
 <script>
+    function validateName(input) {
+        var regex = /^[a-zA-Z\s]*$/;
+        if (!regex.test(input.value)) {
+            input.setCustomValidity('El nombre solo debe contener letras y espacios.');
+        } else {
+            input.setCustomValidity('');
+        }
+    }
+
     // Agrega la clase 'active' cuando un campo de entrada está enfocado
     $('input').focus(function() {
         $(this).parent().addClass('active');
@@ -89,8 +97,16 @@
             $(this).parent().removeClass('active');
         }
     });
+
+    // Evita que se ingresen letras o números en tiempo real
+    $('input').on('input', function(event) {
+        var regex = /[^a-zA-Z\s]/g;
+        var newValue = $(this).val().replace(regex, '');
+        $(this).val(newValue);
+    });
 </script>
 @endsection
+
 
 @section('styles')
 <style>
