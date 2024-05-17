@@ -1,75 +1,76 @@
 @extends('layouts.app')
 <style>
-   #miTabla2 {
-    font-family: 'Open Sans', sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-}
+    #miTabla2 {
+        font-family: 'Open Sans', sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
 
-#miTabla2 thead {
-    background-color: #8c52ff; /* Nuevo color combinado con #6a11cb */
-    color: #fff;
-}
+    #miTabla2 thead {
+        background-color: #8c52ff;
+        /* Nuevo color combinado con #6a11cb */
+        color: #fff;
+    }
 
-#miTabla2 thead th {
-    padding: 15px;
-    text-align: left;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
+    #miTabla2 thead th {
+        padding: 15px;
+        text-align: left;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
 
-#miTabla2 tbody tr {
-    border-bottom: 1px solid #ddd;
-    transition: background-color 0.3s ease;
-}
+    #miTabla2 tbody tr {
+        border-bottom: 1px solid #ddd;
+        transition: background-color 0.3s ease;
+    }
 
-#miTabla2 tbody tr:hover {
-    background-color: #f5f5f5;
-}
+    #miTabla2 tbody tr:hover {
+        background-color: #f5f5f5;
+    }
 
-#miTabla2 tbody td {
-    padding: 12px 15px;
-}
+    #miTabla2 tbody td {
+        padding: 12px 15px;
+    }
 
-#miTabla2 tbody td .custom-badge {
-    background-color: #6a11cb;
-    color: #fff;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
+    #miTabla2 tbody td .custom-badge {
+        background-color: #6a11cb;
+        color: #fff;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
 
-#miTabla2 tbody td .btn {
-    padding: 6px 12px;
-    font-size: 14px;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-}
+    #miTabla2 tbody td .btn {
+        padding: 6px 12px;
+        font-size: 14px;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+    }
 
-#miTabla2 tbody td .btn-warning {
-    background-color: #ffc107;
-    color: #212529;
-}
+    #miTabla2 tbody td .btn-warning {
+        background-color: #ffc107;
+        color: #212529;
+    }
 
-#miTabla2 tbody td .btn-warning:hover {
-    background-color: #e0a800;
-}
+    #miTabla2 tbody td .btn-warning:hover {
+        background-color: #e0a800;
+    }
 
-#miTabla2 tbody td .btn-danger {
-    background-color: #dc3545;
-    color: #fff;
-}
+    #miTabla2 tbody td .btn-danger {
+        background-color: #dc3545;
+        color: #fff;
+    }
 
-#miTabla2 tbody td .btn-danger:hover {
-    background-color: #c82333;
-}
+    #miTabla2 tbody td .btn-danger:hover {
+        background-color: #c82333;
+    }
 
     /* Estilos para el campo de búsqueda */
     .dataTables_filter {
@@ -172,94 +173,155 @@
     }
 
     @media (max-width: 992px) {
-    #miTabla2 {
-        display: none;
+        #miTabla2 {
+            display: none;
+        }
+
+        .mobile-table {
+            display: block;
+        }
+
+        /* Estilos para las tarjetas en modo móvil */
+        .mobile-card {
+            background: #fff;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 16px;
+            padding: 16px;
+        }
+
+        .mobile-card .row {
+            margin-bottom: 8px;
+        }
+
+        .mobile-card label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .mobile-card .data {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Estilos para los botones de acción en modo móvil */
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+        }
+
+        .btn-mobile {
+            flex: 0 1 48%;
+            margin: 0;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .btn-mobile i {
+            font-size: 16px;
+            margin-right: 5px;
+        }
+
+        .btn-mobile:hover {
+            opacity: 0.8;
+        }
+
+        /* Colores de los botones */
+        .btn-warning.btn-mobile {
+            background-color: #ffc107;
+            color: #212529;
+        }
+
+        .btn-danger.btn-mobile {
+            background-color: #dc3545;
+            color: #fff;
+        }
+
+        .btn-mobile-action {
+            flex: 0 1 48%;
+            margin: 0;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .btn-mobile-action i {
+            font-size: 16px;
+            margin-right: 5px;
+        }
+
+        .btn-mobile-action:hover {
+            opacity: 0.8;
+        }
     }
 
-    .mobile-table {
-        display: block;
-    }
-
-    /* Estilos para las tarjetas en modo móvil */
-    .mobile-card {
-        background: #fff;
+    /* Estilos para los botones de estado */
+    .btn-estado {
+        padding: 10px 20px;
+        font-size: 14px;
+        border-radius: 25px;
+        /* Bordes más redondeados */
         border: none;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        margin-bottom: 16px;
-        padding: 16px;
-    }
-
-    .mobile-card .row {
-        margin-bottom: 8px;
-    }
-
-    .mobile-card label {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
         font-weight: bold;
-        color: #333;
-    }
-
-    .mobile-card .data {
-        font-size: 14px;
-        color: #666;
-    }
-
-    /* Estilos para los botones de acción en modo móvil */
-    .action-buttons {
-        display: flex;
-        justify-content: space-between;
-        padding: 12px 0;
-    }
-
-    .btn-mobile {
-        flex: 0 1 48%;
-        margin: 0;
-        padding: 10px;
-        border-radius: 4px;
-        font-size: 14px;
-        text-align: center;
-        transition: all 0.3s ease;
-    }
-
-    .btn-mobile i {
-        font-size: 16px;
-        margin-right: 5px;
-    }
-
-    .btn-mobile:hover {
-        opacity: 0.8;
-    }
-
-    /* Colores de los botones */
-    .btn-warning.btn-mobile {
-        background-color: #ffc107;
-        color: #212529;
-    }
-
-    .btn-danger.btn-mobile {
-        background-color: #dc3545;
+        letter-spacing: 0.5px;
+        cursor: pointer;
+        text-transform: uppercase;
         color: #fff;
+        /* Texto blanco para todos los botones */
+        outline: none;
+        /* Elimina el borde que aparece al hacer clic */
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
     }
 
-    .btn-mobile-action {
-        flex: 0 1 48%;
-        margin: 0;
-        padding: 10px;
-        border-radius: 4px;
-        font-size: 14px;
-        text-align: center;
-        transition: all 0.3s ease;
+    .btn-estado::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.2);
+        transition: left 0.3s ease;
+        border-radius: 25px;
+        z-index: -1;
     }
 
-    .btn-mobile-action i {
-        font-size: 16px;
-        margin-right: 5px;
+    .btn-estado:hover::before {
+        left: 0;
     }
 
-    .btn-mobile-action:hover {
-        opacity: 0.8;
+    .btn-activo {
+        background-image: linear-gradient(135deg, #b2dfdb, #e0f2f1);
+        /* Verde claro con gradiente */
     }
-}
+
+    .btn-activo:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(178, 223, 219, 0.4);
+        /* Sombra suave para el verde */
+    }
+
+    .btn-inactivo {
+        background-image: linear-gradient(135deg, #ffccbc, #ffe0e0);
+        /* Rojo claro con gradiente */
+    }
+
+    .btn-inactivo:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(255, 204, 188, 0.4);
+        /* Sombra suave para el rojo */
+    }
+
 
     @media (min-width: 993px) {
         .mobile-table {
@@ -269,6 +331,8 @@
 </style>
 @section('content')
 <section class="section">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <div class="section-header">
         <h3 class="page__heading">Grupos</h3>
     </div>
@@ -296,6 +360,7 @@
                                     <th style="color:#fff;" class="text-center">Horario inicio</th>
                                     <th style="color:#fff;" class="text-center">Horario fin</th>
                                     <th style="color:#fff;" class="text-center">Alumnos inscritos</th>
+                                    <th style="color:#fff;" class="text-center">Estado</th>
                                     <th style="color:#fff;" class="text-center">Acciones</th>
                                 </tr>
                             </thead>
@@ -311,24 +376,42 @@
                                     <td class="text-center">{{ $grupo->hora_fn }}</td>
                                     <td class="text-center">{{ $grupo->inscripcionesCount }}</td>
                                     <td class="text-center">
+                                        @if($grupo->activo)
+                                        <button class="btn btn-estado btn-activo">
+                                            <i class="fas fa-check"></i> Activo
+                                        </button>
+                                        @else
+                                        <button class="btn btn-estado btn-inactivo">
+                                            <i class="fas fa-times"></i> Inactivo
+                                        </button>
+                                        @endif
+                                    </td>
+                                    <td class="text-center">
                                         @can('editar-grupos')
-                                        <a href="{{ route('grupos.edit', $grupo->id) }}" class="btn btn-warning btn-icon-text mr-1">
+                                        <a href="{{ route('grupos.edit', $grupo->id) }}"
+                                            class="btn btn-warning btn-icon-text mr-1">
                                             <i class="fas fa-edit"></i> <!-- Icono -->
                                             <span>Editar</span> <!-- Texto -->
                                         </a>
                                         @endcan
+                                        @if ($grupo->inscripcionesCount == 0)
                                         @can('eliminar-grupos')
-                                        <button type="button" class="btn btn-danger" onclick="confirmarEliminacion({{ $grupo->id }})">
+                                        <button type="button" class="btn btn-danger"
+                                            onclick="confirmarEliminacion({{ $grupo->id }})">
                                             <i class="fas fa-trash-alt"></i>
                                             Eliminar
                                         </button>
-                                        <form id="eliminar-form-{{ $grupo->id }}" action="{{ route('grupos.destroy', $grupo->id) }}" method="POST" class="d-none">
+                                        <form id="eliminar-form-{{ $grupo->id }}"
+                                            action="{{ route('grupos.destroy', $grupo->id) }}" method="POST"
+                                            class="d-none">
                                             @csrf
                                             @method('DELETE')
                                         </form>
                                         @endcan
+                                        @endif
                                         @can('ver_excel_grupo')
-                                        <a href="{{ route('grupos.generarPDF', $grupo->id) }}" class="btn btn-primary btn-icon-text ml-1">
+                                        <a href="{{ route('grupos.generarPDF', $grupo->id) }}"
+                                            class="btn btn-primary btn-icon-text ml-1">
                                             <i class="fas fa-file-excel"></i> <!-- Icono -->
                                             <span>Generar Lista Alumnos</span> <!-- Texto -->
                                         </a>
@@ -382,25 +465,28 @@
                                     </a>
                                     @endcan
                                     @can('eliminar-grupos')
-                                    <form action="{{ route('grupos.destroy', $grupo->id) }}" method="POST" class="d-inline-block">
+                                    <form action="{{ route('grupos.destroy', $grupo->id) }}" method="POST"
+                                        class="d-inline-block">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-mobile" onclick="return confirm('¿Estás seguro de eliminar este grupo?')">
+                                        <button type="submit" class="btn btn-danger btn-mobile"
+                                            onclick="return confirm('¿Estás seguro de eliminar este grupo?')">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
                                     </form>
                                     @endcan
-                                    <a href="{{ route('grupos.generarPDF', $grupo->id) }}" class="btn btn-primary btn-mobile">
+                                    <a href="{{ route('grupos.generarPDF', $grupo->id) }}"
+                                        class="btn btn-primary btn-mobile">
                                         <i class="fas fa-file-excel"></i>
                                     </a>
-                                </div>
                             </div>
                         </div>
-                        @endforeach
                     </div>
+                    @endforeach
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </section>
 
@@ -426,7 +512,10 @@
             { data: 'hora_in', title: 'Horario inicio' },
             { data: 'hora_fn', title: 'Horario fin' },
             { data: 'inscripcionesCount', title: 'Alumnos inscritos' },
+            { data: 'activo', title: 'Estado' },
             { data: 'Acciones', title: 'Acciones', orderable: false }
+
+            
         ],
         language: {
             url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',

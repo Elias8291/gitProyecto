@@ -81,6 +81,21 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                    <div class="form-group">
+                                        <label for="activo">Estado del Grupo:</label>
+                                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                            <label class="btn btn-outline-success {{ $grupo->activo ? 'active' : '' }}">
+                                                <input type="radio" name="activo" id="activo" value="1" {{ $grupo->activo ? 'checked' : '' }}> Activo
+                                            </label>
+                                            <label class="btn btn-outline-danger {{ !$grupo->activo ? 'active' : '' }}">
+                                                <input type="radio" name="activo" id="inactivo" value="0" {{ !$grupo->activo ? 'checked' : '' }}> Inactivo
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                
                                 <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                                     <button type="submit" class="btn btn-primary btn-block btn-submit">Guardar</button>
                                 </div>
@@ -140,5 +155,32 @@
         transform: translateY(-2px);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
+    .btn-outline-success, .btn-outline-danger {
+    border-width: 2px; /* Grosor del borde */
+}
+
+.btn-outline-success.active, .btn-outline-danger.active {
+    color: #fff; /* Color del texto cuando el botón está activo */
+}
+
+.btn-outline-success {
+    color: #28a745; /* Color del texto del botón activo */
+    border-color: #28a745; /* Color del borde del botón activo */
+}
+
+.btn-outline-danger {
+    color: #dc3545; /* Color del texto del botón inactivo */
+    border-color: #dc3545; /* Color del borde del botón inactivo */
+}
+
+.btn-outline-success:hover, .btn-outline-danger:hover {
+    color: #fff; /* Color del texto al pasar el mouse */
+    background-color: #28a745; /* Fondo del botón activo al pasar el mouse */
+}
+
+.btn-outline-danger:hover {
+    background-color: #dc3545; /* Fondo del botón inactivo al pasar el mouse */
+}
+
 </style>
 @endsection
