@@ -401,7 +401,7 @@
         dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rt<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
         pageLength: 10
         });
-        function confirmarEliminacion(estudianteId) {
+        function confirmarEliminacion(inscripcionId) {
         Swal.fire({
             title: '¿Estás seguro?',
             text: "¡No podrás revertir esto!",
@@ -412,7 +412,12 @@
             confirmButtonText: 'Sí, eliminarlo'
         }).then((result) => {
             if (result.isConfirmed) {
-                document.getElementById('eliminar-form-' + estudianteId).submit();
+                document.getElementById('eliminar-form-' + inscripcionId).submit();
+                Swal.fire(
+                    'Eliminado!',
+                    'La inscripcion ha sido eliminada correctamente.',
+                    'success'
+                )
             }
         });
     }

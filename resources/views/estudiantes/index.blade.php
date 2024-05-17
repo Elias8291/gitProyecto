@@ -427,6 +427,11 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 document.getElementById('eliminar-form-' + estudianteId).submit();
+                Swal.fire(
+                    'Eliminado!',
+                    'El estudiante ha sido eliminado correctamente.',
+                    'success'
+                )
             }
         });
     }

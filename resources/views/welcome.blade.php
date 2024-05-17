@@ -10,6 +10,7 @@
     <!-- FontAwesome for icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body,
         html {
@@ -518,6 +519,7 @@ document.getElementById('registerForm').addEventListener('submit', function(even
         }
     }).then(response => {
         if (response.ok) {
+            exito();
             // Si el registro es exitoso, puedes redirigir al usuario o mostrar un mensaje de éxito
             window.location.reload(); // Esto recargará la página
         } else {
@@ -538,6 +540,14 @@ document.getElementById('registerForm').addEventListener('submit', function(even
         showRegisterErrorModal('Hubo un error al intentar registrarte. Por favor, intenta de nuevo más tarde.'); // Mensaje genérico en caso de error de conexión
     });
 });
+
+function exito() {
+    Swal.fire({
+        title: "Usuario Registrado!",
+        text: "Usted ha sido registrado!",
+        icon: "success"
+    });
+}
 
 function hideRegisterErrorModal() {
     document.getElementById('registerErrorModal').style.display = 'none';

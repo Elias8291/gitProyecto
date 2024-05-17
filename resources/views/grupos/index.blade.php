@@ -355,15 +355,16 @@
                                             </a>
                                           @endcan
                                           @if ($grupo->inscripcionesCount == 0)
-                                            @can('eliminar-grupos')
-                                              <form action="{{ route('grupos.destroy', $grupo->id) }}" method="POST" class="d-inline-block">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-icon-text btn-custom" onclick="return confirm('¿Estás seguro de eliminar este grupo?')">
-                                                  <i class="fas fa-trash-alt"></i> <span>Eliminar</span>
-                                                </button>
-                                              </form>
-                                            @endcan
+                                          @can('eliminar-grupos')
+                                        <button type="button" class="btn btn-danger" onclick="confirmarEliminacion({{ $grupo->id }})">
+                                            <i class="fas fa-trash-alt"></i>
+                                            Eliminar
+                                        </button>
+                                        <form id="eliminar-form-{{ $grupo->id }}" action="{{ route('grupos.destroy', $grupo->id) }}" method="POST" class="d-none">
+                                            @csrf
+                                            @method('DELETE')
+                                        </form>
+                                        @endcan
                                           @endif
                                         </div>
                                       </td>
@@ -469,7 +470,7 @@
             { data: 'hora_fn', title: 'Horario fin' },
             { data: 'inscripcionesCount', title: 'Alumnos inscritos' },
             { data: 'activo', title: 'Estado' },
-            { data: 'Acciones', title: 'Acciones', orderable: false }
+            { data: 'Acciones', title: 'Acciones', orderable: false },
             { data: ' Lista Excel', title: ' Lista Excel' },
         ],
         language: {
@@ -482,7 +483,7 @@
         pageLength: 10
     });
 
-    function confirmarEliminacion(estudianteId) {
+    function confirmarEliminacion(grupoId) {
         Swal.fire({
             title: '¿Estás seguro?',
             text: "¡No podrás revertir esto!",
@@ -493,7 +494,12 @@
             confirmButtonText: 'Sí, eliminarlo'
         }).then((result) => {
             if (result.isConfirmed) {
-                document.getElementById('eliminar-form-' + estudianteId).submit();
+                document.getElementById('eliminar-form-' + grupoId).submit();
+                Swal.fire(
+                    'Eliminado!',
+                    'El grupo ha sido eliminado correctamente.',
+                    'success'
+                )
             }
         });
     }
