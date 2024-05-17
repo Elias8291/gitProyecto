@@ -80,9 +80,23 @@
                                         </div>
                                     </div>
                                 </div>
+                                
+                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                    <div class="form-group">
+                                        <div class="floating-label">
+                                            <label for="activo">Estado del Grupo</label>
+                                            <select name="activo" class="form-control" id="activo">
+                                                <option value="1" selected>Activo</option>
+                                                <option value="0">Inactivo</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                                     <button type="submit" class="btn btn-primary btn-block btn-submit">Guardar</button>
                                 </div>
+                            
+                                
                             </div>
                         </form>
                     </div>

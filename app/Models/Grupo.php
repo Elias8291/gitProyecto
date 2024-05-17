@@ -13,12 +13,15 @@ class Grupo extends Model
     protected $primaryKey = 'id';
     public $incrementing = true;
     protected $keyType = 'integer';
+
+    // Incluir 'activo' en el arreglo $fillable para permitir la asignación masiva
     protected $fillable = [
         'clave',
         'nombre',
         'rango_alumnos_id',
         'horario_id',
         'materia_id',
+        'activo', // Agregar esta línea
     ];
 
     public function rangoAlumno()
