@@ -37,6 +37,7 @@ class GrupoController extends Controller
                 'rango_alumnos.max_alumnos',
                 'horarios.hora_in',
                 'horarios.hora_fn',
+                'inscripciones_totales',
                 DB::raw('COUNT(inscripciones.id) AS inscripcionesCount')
             )
             ->leftJoin('inscripciones', 'grupos.id', '=', 'inscripciones.grupo_id')
@@ -48,7 +49,8 @@ class GrupoController extends Controller
                 'rango_alumnos.min_alumnos',
                 'rango_alumnos.max_alumnos',
                 'horarios.hora_in',
-                'horarios.hora_fn'
+                'horarios.hora_fn',
+                'inscripciones_totales',
             )
             ->get();
 

@@ -296,6 +296,7 @@
                                     <th style="color:#fff;" class="text-center">Horario inicio</th>
                                     <th style="color:#fff;" class="text-center">Horario fin</th>
                                     <th style="color:#fff;" class="text-center">Alumnos inscritos</th>
+                                    <th style="color:#fff;" class="text-center">Total de inscripciones</th> <!-- Nueva columna -->
                                     <th style="color:#fff;" class="text-center">Acciones</th>
                                 </tr>
                             </thead>
@@ -310,6 +311,7 @@
                                     <td class="text-center">{{ $grupo->hora_in }}</td>
                                     <td class="text-center">{{ $grupo->hora_fn }}</td>
                                     <td class="text-center">{{ $grupo->inscripcionesCount }}</td>
+                                    <td class="text-center">{{ $grupo->inscripciones_totales }}</td> <!-- Valor de total de inscripciones -->                        
                                     <td class="text-center">
                                         @can('editar-grupos')
                                         <a href="{{ route('grupos.edit', $grupo->id) }}" class="btn btn-warning btn-icon-text mr-1">
@@ -426,6 +428,7 @@
             { data: 'hora_in', title: 'Horario inicio' },
             { data: 'hora_fn', title: 'Horario fin' },
             { data: 'inscripcionesCount', title: 'Alumnos inscritos' },
+            { data: 'inscripciones_totales', title: 'Total de inscripciones' },
             { data: 'Acciones', title: 'Acciones', orderable: false }
         ],
         language: {
