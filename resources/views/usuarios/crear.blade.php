@@ -98,12 +98,7 @@
         }
     });
 
-    // Evita que se ingresen letras o números en tiempo real
-    $('input').on('input', function(event) {
-        var regex = /[^a-zA-Z\s]/g;
-        var newValue = $(this).val().replace(regex, '');
-        $(this).val(newValue);
-    });
+
 </script>
 @endsection
 
