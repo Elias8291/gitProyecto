@@ -15,6 +15,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 
+
+
 class GrupoController extends Controller
 {
     function __construct()
@@ -145,6 +147,9 @@ class GrupoController extends Controller
     public function generarPDF($id)
     {
         $grupo = Grupo::findOrFail($id);
+        $horario = Horario::findOrFail($grupo->horario_id); // Obtener el horario del grupo
+        $materia = Materia::findOrFail($grupo->materia_id); // Obtener la materia del grupo
+
         $estudiantes = $grupo->inscripciones()
             ->with('estudiante')
             ->get()
@@ -160,7 +165,7 @@ class GrupoController extends Controller
             ->setFontBold()
             ->setFontSize(12)
             ->setFontColor('FFFFFF')
-            ->setBackgroundColor('4F81BD')
+            ->setBackgroundColor('002060')
             ->setBorder((new BorderBuilder())->setBorderBottom(Color::BLACK, Border::WIDTH_THIN, Border::STYLE_SOLID)
                 ->setBorderLeft(Color::BLACK, Border::WIDTH_THIN, Border::STYLE_SOLID)
                 ->setBorderRight(Color::BLACK, Border::WIDTH_THIN, Border::STYLE_SOLID)
@@ -177,6 +182,47 @@ class GrupoController extends Controller
                 ->setBorderTop(Color::BLACK, Border::WIDTH_THIN, Border::STYLE_SOLID)
                 ->build())
             ->build();
+
+        // Estilo para la celda adicional arriba de las columnas "MINDITO Y HORARIO" con el horario del grupo
+        $headerAdditionalStyle = (new StyleBuilder())
+            ->setFontBold()
+            ->setFontSize(12)
+            ->setFontColor('FFFFFF')
+            ->setBackgroundColor('305496')
+            ->setBorder((new BorderBuilder())->setBorderBottom(Color::BLACK, Border::WIDTH_THIN, Border::STYLE_SOLID)
+                ->setBorderLeft(Color::BLACK, Border::WIDTH_THIN, Border::STYLE_SOLID)
+                ->setBorderRight(Color::BLACK, Border::WIDTH_THIN, Border::STYLE_SOLID)
+                ->setBorderTop(Color::BLACK, Border::WIDTH_THIN, Border::STYLE_SOLID)
+                ->build())
+            ->build();
+
+        // Estilo para la descripcion del reporte
+        $headerAdditionalStyle2 = (new StyleBuilder())
+            ->setFontBold()
+            ->setFontSize(12)
+            ->setFontColor('FFFFFF')
+            ->setBackgroundColor('808080')
+            ->setBorder((new BorderBuilder())->setBorderBottom(Color::BLACK, Border::WIDTH_THIN, Border::STYLE_SOLID)
+                ->setBorderLeft(Color::BLACK, Border::WIDTH_THIN, Border::STYLE_SOLID)
+                ->setBorderRight(Color::BLACK, Border::WIDTH_THIN, Border::STYLE_SOLID)
+                ->setBorderTop(Color::BLACK, Border::WIDTH_THIN, Border::STYLE_SOLID)
+                ->build())
+            ->build();
+
+        // Celda adicional arriba de las columnas "Nombre" y "Semestre" con el horario del grupo
+        $header1 = WriterEntityFactory::createRowFromArray(['   MINDITO', '', 'HORARIO:', $horario->hora_in . ' - ' . $horario->hora_fn, ''], $headerAdditionalStyle);
+        $writer->addRow($header1);
+
+        $headerContent = [
+            '   Reporte: Lista de Estudiantes Grupo: ' . $grupo->clave . ': ' . $materia->nombre,
+            '',
+            '',
+            '',
+            ''
+        ];
+
+        $header2 = WriterEntityFactory::createRowFromArray($headerContent, $headerAdditionalStyle2);
+        $writer->addRow($header2);
 
         $header = WriterEntityFactory::createRowFromArray(
             ['Número de Control', 'Apellido Paterno', 'Apellido Materno', 'Nombre', 'Semestre'],

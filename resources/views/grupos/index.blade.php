@@ -156,7 +156,8 @@
         gap: 10px;
     }
 
-    .action-buttons button, .action-buttons a {
+    .action-buttons button,
+    .action-buttons a {
         background-color: transparent;
         border: none;
         padding: 10px;
@@ -166,10 +167,11 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: background-color 0.3s ease;
+        transition: background-color 0.3s ease, color 0.3s ease;
     }
 
-    .action-buttons button:hover, .action-buttons a:hover {
+    .action-buttons button:hover,
+    .action-buttons a:hover {
         background-color: #d0d0d0;
     }
 
@@ -191,9 +193,6 @@
         border-radius: 4px;
     }
 
-    .edit-btn:hover {
-        background-color: #ddd;
-    }
 
     @media (max-width: 992px) {
         #miTabla2 {
@@ -288,6 +287,49 @@
         border: 1px solid #ccc;
     }
 
+     .delete-btn {
+        background: none;
+        border: none;
+        border-radius: 5px;
+        padding: 8px 12px;
+        font-size: 14px;
+        color: #d9534f;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .delete-btn:hover {
+        background-color: #ff0800;
+        color: rgb(173, 35, 35);
+    }
+
+    .delete-btn:hover i {
+        color: rgb(250, 1, 1);
+    }
+
+    .btn-excel {
+        border: none;
+        border-radius: 5px;
+        padding: 8px 12px;
+        font-size: 14px;
+        color: #06b423;
+        background: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .btn-excel:hover {
+        background-color: #06b423;
+        color: white;
+    }
+
+    .btn-excel:hover i {
+        color: transparent;
+    }
     @media (min-width: 993px) {
         .mobile-table {
             display: none;
@@ -365,19 +407,20 @@
                                             @endcan
 
                                             @can('ver_excel_grupo')
-                                            <button class="btn btn-primary" onclick="window.location.href='{{ route('grupos.generarPDF', $grupo->id) }}'" title="Generar PDF">
-                                                <i class="fas fa-file-excel" style="color: #06b423"></i> Excel
+                                            <button class="btn-excel btn" onclick="window.location.href='{{ route('grupos.generarPDF', $grupo->id) }}'" title="Generar PDF">
+                                                <i class="fas fa-file-excel" style="margin-right: 8px; color:#06b423"></i> Generar Excel
                                             </button>
-                                        @endcan
+                                            @endcan
+
                                             @if ($grupo->inscripcionesCount == 0)
                                             <form action="{{ route('grupos.destroy', $grupo->id) }}" method="POST"
                                                 class="d-inline-block">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="delete-btn btn btn-danger btn-mobile"
-                                                    onclick="return confirm('¿Estás seguro de eliminar este grupo?')" style="background: transparent">
-                                                    <i class="fas fa-trash-alt"></i> Eliminar
+                                                <button type="submit" class="delete-btn btn"  onclick="return confirm('¿Estás seguro de eliminar este grupo?')">
+                                                    <i class="fas fa-trash-alt" style="margin-right: 8px; color:#ef0404"></i> Eliminar
                                                 </button>
+                                                
                                             </form>
                                             @else
                                             @can('eliminar-grupos')
@@ -447,7 +490,7 @@
                                     </form>
                                     @endcan
                                     <a href="{{ route('grupos.generarPDF', $grupo->id) }}"
-                                        class="btn btn-primary btn-mobile">
+                                        class="btn btn-primary btn-mobile btn-excel">
                                         <i class="fas fa-file-excel"></i>
                                     </a>
                             </div>

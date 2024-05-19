@@ -1,77 +1,76 @@
 @extends('layouts.app')
 <style>
-   #miTabla2 {
-    font-family: 'Open Sans', sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-}
+    #miTabla2 {
+        font-family: 'Open Sans', sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
 
-#miTabla2 thead {
-    background-color: #483eff;
-    color: #fff;
-}
+    #miTabla2 thead {
+        background-color: #483eff;
+        color: #fff;
+    }
 
-#miTabla2 thead th {
-    padding: 15px;
-    text-align: left;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
+    #miTabla2 thead th {
+        padding: 15px;
+        text-align: left;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
 
-#miTabla2 tbody tr {
-    border-bottom: 1px solid #ddd;
-    transition: background-color 0.3s ease;
-}
+    #miTabla2 tbody tr {
+        border-bottom: 1px solid #ddd;
+        transition: background-color 0.3s ease;
+    }
 
-#miTabla2 tbody tr:hover {
-    background-color: #f5f5f5;
-}
+    #miTabla2 tbody tr:hover {
+        background-color: #f5f5f5;
+    }
 
-#miTabla2 tbody td {
-    padding: 12px 15px;
-}
+    #miTabla2 tbody td {
+        padding: 12px 15px;
+    }
 
-#miTabla2 tbody td .custom-badge {
-    background-color: #483eff;
-    color: #fff;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
+    #miTabla2 tbody td .custom-badge {
+        background-color: #483eff;
+        color: #fff;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
 
-#miTabla2 tbody td .btn {
-    padding: 6px 12px;
-    font-size: 14px;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-}
+    #miTabla2 tbody td .btn {
+        padding: 6px 12px;
+        font-size: 14px;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+    }
 
-#miTabla2 tbody td .btn-warning {
-    background-color: #ffc107;
-    color: #212529;
-}
+    #miTabla2 tbody td .btn-warning {
+        background-color: #ffc107;
+        color: #212529;
+    }
 
-#miTabla2 tbody td .btn-warning:hover {
-    background-color: #e0a800;
-}
+    #miTabla2 tbody td .btn-warning:hover {
+        background-color: #e0a800;
+    }
 
-#miTabla2 tbody td .btn-danger {
-    background-color: #dc3545;
-    color: #fff;
-}
+    #miTabla2 tbody td .btn-danger {
+        background-color: #dc3545;
+        color: #fff;
+    }
 
-#miTabla2 tbody td .btn-danger:hover {
-    background-color: #c82333;
-}
+    #miTabla2 tbody td .btn-danger:hover {
+        background-color: #c82333;
+    }
 
-    /* Estilos para el campo de búsqueda */
     .dataTables_filter {
         position: relative;
     }
@@ -110,7 +109,6 @@
         color: #333;
     }
 
-    /* Estilos para el menú de selección de registros */
     .dataTables_length {
         position: relative;
         display: inline-block;
@@ -172,94 +170,91 @@
     }
 
     @media (max-width: 992px) {
-    #miTabla2 {
-        display: none;
-    }
+        #miTabla2 {
+            display: none;
+        }
 
-    .mobile-table {
-        display: block;
-    }
+        .mobile-table {
+            display: block;
+        }
 
-    /* Estilos para las tarjetas en modo móvil */
-    .mobile-card {
-        background: #fff;
-        border: none;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        margin-bottom: 16px;
-        padding: 16px;
-    }
+        .mobile-card {
+            background: #fff;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 16px;
+            padding: 16px;
+        }
 
-    .mobile-card .row {
-        margin-bottom: 8px;
-    }
+        .mobile-card .row {
+            margin-bottom: 8px;
+        }
 
-    .mobile-card label {
-        font-weight: bold;
-        color: #333;
-    }
+        .mobile-card label {
+            font-weight: bold;
+            color: #333;
+        }
 
-    .mobile-card .data {
-        font-size: 14px;
-        color: #666;
-    }
+        .mobile-card .data {
+            font-size: 14px;
+            color: #666;
+        }
 
-    /* Estilos para los botones de acción en modo móvil */
-    .action-buttons {
-        display: flex;
-        justify-content: space-between;
-        padding: 12px 0;
-    }
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+        }
 
-    .btn-mobile {
-        flex: 0 1 48%;
-        margin: 0;
-        padding: 10px;
-        border-radius: 4px;
-        font-size: 14px;
-        text-align: center;
-        transition: all 0.3s ease;
-    }
+        .btn-mobile {
+            flex: 0 1 48%;
+            margin: 0;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
 
-    .btn-mobile i {
-        font-size: 16px;
-        margin-right: 5px;
-    }
+        .btn-mobile i {
+            font-size: 16px;
+            margin-right: 5px;
+        }
 
-    .btn-mobile:hover {
-        opacity: 0.8;
-    }
+        .btn-mobile:hover {
+            opacity: 0.8;
+        }
 
-    /* Colores de los botones */
-    .btn-warning.btn-mobile {
-        background-color: #ffc107;
-        color: #212529;
-    }
+        .btn-warning.btn-mobile {
+            background-color: #ffc107;
+            color: #212529;
+        }
 
-    .btn-danger.btn-mobile {
-        background-color: #dc3545;
-        color: #fff;
-    }
+        .btn-danger.btn-mobile {
+            background-color: #dc3545;
+            color: #fff;
+        }
 
-    .btn-mobile-action {
-        flex: 0 1 48%;
-        margin: 0;
-        padding: 10px;
-        border-radius: 4px;
-        font-size: 14px;
-        text-align: center;
-        transition: all 0.3s ease;
-    }
+        .btn-mobile-action {
+            flex: 0 1 48%;
+            margin: 0;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
 
-    .btn-mobile-action i {
-        font-size: 16px;
-        margin-right: 5px;
-    }
+        .btn-mobile-action i {
+            font-size: 16px;
+            margin-right: 5px;
+        }
 
-    .btn-mobile-action:hover {
-        opacity: 0.8;
+        .btn-mobile-action:hover {
+            opacity: 0.8;
+        }
     }
-}
 
     @media (min-width: 993px) {
         .mobile-table {
@@ -285,7 +280,6 @@
                             </a>
                             @endcan
                         </div>
-
 
                         <div class="table-responsive mt-3">
                             <table class="table table-striped mt-2" id="miTabla2">
@@ -363,11 +357,8 @@
     </div>
 </section>
 
-
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-<!-- DATATABLES -->
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<!-- BOOTSTRAP -->
 <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -380,7 +371,7 @@
         columns: [
             { Name: 'Name' },
             { Acciones: 'Acciones' }
-            ],
+        ],
         language: {
             url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',
             search: "_INPUT_",
@@ -390,27 +381,39 @@
         dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rt<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
         pageLength: 10
     });
+
     function confirmarEliminacion(roleId) {
-    Swal.fire({
-        title: '¿Estás seguro?',
-        text: "¡No podrás revertir esto!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, eliminarlo'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            document.getElementById('eliminar-form-' + roleId).submit();
-            Swal.fire({
-                title: 'Eliminado!',
-                text: 'El rol ha sido eliminado correctamente.',
-                icon: 'success',
-                timer: 4000, // Duración en milisegundos
-                showConfirmButton: false
-            });
-        }
-    });
-}
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "¡No podrás revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminarlo',
+            customClass: {
+                popup: 'swal2-custom-popup',
+                title: 'swal2-custom-title',
+                cancelButton: 'swal2-custom-cancel-button',
+                confirmButton: 'swal2-custom-confirm-button'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('eliminar-form-' + roleId).submit();
+                Swal.fire({
+                    title: 'Eliminado!',
+                    text: 'El rol ha sido eliminado correctamente.',
+                    icon: 'success',
+                    timer: 4000, 
+                    showConfirmButton: false,
+                    customClass: {
+                        popup: 'swal2-custom-popup',
+                        title: 'swal2-custom-title',
+                        confirmButton: 'swal2-custom-confirm-button'
+                    }
+                });
+            }
+        });
+    }
 </script>
 @endsection
