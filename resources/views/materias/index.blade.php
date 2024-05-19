@@ -291,6 +291,7 @@
                                         <th style="color:#fff;" class="text-center">Clave</th>
                                         <th style="color:#fff;" class="text-center">Nombre</th>
                                         <th style="color:#fff;" class="text-center">Créditos</th>
+                                        <th style="color:#fff;" class="text-center">Grupos</th>
                                         <th style="color:#fff;" class="text-center">Acciones</th>
                                     </tr>
                                 </thead>
@@ -300,6 +301,7 @@
                                         <td class="text-center">{{ $materia->clave }}</td>
                                         <td class="text-center">{{ $materia->nombre }}</td>
                                         <td class="text-center">{{ $materia->creditos }}</td>
+                                        <td class="text-center">{{ $materia->grupos_count }}</td>
                                         <td class="text-center">
                                             @can('editar-materias')
                                             <a href="{{ route('materias.edit', $materia->id) }}" class="btn btn-warning">
@@ -307,15 +309,18 @@
                                             </a>
                                             @endcan
                                             @can('eliminar-materias')
-                                        <button type="button" class="btn btn-danger" onclick="confirmarEliminacion({{ $materia->id }})">
-                                            <i class="fas fa-trash-alt"></i>
-                                            Eliminar
-                                        </button>
-                                        <form id="eliminar-form-{{ $materia->id }}" action="{{ route('materias.destroy', $materia->id) }}" method="POST" class="d-none">
-                                            @csrf
-                                            @method('DELETE')
-                                        </form>
-                                        @endcan
+                                            <button type="button" class="btn btn-danger" 
+                                                    onclick="{{ $materia->grupos_count > 0 ? 'mostrarMensaje()' : 'confirmarEliminacion(' . $materia->id . ')' }}" 
+                                                    title="{{ $materia->grupos_count > 0 ? 'No se puede eliminar porque hay más de un grupo ocupándolo' : '' }}"
+                                                    {{ $materia->grupos_count > 0 ? 'disabled' : '' }}>
+                                                <i class="fas fa-trash-alt"></i>
+                                                Eliminar
+                                            </button>
+                                            <form id="eliminar-form-{{ $materia->id }}" action="{{ route('materias.destroy', $materia->id) }}" method="POST" class="d-none">
+                                                @csrf
+                                                @method('DELETE')
+                                            </form>
+                                            @endcan
                                         </td>
                                     </tr>
                                     @endforeach
@@ -389,6 +394,7 @@
             { data: 'clave', title: 'Clave' },
             { data: 'nombre', title: 'Nombre' },
             { data: 'creditos', title: 'Créditos' },
+            { data: 'grupos_count', title: 'Grupos' },
             { data: 'Acciones', title: 'Acciones', orderable: false }
         ],
         language: {
@@ -421,6 +427,14 @@
             });
         }
     });
+    function mostrarMensaje() {
+        Swal.fire({
+            title: 'No se puede eliminar',
+            text: 'No se puede eliminar esta materia porque hay más de un grupo ocupándola.',
+            icon: 'info',
+            confirmButtonText: 'Entendido'
+        });
+    }
 }
 </script>
 @endsection

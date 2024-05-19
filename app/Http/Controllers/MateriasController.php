@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Materia;
-
+use Illuminate\Support\Facades\DB;
 class MateriasController extends Controller
 {
     function __construct()
@@ -17,10 +17,14 @@ class MateriasController extends Controller
 
     public function index()
     {
-        $materias = Materia::paginate(30);
+        $materias = DB::table('materias')
+            ->leftJoin('grupos', 'grupos.materia_id', '=', 'materias.id')
+            ->select('materias.*', DB::raw('COUNT(grupos.id) as grupos_count'))
+            ->groupBy('materias.id')
+            ->paginate(30);
+    
         return view('materias.index', compact('materias'));
     }
-
     public function create()
     {
         return view('materias.crear');

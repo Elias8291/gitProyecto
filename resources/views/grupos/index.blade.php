@@ -1,5 +1,6 @@
 @extends('layouts.app')
 <style>
+    
     #miTabla2 {
         font-family: 'Open Sans', sans-serif;
         border-collapse: collapse;
@@ -335,8 +336,8 @@
             display: none;
         }
     }
-</style>
-@section('content')
+
+</style>@section('content')
 <section class="section">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -372,7 +373,6 @@
                                     <th style="color:#fff;" class="text-center">Alumnos inscritos</th>
                                     <th style="color:#fff;" class="text-center">Estado</th>
                                     <th style="color:#fff;" class="text-center">Acciones</th>
-
                                 </tr>
                             </thead>
                             <tbody>
@@ -413,14 +413,13 @@
                                             @endcan
 
                                             @if ($grupo->inscripcionesCount == 0)
-                                            <form action="{{ route('grupos.destroy', $grupo->id) }}" method="POST"
+                                            <form id="eliminar-form-{{ $grupo->id }}" action="{{ route('grupos.destroy', $grupo->id) }}" method="POST"
                                                 class="d-inline-block">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="delete-btn btn"  onclick="return confirm('¿Estás seguro de eliminar este grupo?')">
+                                                <button type="button" class="delete-btn btn" onclick="confirmarEliminacion({{ $grupo->id }})">
                                                     <i class="fas fa-trash-alt" style="margin-right: 8px; color:#ef0404"></i> Eliminar
                                                 </button>
-                                                
                                             </form>
                                             @else
                                             @can('eliminar-grupos')
@@ -431,7 +430,6 @@
                                             @endif
                                         </div>
                                     </td>
-
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -472,19 +470,19 @@
                             </div>
                             <div class="row">
                                 <div class="col-6"><label>Acciones:</label></div>
-                                < <div class="row action-buttons">
+                                <div class="row action-buttons">
                                     @can('editar-grupos')
                                     <a href="{{ route('grupos.edit', $grupo->id) }}" class="btn btn-warning btn-mobile">
                                         <i class="fas fa-edit"></i>
                                     </a>
                                     @endcan
                                     @can('eliminar-grupos')
-                                    <form action="{{ route('grupos.destroy', $grupo->id) }}" method="POST"
+                                    <form id="eliminar-form-{{ $grupo->id }}" action="{{ route('grupos.destroy', $grupo->id) }}" method="POST"
                                         class="d-inline-block">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-mobile"
-                                            onclick="return confirm('¿Estás seguro de eliminar este grupo?')">
+                                        <button type="button" class="btn btn-danger btn-mobile"
+                                        onclick="confirmarEliminacion({{ $grupo->id }})">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
                                     </form>
@@ -493,14 +491,14 @@
                                         class="btn btn-primary btn-mobile btn-excel">
                                         <i class="fas fa-file-excel"></i>
                                     </a>
+                                </div>
                             </div>
                         </div>
+                        @endforeach
                     </div>
-                    @endforeach
                 </div>
             </div>
         </div>
-    </div>
     </div>
 </section>
 
@@ -536,7 +534,7 @@
         dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rt<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
         pageLength: 10
     });
-
+    
     function confirmarEliminacion(grupoId) {
     Swal.fire({
         title: '¿Estás seguro?',
@@ -545,7 +543,12 @@
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, eliminarlo'
+        confirmButtonText: 'Sí, eliminarlo',
+        customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
     }).then((result) => {
         if (result.isConfirmed) {
             document.getElementById('eliminar-form-' + grupoId).submit();
@@ -554,10 +557,15 @@
                 text: 'El grupo ha sido eliminado correctamente.',
                 icon: 'success',
                 timer: 4000, // Duración en milisegundos
-                showConfirmButton: false
+                showConfirmButton: false,
+                customClass: {
+                    confirmButton: 'btn btn-success'
+                },
+                buttonsStyling: false
             });
         }
     });
 }
+
 </script>
 @endsection
