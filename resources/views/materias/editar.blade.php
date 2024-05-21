@@ -1,13 +1,18 @@
 @extends('layouts.app')
 
 @section('content')
-<section class="section" style="background-image: url('ruta/a/tu/imagen-de-fondo.jpg'); background-size: cover;">
+<section class="section">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card shadow">
-                    <div class="card-header">
-                        <h3 class="page__heading"><i class="fas fa-book mr-2"></i>Editar Materia</h3>
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                        <a href="{{ url()->previous() }}" class="btn btn-back" style="color: #2c0197">
+                            <i class="fas fa-arrow-left" style="color: #333"></i> Regresar
+                        </a>
+                        <h3 class="page__heading text-center flex-grow-1 m-0">
+                            <i class="fas fa-book mr-2"></i>Editar Materia
+                        </h3>
                     </div>
                     <div class="card-body">
                         @if ($errors->any())
@@ -96,6 +101,33 @@
     .btn-submit:hover {
         transform: translateY(-2px);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-back {
+        color: #ffffff;
+        font-size: 16px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        background-color: #8c52ff; /* Color morado */
+        padding: 8px 12px;
+        border-radius: 4px;
+    }
+
+    .btn-back i {
+        color: #ffffff; /* Icono blanco */
+        font-size: 18px;
+        margin-right: 5px;
+    }
+
+    .btn-back:hover {
+        background-color: #5a26dd; /* Color morado más oscuro */
+        color: #ffffff;
+    }
+
+    .btn-back:hover i {
+        color: #ffffff;
     }
 </style>
 @endsection

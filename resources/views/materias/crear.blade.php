@@ -6,8 +6,13 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card shadow">
-                    <div class="card-header">
-                        <h3 class="page__heading"><i class="fas fa-book mr-2"></i>Crear Materia</h3>
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                        <a href="{{ url()->previous() }}" class="btn btn-back" style="color: #2c0197">
+                            <i class="fas fa-arrow-left" style="color: #333"></i> Regresar
+                        </a>
+                        <h3 class="page__heading text-center flex-grow-1 m-0">
+                            <i class="fas fa-book mr-2"></i>Crear Materias
+                        </h3>
                     </div>
                     <div class="card-body">
                         @if ($errors->any())

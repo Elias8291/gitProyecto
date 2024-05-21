@@ -414,7 +414,7 @@
                                                     <i class="fas fa-file-excel" style="margin-right: 8px; color:#06b423"></i> Generar Excel
                                                 </button>
                                                 @endcan
-
+                                                @can('eliminar-grupos')
                                                 @if ($grupo->inscripcionesCount == 0)
                                                 <form id="eliminar-form-{{ $grupo->id }}" action="{{ route('grupos.destroy', $grupo->id) }}" method="POST" class="d-inline-block">
                                                     @csrf
@@ -424,7 +424,6 @@
                                                     </button>
                                                 </form>
                                                 @else
-                                                @can('eliminar-grupos')
                                                 <button class="delete-btn" disabled style="cursor: not-allowed;">
                                                     <span class="icon"><i class="fas fa-trash-alt "></i></span> Eliminar
                                                 </button>
