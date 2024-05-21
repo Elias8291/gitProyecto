@@ -291,7 +291,7 @@
                                         <th style="color:#fff;" class="text-center">Clave</th>
                                         <th style="color:#fff;" class="text-center">Nombre</th>
                                         <th style="color:#fff;" class="text-center">Créditos</th>
-                                        <th style="color:#fff;" class="text-center">Grupos</th>
+                                        <th style="color:#fff;" class="text-center">Cantidad de Grupos</th>
                                         <th style="color:#fff;" class="text-center">Acciones</th>
                                     </tr>
                                 </thead>
@@ -342,6 +342,11 @@
                                     <div class="col-6">{{ $materia->creditos }}</div>
                                 </div>
                                 <div class="row">
+                                    <div class="col-6"><label>Cantidad de Grupos</label></div>
+                                    <div class="col-6">{{ $materia->grupos_count}}</div>
+                                </div>
+
+                                <div class="row">
                                     <div class="col-6"><label>Acciones:</label></div>
                                     < <div class="row action-buttons">
                                         @can('editar-materias')
@@ -350,13 +355,17 @@
                                         </a>
                                         @endcan
                                         @can('eliminar-materias')
-                                        <form action="{{ route('materias.destroy', $materia->id) }}" method="POST" class="d-inline-block">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-mobile" onclick="return confirm('¿Estás seguro de eliminar este grupo?')">
+                                            <button type="button" class="btn btn-danger" 
+                                                    onclick="{{ $materia->grupos_count > 0 ? 'mostrarMensaje()' : 'confirmarEliminacion(' . $materia->id . ')' }}" 
+                                                    title="{{ $materia->grupos_count > 0 ? 'No se puede eliminar porque hay más de un grupo ocupándolo' : '' }}"
+                                                    {{ $materia->grupos_count > 0 ? 'disabled' : '' }}>
                                                 <i class="fas fa-trash-alt"></i>
+                                                Eliminar
                                             </button>
-                                        </form>
+                                            <form id="eliminar-form-{{ $materia->id }}" action="{{ route('materias.destroy', $materia->id) }}" method="POST" class="d-none">
+                                                @csrf
+                                                @method('DELETE')
+                                            </form>
                                         @endcan
                                     </div>
                                 </div>

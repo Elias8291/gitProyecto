@@ -436,7 +436,102 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            @foreach ($grupos as $grupo)
+                            <div class="mobile-card d-lg-none">
+                                <div class="row">
+                                    <div class="col-6"><label>Clave:</label></div>
+                                    <div class="col-6">{{ $grupo->clave }}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6"><label>Nombre:</label></div>
+                                    <div class="col-6">{{ $grupo->nombre }}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6"><label>Materia:</label></div>
+                                    <div class="col-6">{{ $grupo->materia_nombre }}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6"><label>Rango Alumnos Mínimo:</label></div>
+                                    <div class="col-6">{{ $grupo->min_alumnos }}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6"><label>Rango Alumnos Máximo:</label></div>
+                                    <div class="col-6">{{ $grupo->max_alumnos }}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6"><label>Horario inicio:</label></div>
+                                    <div class="col-6">{{ $grupo->hora_in }}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6"><label>Horario fin:</label></div>
+                                    <div class="col-6">{{ $grupo->hora_fn }}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6"><label>Alumnos inscritos:</label></div>
+                                    <div class="col-6">{{ $grupo->inscripcionesCount }}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6"><label>Estado:</label></div>
+                                    <div class="col-6">
+                                        @if($grupo->activo)
+                                        <button class="btn btn-estado btn-activo" style="color: #06b423">
+                                            <i class="fas fa-check"></i> Activo
+                                        </button>
+                                        @else
+                                        <button class="btn btn-estado btn-inactivo" style="color: #f5270c">
+                                            <i class="fas fa-times"></i> Inactivo
+                                        </button>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6"><label>Acciones:</label></div>
+                                    <div class="col-6">
+                                        <div class="row action-buttons">
+                                            @can('editar-grupos')
+                                            <div class="col-6 mb-2">
+                                                <a href="{{ route('grupos.edit', $grupo->id) }}" class="edit-btn" style="text-decoration: none;">
+                                                    <span class="icon">✏️</span> Editar
+                                                </a>
+                                            </div>
+                                            @endcan
+
+                                            @can('ver_excel_grupo')
+                                            <div class="col-6 mb-2">
+                                                <button class="btn-excel btn" onclick="window.location.href='{{ route('grupos.generarPDF', $grupo->id) }}'" title="Generar PDF">
+                                                    <i class="fas fa-file-excel" style="margin-right: 8px; color:#06b423"></i> Generar Excel
+                                                </button>
+                                            </div>
+                                            @endcan
+
+                                            @if ($grupo->inscripcionesCount == 0)
+                                            <div class="col-6 mb-2">
+                                                <form id="eliminar-form-{{ $grupo->id }}" action="{{ route('grupos.destroy', $grupo->id) }}" method="POST" class="d-inline-block">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="button" class="delete-btn btn" onclick="confirmarEliminacion({{ $grupo->id }})">
+                                                        <i class="fas fa-trash-alt" style="margin-right: 8px; color:#ef0404"></i> Eliminar
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            @else
+                                            <div class="col-6 mb-2">
+                                                @can('eliminar-grupos')
+                                                <button class="delete-btn" disabled style="cursor: not-allowed;">
+                                                    <span class="icon"><i class="fas fa-trash-alt"></i></span> Eliminar
+                                                </button>
+                                                @endcan
+                                            </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        @endforeach
+                        
                         </div>
+
                     </div>
                 </div>
             </div>
