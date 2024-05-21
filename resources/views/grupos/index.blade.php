@@ -1,6 +1,9 @@
 @extends('layouts.app')
 <style>
-    
+    .table-responsive {
+        overflow-x: auto;
+    }
+
     #miTabla2 {
         font-family: 'Open Sans', sans-serif;
         border-collapse: collapse;
@@ -336,14 +339,14 @@
             display: none;
         }
     }
+</style>
 
-</style>@section('content')
+@section('content')
 <section class="section">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Font Awesome -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
     <div class="section-header">
         <h3 class="page__heading">Grupos</h3>
     </div>
@@ -360,141 +363,80 @@
                             </a>
                             @endcan
                         </div>
-                        <table class="table table-striped mt-2" id="miTabla2">
-                            <thead style="background-color:#5f42d4">
-                                <tr>
-                                    <th style="color:#fff;" class="text-center">Clave</th>
-                                    <th style="color:#fff;" class="text-center">Nombre</th>
-                                    <th style="color:#fff;" class="text-center">Materia</th>
-                                    <th style="color:#fff;" class="text-center">Rango Alumnos Mínimo</th>
-                                    <th style="color:#fff;" class="text-center">Rango Alumnos Máximo</th>
-                                    <th style="color:#fff;" class="text-center">Horario inicio</th>
-                                    <th style="color:#fff;" class="text-center">Horario fin</th>
-                                    <th style="color:#fff;" class="text-center">Alumnos inscritos</th>
-                                    <th style="color:#fff;" class="text-center">Estado</th>
-                                    <th style="color:#fff;" class="text-center">Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($grupos as $grupo)
-                                <tr>
-                                    <td class="text-center">{{ $grupo->clave }}</td>
-                                    <td class="text-center">{{ $grupo->nombre }}</td>
-                                    <td class="text-center">{{ $grupo->materia_nombre }}</td>
-                                    <td class="text-center">{{ $grupo->min_alumnos }}</td>
-                                    <td class="text-center">{{ $grupo->max_alumnos }}</td>
-                                    <td class="text-center">{{ $grupo->hora_in }}</td>
-                                    <td class="text-center">{{ $grupo->hora_fn }}</td>
-                                    <td class="text-center">{{ $grupo->inscripcionesCount }}</td>
-                                    <td class="text-center">
-                                        @if($grupo->activo)
-                                        <button class="btn btn-estado btn-activo" style="color: #06b423">
-                                            <i class="fas fa-check"></i> Activo
-                                        </button>
-                                        @else
-                                        <button class="btn btn-estado btn-inactivo" style="color: #f5270c">
-                                            <i class="fas fa-times"></i> Inactivo
-                                        </button>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <div class="action-buttons">
-                                            @can('editar-grupos')
-                                            <a href="{{ route('grupos.edit', $grupo->id) }}" class="edit-btn"
-                                                style="text-decoration: none;">
-                                                <span class="icon">✏️</span> Editar
-                                            </a>
-                                            @endcan
-
-                                            @can('ver_excel_grupo')
-                                            <button class="btn-excel btn" onclick="window.location.href='{{ route('grupos.generarPDF', $grupo->id) }}'" title="Generar PDF">
-                                                <i class="fas fa-file-excel" style="margin-right: 8px; color:#06b423"></i> Generar Excel
+                        <div class="table-responsive">
+                            <table class="table table-striped mt-2" id="miTabla2">
+                                <thead style="background-color:#5f42d4">
+                                    <tr>
+                                        <th style="color:#fff;" class="text-center">Clave</th>
+                                        <th style="color:#fff;" class="text-center">Nombre</th>
+                                        <th style="color:#fff;" class="text-center">Materia</th>
+                                        <th style="color:#fff;" class="text-center">Rango Alumnos Mínimo</th>
+                                        <th style="color:#fff;" class="text-center">Rango Alumnos Máximo</th>
+                                        <th style="color:#fff;" class="text-center">Horario inicio</th>
+                                        <th style="color:#fff;" class="text-center">Horario fin</th>
+                                        <th style="color:#fff;" class="text-center">Alumnos inscritos</th>
+                                        <th style="color:#fff;" class="text-center">Estado</th>
+                                        <th style="color:#fff;" class="text-center">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($grupos as $grupo)
+                                    <tr>
+                                        <td class="text-center">{{ $grupo->clave }}</td>
+                                        <td class="text-center">{{ $grupo->nombre }}</td>
+                                        <td class="text-center">{{ $grupo->materia_nombre }}</td>
+                                        <td class="text-center">{{ $grupo->min_alumnos }}</td>
+                                        <td class="text-center">{{ $grupo->max_alumnos }}</td>
+                                        <td class="text-center">{{ $grupo->hora_in }}</td>
+                                        <td class="text-center">{{ $grupo->hora_fn }}</td>
+                                        <td class="text-center">{{ $grupo->inscripcionesCount }}</td>
+                                        <td class="text-center">
+                                            @if($grupo->activo)
+                                            <button class="btn btn-estado btn-activo" style="color: #06b423">
+                                                <i class="fas fa-check"></i> Activo
                                             </button>
-                                            @endcan
-
-                                            @if ($grupo->inscripcionesCount == 0)
-                                            <form id="eliminar-form-{{ $grupo->id }}" action="{{ route('grupos.destroy', $grupo->id) }}" method="POST"
-                                                class="d-inline-block">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="button" class="delete-btn btn" onclick="confirmarEliminacion({{ $grupo->id }})">
-                                                    <i class="fas fa-trash-alt" style="margin-right: 8px; color:#ef0404"></i> Eliminar
-                                                </button>
-                                            </form>
                                             @else
-                                            @can('eliminar-grupos')
-                                            <button class="delete-btn" disabled style="cursor: not-allowed;">
-                                                <span class="icon"><i class="fas fa-trash-alt "></i></span> Eliminar
+                                            <button class="btn btn-estado btn-inactivo" style="color: #f5270c">
+                                                <i class="fas fa-times"></i> Inactivo
                                             </button>
-                                            @endcan
                                             @endif
-                                        </div>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        @foreach ($grupos as $grupo)
-                        <div class="mobile-card d-lg-none">
-                            <div class="row">
-                                <div class="col-6"><label>Clave:</label></div>
-                                <div class="col-6">{{ $grupo->clave }}</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-6"><label>Nombre:</label></div>
-                                <div class="col-6">{{ $grupo->nombre }}</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-6"><label>Materia:</label></div>
-                                <div class="col-6">{{ $grupo->materia_nombre }}</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-6"><label>Rango Alumnos Mínimo:</label></div>
-                                <div class="col-6">{{ $grupo->min_alumnos }}</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-6"><label>Rango Alumnos Máximo:</label></div>
-                                <div class="col-6">{{ $grupo->max_alumnos }}</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-6"><label>Horario inicio:</label></div>
-                                <div class="col-6">{{ $grupo->hora_in }}</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-6"><label>Horario fin:</label></div>
-                                <div class="col-6">{{ $grupo->hora_fn }}</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-6"><label>Alumnos inscritos:</label></div>
-                                <div class="col-6">{{ $grupo->inscripcionesCount }}</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-6"><label>Acciones:</label></div>
-                                <div class="row action-buttons">
-                                    @can('editar-grupos')
-                                    <a href="{{ route('grupos.edit', $grupo->id) }}" class="btn btn-warning btn-mobile">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    @endcan
-                                    @can('eliminar-grupos')
-                                    <form id="eliminar-form-{{ $grupo->id }}" action="{{ route('grupos.destroy', $grupo->id) }}" method="POST"
-                                        class="d-inline-block">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="button" class="btn btn-danger btn-mobile"
-                                        onclick="confirmarEliminacion({{ $grupo->id }})">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    </form>
-                                    @endcan
-                                    <a href="{{ route('grupos.generarPDF', $grupo->id) }}"
-                                        class="btn btn-primary btn-mobile btn-excel">
-                                        <i class="fas fa-file-excel"></i>
-                                    </a>
-                                </div>
-                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="action-buttons">
+                                                @can('editar-grupos')
+                                                <a href="{{ route('grupos.edit', $grupo->id) }}" class="edit-btn" style="text-decoration: none;">
+                                                    <span class="icon">✏️</span> Editar
+                                                </a>
+                                                @endcan
+
+                                                @can('ver_excel_grupo')
+                                                <button class="btn-excel btn" onclick="window.location.href='{{ route('grupos.generarPDF', $grupo->id) }}'" title="Generar PDF">
+                                                    <i class="fas fa-file-excel" style="margin-right: 8px; color:#06b423"></i> Generar Excel
+                                                </button>
+                                                @endcan
+
+                                                @if ($grupo->inscripcionesCount == 0)
+                                                <form id="eliminar-form-{{ $grupo->id }}" action="{{ route('grupos.destroy', $grupo->id) }}" method="POST" class="d-inline-block">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="button" class="delete-btn btn" onclick="confirmarEliminacion({{ $grupo->id }})">
+                                                        <i class="fas fa-trash-alt" style="margin-right: 8px; color:#ef0404"></i> Eliminar
+                                                    </button>
+                                                </form>
+                                                @else
+                                                @can('eliminar-grupos')
+                                                <button class="delete-btn" disabled style="cursor: not-allowed;">
+                                                    <span class="icon"><i class="fas fa-trash-alt "></i></span> Eliminar
+                                                </button>
+                                                @endcan
+                                                @endif
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
-                        @endforeach
                     </div>
                 </div>
             </div>
@@ -534,38 +476,55 @@
         dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rt<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
         pageLength: 10
     });
-    
-    function confirmarEliminacion(grupoId) {
-    Swal.fire({
-        title: '¿Estás seguro?',
-        text: "¡No podrás revertir esto!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, eliminarlo',
-        customClass: {
-            confirmButton: 'btn btn-success',
-            cancelButton: 'btn btn-danger'
-        },
-        buttonsStyling: false
-    }).then((result) => {
-        if (result.isConfirmed) {
-            document.getElementById('eliminar-form-' + grupoId).submit();
-            Swal.fire({
-                title: 'Eliminado!',
-                text: 'El grupo ha sido eliminado correctamente.',
-                icon: 'success',
-                timer: 4000, // Duración en milisegundos
-                showConfirmButton: false,
-                customClass: {
-                    confirmButton: 'btn btn-success'
-                },
-                buttonsStyling: false
-            });
-        }
-    });
-}
 
+    function confirmarEliminacion(grupoId) {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "¡No podrás revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminarlo',
+            customClass: {
+                confirmButton: 'btn btn-success',
+                cancelButton: 'btn btn-danger'
+            },
+            buttonsStyling: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('eliminar-form-' + grupoId).submit();
+                Swal.fire({
+                    title: 'Eliminado!',
+                    text: 'El grupo ha sido eliminado correctamente.',
+                    icon: 'success',
+                    timer: 4000, // Duración en milisegundos
+                    showConfirmButton: false,
+                    customClass: {
+                        confirmButton: 'btn btn-success'
+                    },
+                    buttonsStyling: false
+                });
+            }
+        });
+    }
 </script>
+<style>
+    .custom-popup {
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+    }
+    .custom-title {
+        color: #333;
+        font-weight: bold;
+    }
+    .custom-content {
+        color: #666;
+    }
+    .custom-confirm-button {
+        background-color: #3085d6 !important;
+        color: #fff !important;
+    }
+</style>
 @endsection
