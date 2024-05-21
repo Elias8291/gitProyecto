@@ -280,7 +280,7 @@
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             @can('crear-inscripcion')
                                 <a class="btn btn-warning" href="{{ route('materias.create') }}">
-                                    <i class="fas fa-plus"></i> Nueva inscripcion
+                                    <i class="fas fa-plus"></i> Nueva Materia
                                 </a>
                             @endcan
                         </div>

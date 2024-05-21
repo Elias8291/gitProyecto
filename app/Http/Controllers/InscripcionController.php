@@ -59,6 +59,12 @@ class InscripcionController extends Controller
             }
         }
 
+        // Verificar el número máximo de inscripciones permitidas en el grupo
+        $maxAlumnos = $grupo->rangoAlumno->max_alumnos;
+        if ($grupo->inscripciones()->count() >= $maxAlumnos) {
+            return redirect()->back()->withErrors(['No se pueden agregar más inscripciones, se ha alcanzado el máximo permitido.']);
+        }
+
         Inscripcion::create([
             'estudiante_id' => $request->estudiante_id,
             'grupo_id' => $request->grupo_id,
