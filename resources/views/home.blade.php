@@ -1,12 +1,14 @@
 @extends('layouts.app')
 <style>
 .welcome-section {
-    background: linear-gradient(135deg, #FFF7BC 0%, #FFD56B 100%);
-    padding: 50px 20px;
+    background: linear-gradient(135deg, #bacfee 0%, #b9d3e2 100%);
+    padding: 40px 20px;
     text-align: center;
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    max-width: 700px;
+    margin: 50px auto;
 }
 
 .welcome-section:hover {
@@ -15,8 +17,8 @@
 }
 
 .welcome-title {
-    font-size: 28px;
-    color: #333;
+    font-size: 32px;
+    color: #2c3e50;
     margin-bottom: 15px;
     font-weight: bold;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
@@ -25,15 +27,15 @@
 
 .welcome-message {
     font-size: 20px;
-    color: #666;
-    margin-bottom: 25px;
+    color: #34495e;
+    margin-bottom: 20px;
     line-height: 1.7;
     animation: messageFadeIn 1.5s ease-out 0s 1;
 }
 
 .welcome-button {
     padding: 12px 30px;
-    background-color: #FF6B6B;
+    background-color: #8e44ad; /* Color morado */
     color: white;
     border: none;
     border-radius: 6px;
@@ -42,10 +44,12 @@
     text-decoration: none;
     display: inline-block;
     transition: background-color 0.2s ease-in-out, transform 0.2s ease;
+    font-size: 18px;
+    margin-top: 20px;
 }
 
 .welcome-button:hover {
-    background-color: #FF4949;
+    background-color: #732d91; /* Color morado oscuro */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
     transform: translateY(-2px);
 }
@@ -56,6 +60,7 @@ img {
     border-radius: 8px;
     margin-bottom: 20px;
     animation: fadeIn 2s ease-out 0s 1;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 @keyframes titleFadeIn {
@@ -243,7 +248,7 @@ img {
 <div class="welcome-section">
     <h1 class="welcome-title">Bienvenido al Sistema de Gestión de Alumnos</h1>
     <p class="welcome-message">Comienza explorando nuestras funcionalidades y descubre cómo podemos mejorar tu experiencia de gestión académica.</p>
-    <img src="https://i.ibb.co/0n80XTJ/6461-fotor-bg-remover-2024051565952.png" alt="Gestión de Alumnos" style="max-width: 100%; height: auto; border-radius: 8px;">
+    <img src="https://i.ibb.co/0n80XTJ/6461-fotor-bg-remover-2024051565952.png" alt="Gestión de Alumnos">
 </div>
 @endcan
 @endsection

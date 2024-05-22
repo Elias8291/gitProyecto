@@ -243,4 +243,5 @@ class GrupoController extends Controller
         $writer->close();
         return response()->download($fileName)->deleteFileAfterSend(true);
     }
+    // ->where('grupos.nombre', 'like', '%' . "grupo 101". '%')
 }

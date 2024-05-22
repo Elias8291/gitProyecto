@@ -71,4 +71,6 @@ class EstudianteController extends Controller
 
         return redirect()->route('estudiantes.index');
     }
+
+    // $estudiantes = Estudiante::where('nombre', 'like', '%' . "Abisai" . '%')->paginate(20);
 }

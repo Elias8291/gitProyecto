@@ -522,7 +522,7 @@
                 { numeroDeControl: 'Número de Control' },
                 { nombre: 'Nombre' },
                 { apellidoMaterno: 'Apellido Paterno' },
-                { apellidoMaterno: 'Apellido Paterno' },
+                { apellidoPaterno: 'Apellido Materno' },
                 { semestre: 'Semestre' },
                 { Acciones: 'Acciones' },
             ],

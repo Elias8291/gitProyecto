@@ -167,7 +167,7 @@
     </style>
 </head>
 
-<body class="background-animate" style="background-image: url('https://example.com/fondo.jpg');">
+<body class="background-animate">
     <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-8 flex animate">
         <div class="mr-8 hidden md:block">
             <img src="https://th.bing.com/th/id/OIG3.jZVBR3XuQfxj3mNQvcrg?w=1024&h=1024&rs=1&pid=ImgDetMain"
