@@ -1,6 +1,6 @@
 @extends('layouts.app')
 <style>
-  #miTabla2 {
+   #miTabla2 {
     font-family: 'Open Sans', sans-serif;
     border-collapse: collapse;
     width: 100%;
@@ -36,7 +36,7 @@
 }
 
 #miTabla2 tbody td .custom-badge {
-    background-color: #483eff;
+    background-color: #000000;
     color: #fff;
     padding: 4px 8px;
     border-radius: 4px;
@@ -54,7 +54,7 @@
 }
 
 #miTabla2 tbody td .btn-warning {
-    background-color: #ffc107;
+    background-color: #fff;
     color: #212529;
 }
 
@@ -63,14 +63,88 @@
 }
 
 #miTabla2 tbody td .btn-danger {
-    background-color: #dc3545;
-    color: #fff;
+    background-color: #fff;
+    color: #041014;
 }
 
 #miTabla2 tbody td .btn-danger:hover {
     background-color: #c82333;
 }
 
+.css-button-sliding-to-left--red {
+  min-width: 130px;
+  height: 40px;
+  color: #fff;
+  padding: 5px 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+  outline: none;
+  border-radius: 5px;
+  z-index: 0;
+  background: #fff;
+  overflow: hidden;
+  border: 2px solid #d90429;
+  color: #d90429;
+}
+
+.css-button-sliding-to-left--red:hover {
+  color: #fff;
+}
+
+.css-button-sliding-to-left--red:hover:after {
+  width: 100%;
+}
+
+.css-button-sliding-to-left--red:after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  transition: all 0.3s ease;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 100%;
+  background: #d90429;
+}
+
+.css-button-sliding-to-left--yellow {
+  min-width: 130px;
+  height: 40px;
+  color: #fff;
+  padding: 5px 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+  outline: none;
+  border-radius: 5px;
+  z-index: 0;
+  background: #fff;
+  overflow: hidden;
+  border: 2px solid #ffd819;
+  color: #ffd819;
+}
+.css-button-sliding-to-left--yellow:hover {
+  color: #fff;
+}
+.css-button-sliding-to-left--yellow:hover:after {
+  width: 100%;
+}
+.css-button-sliding-to-left--yellow:after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  transition: all 0.3s ease;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 100%;
+  background: #ffd819;
+}
     /* Estilos para el campo de búsqueda */
     .dataTables_filter {
         position: relative;
@@ -152,6 +226,45 @@
         background-color: #e6e6e6;
     }
 
+    /* Estilos para los botones de acción en modo móvil */
+    .action-buttons {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 0;
+    }
+
+    .btn-mobile {
+        flex: 0 1 48%;
+        /* Cada botón ocupa el 48% del espacio */
+        margin: 0;
+        padding: 8px;
+        border-radius: 4px;
+        font-size: 0;
+        /* Eliminar el texto */
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    .btn-mobile i {
+        font-size: 20px;
+        /* Aumentar el tamaño del icono */
+    }
+
+    .btn-mobile:hover {
+        opacity: 0.8;
+    }
+
+    /* Colores de los botones */
+    .btn-warning.btn-mobile {
+        background-color: #ffc107;
+        color: #212529;
+    }
+
+    .btn-danger.btn-mobile {
+        background-color: #dc3545;
+        color: #fff;
+    }
+
     .dataTables_length::after {
         content: "";
         position: absolute;
@@ -170,6 +283,7 @@
     .dataTables_length select:focus+::after {
         border-top-color: #333;
     }
+
     @media (max-width: 992px) {
     #miTabla2 {
         display: none;
@@ -265,6 +379,13 @@
             display: none;
         }
     }
+    .custom-badge {
+    background-color: #483eff;
+    color: white; /* Cambia el color del texto a blanco para mejorar la legibilidad */
+
+    
+}
+
 </style>
 
 @section('content')
@@ -304,12 +425,12 @@
                                         <td class="text-center">{{ $materia->grupos_count }}</td>
                                         <td class="text-center">
                                             @can('editar-materias')
-                                            <a href="{{ route('materias.edit', $materia->id) }}" class="btn btn-warning">
+                                            <a href="{{ route('materias.edit', $materia->id) }}" class="btn btn-warning css-button-sliding-to-left--yellow">
                                                 <i class="fas fa-edit"></i> <span class="d-none d-sm-inline">Editar</span>
                                             </a>
                                             @endcan
                                             @can('eliminar-materias')
-                                            <button type="button" class="btn btn-danger" 
+                                            <button type="button" class="btn btn-danger css-button-sliding-to-left--red" 
                                                     onclick="{{ $materia->grupos_count > 0 ? 'mostrarMensaje()' : 'confirmarEliminacion(' . $materia->id . ')' }}" 
                                                     title="{{ $materia->grupos_count > 0 ? 'No se puede eliminar porque hay más de un grupo ocupándolo' : '' }}"
                                                     {{ $materia->grupos_count > 0 ? 'disabled' : '' }}>

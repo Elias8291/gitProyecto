@@ -1,63 +1,154 @@
 @extends('layouts.app')
 
 <style>
-    .table-responsive {
-        overflow-x: auto;
-    }
 
-    #miTabla2 {
-        font-family: 'Open Sans', sans-serif;
-        border-collapse: collapse;
-        width: 100%;
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    }
 
-    #miTabla2 thead {
-        background-color: #8c52ff;
-        color: #fff;
-    }
+   #miTabla2 {
+    font-family: 'Open Sans', sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
 
-    #miTabla2 thead th {
-        padding: 15px;
-        text-align: left;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
+#miTabla2 thead {
+    background-color: #483eff;
+    color: #fff;
+}
 
-    #miTabla2 tbody tr {
-        border-bottom: 1px solid #ddd;
-        transition: background-color 0.3s ease;
-    }
+#miTabla2 thead th {
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
 
-    #miTabla2 tbody tr:hover {
-        background-color: #f5f5f5;
-    }
+#miTabla2 tbody tr {
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.3s ease;
+}
 
-    #miTabla2 tbody td {
-        padding: 12px 15px;
-    }
+#miTabla2 tbody tr:hover {
+    background-color: #f5f5f5;
+}
 
-    #miTabla2 tbody td .custom-badge {
-        background-color: #6a11cb;
-        color: #fff;
-        padding: 4px 8px;
-        border-radius: 4px;
-        font-size: 12px;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
+#miTabla2 tbody td {
+    padding: 12px 15px;
+}
 
-    #miTabla2 tbody td .btn {
-        padding: 6px 12px;
-        font-size: 14px;
-        border-radius: 4px;
-        transition: background-color 0.3s ease;
-    }
+#miTabla2 tbody td .custom-badge {
+    background-color: #000000;
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
 
+#miTabla2 tbody td .btn {
+    padding: 6px 12px;
+    font-size: 14px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+#miTabla2 tbody td .btn-warning {
+    background-color: #fff;
+    color: #212529;
+}
+
+#miTabla2 tbody td .btn-warning:hover {
+    background-color: #e0a800;
+}
+
+#miTabla2 tbody td .btn-danger {
+    background-color: #fff;
+    color: #041014;
+}
+
+#miTabla2 tbody td .btn-danger:hover {
+    background-color: #c82333;
+}
+
+.css-button-sliding-to-left--red {
+  min-width: 130px;
+  height: 40px;
+  color: #fff;
+  padding: 5px 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+  outline: none;
+  border-radius: 5px;
+  z-index: 0;
+  background: #fff;
+  overflow: hidden;
+  border: 2px solid #d90429;
+  color: #d90429;
+}
+
+.css-button-sliding-to-left--red:hover {
+  color: #fff;
+}
+
+.css-button-sliding-to-left--red:hover:after {
+  width: 100%;
+}
+
+.css-button-sliding-to-left--red:after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  transition: all 0.3s ease;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 100%;
+  background: #d90429;
+}
+
+.css-button-sliding-to-left--yellow {
+  min-width: 130px;
+  height: 40px;
+  color: #fff;
+  padding: 5px 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+  outline: none;
+  border-radius: 5px;
+  z-index: 0;
+  background: #fff;
+  overflow: hidden;
+  border: 2px solid #ffd819;
+  color: #ffd819;
+}
+.css-button-sliding-to-left--yellow:hover {
+  color: #fff;
+}
+.css-button-sliding-to-left--yellow:hover:after {
+  width: 100%;
+}
+.css-button-sliding-to-left--yellow:after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  transition: all 0.3s ease;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 100%;
+  background: #ffd819;
+}
+    /* Estilos para el campo de búsqueda */
     .dataTables_filter {
         position: relative;
     }
@@ -96,6 +187,7 @@
         color: #333;
     }
 
+    /* Estilos para el menú de selección de registros */
     .dataTables_length {
         position: relative;
         display: inline-block;
@@ -137,6 +229,45 @@
         background-color: #e6e6e6;
     }
 
+    /* Estilos para los botones de acción en modo móvil */
+    .action-buttons {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 0;
+    }
+
+    .btn-mobile {
+        flex: 0 1 48%;
+        /* Cada botón ocupa el 48% del espacio */
+        margin: 0;
+        padding: 8px;
+        border-radius: 4px;
+        font-size: 0;
+        /* Eliminar el texto */
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    .btn-mobile i {
+        font-size: 20px;
+        /* Aumentar el tamaño del icono */
+    }
+
+    .btn-mobile:hover {
+        opacity: 0.8;
+    }
+
+    /* Colores de los botones */
+    .btn-warning.btn-mobile {
+        background-color: #ffc107;
+        color: #212529;
+    }
+
+    .btn-danger.btn-mobile {
+        background-color: #dc3545;
+        color: #fff;
+    }
+
     .dataTables_length::after {
         content: "";
         position: absolute;
@@ -157,97 +288,106 @@
     }
 
     @media (max-width: 992px) {
-        #miTabla2 {
-            display: none;
-        }
-
-        .mobile-table {
-            display: block;
-        }
-
-        .mobile-card {
-            background: #fff;
-            border: none;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-bottom: 16px;
-            padding: 16px;
-        }
-
-        .mobile-card .row {
-            margin-bottom: 8px;
-        }
-
-        .mobile-card label {
-            font-weight: bold;
-            color: #333;
-        }
-
-        .mobile-card .data {
-            font-size: 14px;
-            color: #666;
-        }
-
-        .action-buttons {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 0;
-        }
-
-        .btn-mobile {
-            flex: 0 1 48%;
-            margin: 0;
-            padding: 10px;
-            border-radius: 4px;
-            font-size: 14px;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .btn-mobile i {
-            font-size: 16px;
-            margin-right: 5px;
-        }
-
-        .btn-mobile:hover {
-            opacity: 0.8;
-        }
-
-        .btn-warning.btn-mobile {
-            background-color: #ffc107;
-            color: #212529;
-        }
-
-        .btn-danger.btn-mobile {
-            background-color: #dc3545;
-            color: #fff;
-        }
-
-        .btn-mobile-action {
-            flex: 0 1 48%;
-            margin: 0;
-            padding: 10px;
-            border-radius: 4px;
-            font-size: 14px;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .btn-mobile-action i {
-            font-size: 16px;
-            margin-right: 5px;
-        }
-
-        .btn-mobile-action:hover {
-            opacity: 0.8;
-        }
+    #miTabla2 {
+        display: none;
     }
+
+    .mobile-table {
+        display: block;
+    }
+
+    /* Estilos para las tarjetas en modo móvil */
+    .mobile-card {
+        background: #fff;
+        border: none;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 16px;
+        padding: 16px;
+    }
+
+    .mobile-card .row {
+        margin-bottom: 8px;
+    }
+
+    .mobile-card label {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .mobile-card .data {
+        font-size: 14px;
+        color: #666;
+    }
+
+    /* Estilos para los botones de acción en modo móvil */
+    .action-buttons {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 0;
+    }
+
+    .btn-mobile {
+        flex: 0 1 48%;
+        margin: 0;
+        padding: 10px;
+        border-radius: 4px;
+        font-size: 14px;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    .btn-mobile i {
+        font-size: 16px;
+        margin-right: 5px;
+    }
+
+    .btn-mobile:hover {
+        opacity: 0.8;
+    }
+
+    /* Colores de los botones */
+    .btn-warning.btn-mobile {
+        background-color: #ffc107;
+        color: #212529;
+    }
+
+    .btn-danger.btn-mobile {
+        background-color: #dc3545;
+        color: #fff;
+    }
+
+    .btn-mobile-action {
+        flex: 0 1 48%;
+        margin: 0;
+        padding: 10px;
+        border-radius: 4px;
+        font-size: 14px;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    .btn-mobile-action i {
+        font-size: 16px;
+        margin-right: 5px;
+    }
+
+    .btn-mobile-action:hover {
+        opacity: 0.8;
+    }
+}
 
     @media (min-width: 993px) {
         .mobile-table {
             display: none;
         }
     }
+    .custom-badge {
+    background-color: #483eff;
+    color: white; /* Cambia el color del texto a blanco para mejorar la legibilidad */
+
+    
+}
 </style>
 
 @section('content')
@@ -287,12 +427,12 @@
                                         <td class="text-center">{{ $inscripcion->nombre_materia }}</td>
                                         <td class="text-center">
                                             @can('editar-inscripcion')
-                                            <a href="{{ route('inscripciones.edit', $inscripcion->id) }}" class="btn btn-warning mr-1">
+                                            <a href="{{ route('inscripciones.edit', $inscripcion->id) }}" class="btn btn-warning mr-1 css-button-sliding-to-left--yellow">
                                                 <i class="fas fa-edit"></i> Editar
                                             </a>
                                             @endcan
                                             @can('borrar-inscripcion')
-                                            <button type="button" class="btn btn-danger" onclick="confirmarEliminacion({{ $inscripcion->id }})">
+                                            <button type="button" class="btn btn-danger css-button-sliding-to-left--red" onclick="confirmarEliminacion({{ $inscripcion->id }})">
                                                 <i class="fas fa-trash-alt"></i> Eliminar
                                             </button>
                                             <form id="eliminar-form-{{ $inscripcion->id }}" action="{{ route('inscripciones.destroy', $inscripcion->id) }}" method="POST" class="d-none">

@@ -54,7 +54,7 @@
 }
 
 #miTabla2 tbody td .btn-warning {
-    background-color: #ffc107;
+    background-color: #fff;
     color: #212529;
 }
 
@@ -63,14 +63,88 @@
 }
 
 #miTabla2 tbody td .btn-danger {
-    background-color: #dc3545;
-    color: #fff;
+    background-color: #fff;
+    color: #041014;
 }
 
 #miTabla2 tbody td .btn-danger:hover {
     background-color: #c82333;
 }
 
+.css-button-sliding-to-left--red {
+  min-width: 130px;
+  height: 40px;
+  color: #fff;
+  padding: 5px 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+  outline: none;
+  border-radius: 5px;
+  z-index: 0;
+  background: #fff;
+  overflow: hidden;
+  border: 2px solid #d90429;
+  color: #d90429;
+}
+
+.css-button-sliding-to-left--red:hover {
+  color: #fff;
+}
+
+.css-button-sliding-to-left--red:hover:after {
+  width: 100%;
+}
+
+.css-button-sliding-to-left--red:after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  transition: all 0.3s ease;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 100%;
+  background: #d90429;
+}
+
+.css-button-sliding-to-left--yellow {
+  min-width: 130px;
+  height: 40px;
+  color: #fff;
+  padding: 5px 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+  outline: none;
+  border-radius: 5px;
+  z-index: 0;
+  background: #fff;
+  overflow: hidden;
+  border: 2px solid #ffd819;
+  color: #ffd819;
+}
+.css-button-sliding-to-left--yellow:hover {
+  color: #fff;
+}
+.css-button-sliding-to-left--yellow:hover:after {
+  width: 100%;
+}
+.css-button-sliding-to-left--yellow:after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  transition: all 0.3s ease;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 100%;
+  background: #ffd819;
+}
     /* Estilos para el campo de búsqueda */
     .dataTables_filter {
         position: relative;
@@ -356,13 +430,13 @@
                                         <td class="text-center">
                                             @can('editar-usuario')
                                             <a href="{{ route('usuarios.edit', $usuario->id) }}"
-                                                class="btn btn-warning mr-1">
+                                                class="btn btn-warning mr-1 css-button-sliding-to-left--yellow ">
                                                 <i class="fas fa-edit"></i>Editar
                                             </a>
                                             @endcan
 
                                             @can('eliminar-usuario')
-                                        <button type="button" class="btn btn-danger" onclick="confirmarEliminacion({{ $usuario->id }})">
+                                        <button type="button" class="btn btn-danger css-button-sliding-to-left--red" onclick="confirmarEliminacion({{ $usuario->id }})">
                                             <i class="fas fa-trash-alt"></i>
                                             Eliminar
                                         </button>
