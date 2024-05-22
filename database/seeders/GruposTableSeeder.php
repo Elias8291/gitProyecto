@@ -89,6 +89,14 @@ class GruposTableSeeder extends Seeder
                 'horario_id' => 5,
                 'materia_id' => 10,
                 'activo' => true
+            ],
+            [
+                'clave' => 'G509',
+                'nombre' => 'Grupo 501',
+                'rango_alumnos_id' => 6,
+                'horario_id' => 5,
+                'materia_id' => 10,
+                'activo' => true
             ]
         ];
 

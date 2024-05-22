@@ -43,4 +43,9 @@ class Grupo extends Model
     {
         return $this->hasMany(Inscripcion::class, 'grupo_id');
     }
+    public function rangoAlumnos()
+{
+    return $this->belongsTo(RangoAlumno::class, 'rango_alumnos_id');
+}
+
 }

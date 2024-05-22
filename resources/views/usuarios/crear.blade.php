@@ -11,7 +11,7 @@
                             <i class="fas fa-arrow-left" style="color: #333"></i> Regresar
                         </a>
                         <h3 class="page__heading text-center flex-grow-1 m-0">
-                            <i class="fas fa-book mr-2"></i>Crear Inscripcion
+                            <i class="fas fa-book mr-2"></i>Crear Usuario
                         </h3>
                     </div>
                     <div class="card-body">
@@ -116,33 +116,109 @@
 @section('styles')
 <style>
     .floating-label {
-        position: relative;
-        margin-bottom: 20px;
-    }
+    position: relative;
+    margin-bottom: 20px;
+}
 
-    .floating-label label {
-        position: absolute;
-        top: 0;
-        left: 0;
-        pointer-events: none;
-        transition: all 0.2s ease;
-        color: #999;
-    }
+.floating-label label {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    transition: all 0.2s ease;
+    color: #999;
+    pointer-events: none;
+    background-color: white;
+    padding: 0 5px;
+    font-size: 14px;
+}
 
-    .floating-label input:focus ~ label,
-    .floating-label input:not(:placeholder-shown) ~ label {
-        top: -15px;
-        font-size: 12px;
-        color: #333;
-    }
+.floating-label input:focus ~ label,
+.floating-label input:not(:placeholder-shown) ~ label {
+    top: -10px;
+    font-size: 12px;
+    color: #333;
+}
 
-    .btn-submit {
-        transition: all 0.3s ease;
-    }
+.floating-label input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+}
 
-    .btn-submit:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.floating-label input:focus {
+    border-color: #2c0197;
+    box-shadow: 0 0 5px rgba(44, 1, 151, 0.3);
+}
+
+.card {
+    border: none;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+    padding: 15px;
+}
+
+.card-header .btn-back {
+    color: #2c0197;
+}
+
+.card-header .page__heading {
+    color: #333;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.alert {
+    margin-bottom: 20px;
+}
+
+.btn-submit {
+    transition: all 0.3s ease;
+    background-color: #2c0197;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #1e015b;
+}
+
+.btn-submit:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(44, 1, 151, 0.3);
+}
+
+.section {
+    padding: 60px 0;
+    background-size: cover;
+    background-position: center;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 20px;
     }
+}
+
 </style>
 @endsection

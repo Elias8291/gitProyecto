@@ -17,6 +17,7 @@ class RangosAlumnosTableSeeder extends Seeder
             ['min_alumnos' => 31, 'max_alumnos' => 40],
             ['min_alumnos' => 41, 'max_alumnos' => 50],
             ['min_alumnos' => 51, 'max_alumnos' => 60],
+            ['min_alumnos' => 1, 'max_alumnos' => 3],
         ];
 
         DB::table('rango_alumnos')->insert($rangos);

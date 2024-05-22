@@ -41,7 +41,6 @@ class InscripcionController extends Controller
         $grupos = Grupo::where('activo', 1)->get(); 
         return view('inscripciones.crear', compact('estudiantes', 'grupos'));
     }
-
     public function store(Request $request)
     {
         $request->validate([
@@ -65,8 +64,12 @@ class InscripcionController extends Controller
             'grupo_id' => $request->grupo_id,
         ]);
 
+        // Actualizar el estado del grupo si ha alcanzado el máximo de inscripciones
+        $this->actualizarEstadoGrupo($grupo);
+
         return redirect()->route('inscripciones.index')->with('success', 'Inscripción creada correctamente.');
     }
+
 
     public function show($id)
     {
@@ -97,10 +100,22 @@ class InscripcionController extends Controller
     
         return redirect()->route('inscripciones.index')->with('success', 'Inscripción actualizada correctamente.');
     }
+    
     public function destroy($id)
     {
         $inscripcion = Inscripcion::findOrFail($id);
         $inscripcion->delete();
         return back()->with('success', 'Inscripción eliminada correctamente.');
+    }
+
+    private function actualizarEstadoGrupo($grupo)
+    {
+        $inscripcionesCount = $grupo->inscripciones()->count();
+        if ($inscripcionesCount >= $grupo->rangoAlumnos->max_alumnos) {
+            $grupo->activo = 0; // Inactivo
+        } else {
+            $grupo->activo = 1; // Activo
+        }
+        $grupo->save();
     }
 }
