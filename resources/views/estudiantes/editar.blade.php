@@ -1,22 +1,22 @@
 @extends('layouts.app')
 
 @section('content')
-<section class="section" style="background-image: url('ruta/a/tu/imagen-de-fondo.jpg'); background-size: cover;">
-    <div class="container">
+<section class="section" style="background-image: url('ruta/a/tu/imagen-de-fondo.jpg'); background-size: cover; min-height: 100vh; display: flex; align-items: center;">
+    <div class="container custom-container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <div class="card shadow">
-                    <div class="card-header d-flex align-items-center justify-content-between">
-                        <a href="{{ url()->previous() }}" class="btn btn-back" style="color: #2c0197">
-                            <i class="fas fa-arrow-left" style="color: #333"></i> Regresar
+                <div class="card shadow-lg border-0 rounded-lg">
+                    <div class="card-header d-flex align-items-center justify-content-between bg-primary text-white">
+                        <a href="{{ url()->previous() }}" class="btn btn-back text-white">
+                            <i class="fas fa-arrow-left mr-2"></i> Regresar
                         </a>
                         <h3 class="page__heading text-center flex-grow-1 m-0">
-                            <i class="fas fa-book mr-2"></i>Editar Alumnos
+                            <i class="fas fa-book mr-2"></i> Editar Estudiantes
                         </h3>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body p-4 bg-white">
                         @if ($errors->any())
-                        <div class="alert alert-dark alert-dismissible fade show" role="alert">
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
                             <strong>¡Revise los campos!</strong>
                             @foreach ($errors->all() as $error)
                             <span class="badge badge-danger">{{ $error }}</span>
@@ -33,42 +33,32 @@
                             <div class="row">
                                 <div class="col-xs-12 col-sm-12 col-md-12">
                                     <div class="form-group">
-                                        <div class="floating-label">
-                                            <label for="numeroDeControl">Número de Control</label>
-                                            <input type="text" name="numeroDeControl" class="form-control" value="{{ $estudiante->numeroDeControl }}" maxlength="8" pattern="[0-9]*" title="El número de control debe tener 8 dígitos numéricos" required>
-                                        </div>
+                                        <label for="numeroDeControl" class="form-label">Número de Control</label>
+                                        <input type="text" name="numeroDeControl" class="form-control" value="{{ $estudiante->numeroDeControl }}" maxlength="8" pattern="[0-9]*" title="El número de control debe tener 8 dígitos numéricos" required>
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-md-12">
                                     <div class="form-group">
-                                        <div class="floating-label">
-                                            <label for="nombre">Nombre</label>
-                                            <input type="text" name="nombre" class="form-control" value="{{ $estudiante->nombre }}">
-                                        </div>
+                                        <label for="nombre" class="form-label">Nombre</label>
+                                        <input type="text" name="nombre" class="form-control" value="{{ $estudiante->nombre }}">
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-md-12">
                                     <div class="form-group">
-                                        <div class="floating-label">
-                                            <label for="apellidoPaterno">Apellido Paterno</label>
-                                            <input type="text" name="apellidoPaterno" class="form-control" value="{{ $estudiante->apellidoPaterno }}">
-                                        </div>
+                                        <label for="apellidoPaterno" class="form-label">Apellido Paterno</label>
+                                        <input type="text" name="apellidoPaterno" class="form-control" value="{{ $estudiante->apellidoPaterno }}">
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-md-12">
                                     <div class="form-group">
-                                        <div class="floating-label">
-                                            <label for="apellidoMaterno">Apellido Materno</label>
-                                            <input type="text" name="apellidoMaterno" class="form-control" value="{{ $estudiante->apellidoMaterno }}">
-                                        </div>
+                                        <label for="apellidoMaterno" class="form-label">Apellido Materno</label>
+                                        <input type="text" name="apellidoMaterno" class="form-control" value="{{ $estudiante->apellidoMaterno }}">
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-md-12">
                                     <div class="form-group">
-                                        <div class="floating-label">
-                                            <label for="semestre">Semestre</label>
-                                            <input type="number" name="semestre" class="form-control" value="{{ $estudiante->semestre }}" min="1">
-                                        </div>
+                                        <label for="semestre" class="form-label">Semestre</label>
+                                        <input type="number" name="semestre" class="form-control" value="{{ $estudiante->semestre }}" min="1">
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-12 col-md-12 text-center">
@@ -86,70 +76,161 @@
 
 @section('scripts')
 <script>
-    // Agrega la clase 'active' cuando un campo de entrada está enfocado
-    $('input').focus(function() {
-        $(this).parent().addClass('active');
-    }).blur(function() {
-        if ($(this).val() === '') {
-            $(this).parent().removeClass('active');
-        }
-    });
+    $(document).ready(function() {
+        $('input[type="text"]').focus(function() {
+            $(this).parent().addClass('active');
+        }).blur(function() {
+            if ($(this).val() === '') {
+                $(this).parent().removeClass('active');
+            }
+        });
 
-    // Validación en tiempo real para "Número de Control"
-    $('#numeroDeControl').on('input', function(event) {
-        var regex = /[^0-9]/g;
-        var newValue = $(this).val().replace(regex, '');
-        if (newValue.length > 8) {
-            newValue = newValue.substring(0, 8);
-        }
-        $(this).val(newValue);
-    });
+        $('#numeroDeControl').on('input', function(event) {
+            var regex = /[^0-9]/g;
+            var newValue = $(this).val().replace(regex, '');
+            if (newValue.length > 8) {
+                newValue = newValue.substring(0, 8);
+            }
+            $(this).val(newValue);
+        });
 
-    // Validación en tiempo real para los campos de nombre y apellidos
-    $('#nombre').on('input', function(event) {
-        var regex = /[^a-zA-Z\s]/g;
-        var newValue = $(this).val().replace(regex, '');
-        $(this).val(newValue);
-    });
-
-    $('#apellidoPaterno, #apellidoMaterno').on('input', function(event) {
-        var regex = /[^a-zA-Z]/g; // Elimina también los espacios para apellidos
-        var newValue = $(this).val().replace(regex, '');
-        $(this).val(newValue);
+        $('#nombre, #apellidoPaterno, #apellidoMaterno').on('input', function(event) {
+            var regex = /[^a-zA-Z\s]/g;
+            var newValue = $(this).val().replace(regex, '');
+            $(this).val(newValue);
+        });
     });
 </script>
 @endsection
 
 @section('styles')
 <style>
-    .floating-label {
-        position: relative;
-        margin-bottom: 20px;
+    .bg-primary {
+        background-color: #4b479c;
     }
 
-    .floating-label label {
-        position: absolute;
-        top: 0;
-        left: 0;
-        pointer-events: none;
+    .form-label {
+        font-weight: bold;
+        color: #4b479c;
+        margin-bottom: 5px;
+        font-size: 16px;
+    }
+
+    .form-control {
+        padding: 12px 15px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        width: 100%;
+        box-sizing: border-box;
         transition: all 0.2s ease;
-        color: #999;
+        font-size: 16px;
+        background-color: #f9f9f9;
     }
 
-    .floating-label input:focus ~ label,
-    .floating-label input:not(:placeholder-shown) ~ label {
-        top: -20px;
-        font-size: 12px;
-        color: #333;
+    .form-control:focus {
+        border-color: #4b479c;
+        box-shadow: 0 0 8px rgba(75, 71, 156, 0.3);
+        background-color: #fff;
+    }
+
+    .input-group-text {
+        cursor: pointer;
+    }
+
+    .card {
+        border: none;
+        border-radius: 15px;
+        overflow: hidden;
+    }
+
+    .card-header {
+        padding: 20px;
+        background-color: #4b479c;
+        border-bottom: none;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .card-header .btn-back {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        padding: 8px 12px;
+        border-radius: 8px;
+        background-color: rgba(255, 255, 255, 0.1);
+        transition: background-color 0.2s ease;
+    }
+
+    .card-header .btn-back:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .card-header .page__heading {
+        color: #ffffff;
+    }
+
+    .card-body {
+        padding: 30px;
+        background-color: #ffffff;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .alert {
+        margin-bottom: 20px;
     }
 
     .btn-submit {
         transition: all 0.3s ease;
+        background-color: #4b479c;
+        color: #fff;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 8px;
+        font-size: 18px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
     .btn-submit:hover {
         transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        background-color: #3a2c70;
+    }
+
+    .btn-submit:focus {
+        outline: none;
+        box-shadow: 0 0 10px rgba(75, 71, 156, 0.3);
+    }
+
+    .section {
+        padding: 60px 0;
+        background-color: #e0e0eb;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+    }
+
+    .custom-container {
+        max-width: 800px;
+        margin: auto;
+        border: 3px solid #4b479c;
+        border-radius: 15px;
+        padding: 20px;
+        background-color: #ffffff;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+    }
+
+    .custom-container:hover {
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+        transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+        .custom-container {
+            padding: 0 20px;
+        }
     }
 </style>
 @endsection

@@ -33,7 +33,7 @@ class EstudianteController extends Controller
             'numeroDeControl' => 'required|numeric|digits:8|unique:estudiantes',
             'nombre' => 'required',
             'apellidoPaterno' => 'required',
-            'apellidoMaterno' => 'required',
+            'apellidoMaterno' => 'nullable|string|max:255',
             'semestre' => 'required|integer|min:1',
         ]);
 
@@ -57,7 +57,7 @@ class EstudianteController extends Controller
             'numeroDeControl' => 'required|numeric|digits:8|unique:estudiantes,numeroDeControl,' . $estudiante->id,
             'nombre' => 'required',
             'apellidoPaterno' => 'required',
-            'apellidoMaterno' => 'required',
+            'apellidoMaterno' => 'nullable|string|max:255',
             'semestre' => 'required|integer|min:1',
         ]);
 

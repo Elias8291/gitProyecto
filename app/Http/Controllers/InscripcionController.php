@@ -17,8 +17,7 @@ class InscripcionController extends Controller
         $this->middleware('permission:editar-inscripcion', ['only' => ['edit', 'update']]);
         $this->middleware('permission:borrar-inscripcion', ['only' => ['destroy']]);
     }
-
-     public function index()
+    public function index()
     {
         $inscripciones = DB::table('inscripciones')
             ->join('estudiantes', 'inscripciones.estudiante_id', '=', 'estudiantes.id')
@@ -27,7 +26,7 @@ class InscripcionController extends Controller
             ->select(
                 'inscripciones.id',
                 'estudiantes.numeroDeControl',
-                DB::raw("CONCAT(estudiantes.nombre, ' ', estudiantes.apellidoPaterno, ' ', estudiantes.apellidoMaterno) AS nombre_estudiante"),
+                DB::raw("CONCAT(estudiantes.nombre, ' ', estudiantes.apellidoPaterno, ' ', COALESCE(estudiantes.apellidoMaterno, '')) AS nombre_estudiante"),
                 'grupos.clave AS clave_grupo',
                 'materias.nombre AS nombre_materia'
             )

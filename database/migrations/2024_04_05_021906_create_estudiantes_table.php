@@ -18,7 +18,7 @@ class CreateEstudiantesTable extends Migration
             $table->string('numeroDeControl')->unique(); // Número de control como campo único
             $table->string('nombre');
             $table->string('apellidoPaterno');
-            $table->string('apellidoMaterno');
+            $table->string('apellidoMaterno')->nullable(); 
             $table->integer('semestre');
             $table->timestamps(); // Opcional, si deseas registrar fechas de creación y actualización
         });
