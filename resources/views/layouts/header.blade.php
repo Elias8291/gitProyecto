@@ -16,7 +16,7 @@
             <div class="dropdown-menu dropdown-menu-right">
                 <div class="dropdown-title">
                     Bienvenido, {{\Illuminate\Support\Facades\Auth::user()->name}}</div>
-                <a class="dropdown-item has-icon edit-profile" href="#" data-id="{{ \Auth::id() }}">
+                <a class="dropdown-item has-icon edit-profile" data-toggle="modal" data-target="#EditProfileModal" href="#" data-id="{{ \Auth::id() }}">
                     <i class="fa fa-user"></i>Editar Perfil de Usuario</a>
                 <a class="dropdown-item has-icon" data-toggle="modal" data-target="#changePasswordModal" href="#" data-id="{{ \Auth::id() }}"><i
                             class="fa fa-lock"> </i>Cambiar Password</a>

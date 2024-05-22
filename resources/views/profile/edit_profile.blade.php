@@ -1,49 +1,36 @@
+<!-- Modal para editar perfil de usuario -->
 <div id="EditProfileModal" class="modal fade" role="dialog">
     <div class="modal-dialog modal-lg">
-        <!-- Modal content-->
+        <!-- Contenido del modal -->
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Edit Profile</h5>
-                <button type="button" aria-label="Close" class="close outline-none" data-dismiss="modal">×</button>
+                <h5 class="modal-title">Editar Perfil</h5>
+                <button type="button" aria-label="Cerrar" class="close outline-none" data-dismiss="modal">×</button>
             </div>
-            <form method="POST" id="editProfileForm" enctype="multipart/form-data">
+            <form method="POST" id="editProfileForm" action="{{ route('usuarios.updateProfile') }}">
                 <div class="modal-body">
-                    <div class="alert alert-danger d-none" id="editProfileValidationErrorsBox"></div>
-                    <input type="hidden" name="user_id" id="pfUserId">
-                    <input type="hidden" name="is_active" value="1">
-                    {{csrf_field()}}
+                    <div id="editProfileSuccessAlert" class="alert alert-success d-none">
+                        Perfil actualizado con éxito.
+                    </div>
+                    <div id="editProfileErrorAlert" class="alert alert-danger d-none">
+                        <ul id="editProfileErrorList"></ul>
+                    </div>
+                    {{ csrf_field() }}
                     <div class="row">
                         <div class="form-group col-sm-6">
-                            <label>Name:</label><span class="required">*</span>
+                            <label>Nombre:</label><span class="required">*</span>
                             <input type="text" name="name" id="pfName" class="form-control" required autofocus tabindex="1">
-                        </div>
-                        <div class="form-group col-sm-6 d-flex">
-                            <div class="col-sm-4 col-md-6 pl-0 form-group">
-                                <label>Profile Image:</label>
-                                <br>
-                                <label
-                                        class="image__file-upload btn btn-primary text-white"
-                                        tabindex="2"> Choose
-                                    <input type="file" name="photo" id="pfImage" class="d-none" >
-                                </label>
-                            </div>
-                            <div class="col-sm-3 preview-image-video-container float-right mt-1">
-                                <img id='edit_preview_photo' class="img-thumbnail user-img user-profile-img profilePicture"
-                                     src="{{asset('img/logo.png')}}"/>
-                            </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-sm-6">
-                            <label>Email:</label><span class="required">*</span>
-                            <input type="text" name="email" id="pfEmail" class="form-control" required tabindex="3">
+                            <label>Correo Electrónico:</label><span class="required">*</span>
+                            <input type="email" name="email" id="pfEmail" class="form-control" required tabindex="3">
                         </div>
                     </div>
                     <div class="text-right">
-                        <button type="submit" class="btn btn-primary" id="btnPrEditSave" data-loading-text="<span class='spinner-border spinner-border-sm'></span> Processing..." tabindex="5">Save</button>
-                        <button type="button" class="btn btn-light ml-1 edit-cancel-margin margin-left-5"
-                                data-dismiss="modal">Cancel
-                        </button>
+                        <button type="submit" class="btn btn-primary" id="btnPrEditSave" data-loading-text="<span class='spinner-border spinner-border-sm'></span> Procesando..." tabindex="5">Guardar</button>
+                        <button type="button" class="btn btn-light ml-1 edit-cancel-margin margin-left-5" data-dismiss="modal">Cancelar</button>
                     </div>
                 </div>
             </form>
@@ -51,3 +38,57 @@
     </div>
 </div>
 
+<script>
+    $(document).ready(function() {
+        $('#editProfileForm').on('submit', function(event) {
+            event.preventDefault(); // Prevenir el envío normal del formulario
+
+            // Limpiar mensajes de error anteriores
+            $('#editProfileErrorAlert').addClass('d-none');
+            $('#editProfileErrorList').empty();
+            $('#editProfileSuccessAlert').addClass('d-none');
+
+            // Enviar el formulario vía AJAX
+            $.ajax({
+                url: $('#editProfileForm').attr('action'),
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function(response) {
+                    $('#editProfileSuccessAlert').removeClass('d-none');
+                    setTimeout(function() {
+                        $('#EditProfileModal').modal('hide');
+                        $('#editProfileSuccessAlert').addClass('d-none');
+                        $('#editProfileForm')[0].reset();
+                    }, 2000);
+                },
+                error: function(response) {
+                    if (response.responseJSON && response.responseJSON.errors) {
+                        var errors = response.responseJSON.errors;
+                        for (var key in errors) {
+                            if (errors.hasOwnProperty(key)) {
+                                $('#editProfileErrorList').append('<li>' + errors[key][0] + '</li>');
+                                if (key === 'email') {
+                                    $('#pfEmail').addClass('is-invalid');
+                                } else if (key === 'name') {
+                                    $('#pfName').addClass('is-invalid');
+                                }
+                            }
+                        }
+                        $('#editProfileErrorAlert').removeClass('d-none');
+                    } else {
+                        $('#editProfileErrorList').append('<li>Ocurrió un error inesperado. Por favor, inténtelo de nuevo más tarde.</li>');
+                        $('#editProfileErrorAlert').removeClass('d-none');
+                    }
+                }
+            });
+        });
+
+        $('#pfEmail').on('input', function() {
+            $(this).removeClass('is-invalid');
+        });
+
+        $('#pfName').on('input', function() {
+            $(this).removeClass('is-invalid');
+        });
+    });
+</script>

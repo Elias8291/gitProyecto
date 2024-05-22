@@ -405,8 +405,8 @@
                             @endcan
                         </div>
 
-
-                        <div class="table-responsive mt-3">
+                        <!-- Contenedor para la tabla de usuarios -->
+                        <div id="userListContainer" class="table-responsive mt-3">
                             <table class="table table-striped mt-2" id="miTabla2">
                                 <thead style="background-color:#5f42d4">
                                     <tr>
@@ -414,7 +414,6 @@
                                         <th style="color:#fff;" class="text-center" >E-mail</th>
                                         <th style="color:#fff;" class="text-center">Rol</th>
                                         <th style="color:#fff;" class="text-center">Acciones</th>
-
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -430,7 +429,7 @@
                                         <td class="text-center">
                                             @can('editar-usuario')
                                             <a href="{{ route('usuarios.edit', $usuario->id) }}"
-                                                class="btn btn-warning mr-1 css-button-sliding-to-left--yellow ">
+                                                class="btn btn-warning mr-1 css-button-sliding-to-left--yellow">
                                                 <i class="fas fa-edit"></i>Editar
                                             </a>
                                             @endcan
@@ -498,7 +497,6 @@
 </section>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <!-- DATATABLES -->
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
@@ -527,27 +525,116 @@
         dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rt<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
         pageLength: 10
     });
+
     function confirmarEliminacion(usuarioId) {
-    Swal.fire({
-        title: '¿Estás seguro?',
-        text: "¡No podrás revertir esto!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, eliminarlo'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            document.getElementById('eliminar-form-' + usuarioId).submit();
-            Swal.fire({
-                title: 'Eliminado!',
-                text: 'El usuario ha sido eliminado correctamente.',
-                icon: 'success',
-                timer: 4000, // Duración en milisegundos
-                showConfirmButton: false
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "¡No podrás revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminarlo'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('eliminar-form-' + usuarioId).submit();
+                Swal.fire({
+                    title: 'Eliminado!',
+                    text: 'El usuario ha sido eliminado correctamente.',
+                    icon: 'success',
+                    timer: 4000, // Duración en milisegundos
+                    showConfirmButton: false
+                });
+            }
+        });
+    }
+
+    // Función para actualizar la lista de usuarios
+    function actualizarListaUsuarios() {
+        $.ajax({
+            url: '{{ route('usuarios.getUserList') }}', // Asegúrate de que esta ruta apunte a tu método getUserList
+            type: 'GET',
+            success: function(response) {
+                $('#userListContainer').html(response); // Reemplaza el contenedor con la lista de usuarios actualizada
+                new DataTable('#miTabla2', {
+                    lengthMenu: [
+                        [2, 5, 10, 15, 50],
+                        [2, 5, 10, 15, 50]
+                    ],
+                    columns: [
+                            { data: 'name', title: 'Nombre' },
+                            { data: 'email', title: 'E-mail' },
+                            { data: 'roles', title: 'Rol' },
+                            { data: 'actions', title: 'Acciones' }
+                        ],
+                    language: {
+                        url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',
+                        search: "_INPUT_",
+                        searchPlaceholder: "Buscar...",
+                        lengthMenu: "Mostrar registros _MENU_ "
+                    },
+                    dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rt<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+                    pageLength: 10
+                });
+            }
+        });
+    }
+
+    // Llama a la función actualizarListaUsuarios después de editar un perfil
+    $(document).ready(function() {
+        $('#editProfileForm').on('submit', function(event) {
+            event.preventDefault(); // Prevenir el envío normal del formulario
+
+            // Limpiar mensajes de error anteriores
+            $('#editProfileErrorAlert').addClass('d-none');
+            $('#editProfileErrorList').empty();
+            $('#editProfileSuccessAlert').addClass('d-none');
+
+            // Enviar el formulario vía AJAX
+            $.ajax({
+                url: $('#editProfileForm').attr('action'),
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function(response) {
+                    $('#editProfileSuccessAlert').removeClass('d-none');
+                    setTimeout(function() {
+                        $('#EditProfileModal').modal('hide');
+                        $('#editProfileSuccessAlert').addClass('d-none');
+                        $('#editProfileForm')[0].reset();
+
+                        // Actualizar la lista de usuarios
+                        actualizarListaUsuarios();
+                    }, 2000);
+                },
+                error: function(response) {
+                    if (response.responseJSON && response.responseJSON.errors) {
+                        var errors = response.responseJSON.errors;
+                        for (var key in errors) {
+                            if (errors.hasOwnProperty(key)) {
+                                $('#editProfileErrorList').append('<li>' + errors[key][0] + '</li>');
+                                if (key === 'email') {
+                                    $('#pfEmail').addClass('is-invalid');
+                                } else if (key === 'name') {
+                                    $('#pfName').addClass('is-invalid');
+                                }
+                            }
+                        }
+                        $('#editProfileErrorAlert').removeClass('d-none');
+                    } else {
+                        $('#editProfileErrorList').append('<li>Ocurrió un error inesperado. Por favor, inténtelo de nuevo más tarde.</li>');
+                        $('#editProfileErrorAlert').removeClass('d-none');
+                    }
+                }
             });
-        }
+        });
+
+        $('#pfEmail').on('input', function() {
+            $(this).removeClass('is-invalid');
+        });
+
+        $('#pfName').on('input', function() {
+            $(this).removeClass('is-invalid');
+        });
     });
-}
 </script>
 @endsection

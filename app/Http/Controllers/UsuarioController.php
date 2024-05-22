@@ -11,6 +11,8 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class UsuarioController extends Controller
 {
@@ -55,9 +57,6 @@ class UsuarioController extends Controller
 
         return view('usuarios.index', compact('usuarios', 'searchTerm', 'totalUsuarios'));
     }
-
-
-
 
     /**
      * Show the form for creating a new resource.
@@ -167,4 +166,66 @@ class UsuarioController extends Controller
         User::find($id)->delete();
         return redirect()->route('usuarios.index');
     }
+
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|min:8|confirmed',
+        ]);
+
+        $user = Auth::user();
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return response()->json(['errors' => ['current_password' => ['La contraseña actual no es correcta.']]], 422);
+        }
+
+        if (Hash::check($request->new_password, $user->password)) {
+            return response()->json(['errors' => ['new_password' => ['La nueva contraseña no puede ser igual a la contraseña actual.']]], 422);
+        }
+
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return response()->json(['success' => 'Contraseña actualizada con éxito.'], 200);
+    }
+
+    public function updateProfile(Request $request)
+    {
+        // Validar los datos recibidos
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . Auth::id(),
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        // Obtener el usuario autenticado
+        $user = auth()->user();
+        
+        // Actualizar los datos del usuario
+        $user->name = $request->name;
+        $user->email = $request->email;
+        
+        // Guardar los cambios
+        $user->save();
+
+        // Responder con éxito
+        return response()->json(['success' => 'Perfil actualizado con éxito.']);
+    }
+
+    public function getUserList(Request $request)
+{
+    $searchTerm = $request->get('search');
+    $paginationSize = $request->get('size', 15);
+
+    $usuarios = User::when($searchTerm, function ($query, $searchTerm) {
+        return $query->where('name', 'LIKE', "%{$searchTerm}%")
+            ->orWhere('email', 'LIKE', "%{$searchTerm}%");
+    })->paginate($paginationSize);
+
+    return view('usuarios.partials.user_list', compact('usuarios'));
+}
 }

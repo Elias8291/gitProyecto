@@ -17,7 +17,7 @@ class LogController extends Controller
         $logs = DB::table('logs')
             ->select('id', 'created_at', 'action', 'table', 'record_id', 'executedSQL', 'reverseSQL', 'user_name')
             ->orderBy('created_at', 'desc')
-            ->paginate(10); // Ajusta el número de registros por página como prefieras
+            ->paginate(30); // Ajusta el número de registros por página como prefieras
     
         return view('logs.index', compact('logs'));
     }

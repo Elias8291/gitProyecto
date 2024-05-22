@@ -22,6 +22,10 @@ Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/', [WelcomeController::class, 'showWelcomePage'])->name('welcome');
 
+Route::post('/usuarios/changePassword', [App\Http\Controllers\UsuarioController::class, 'changePassword'])->name('usuarios.changePassword');
+Route::post('/usuarios/updateProfile', [App\Http\Controllers\UsuarioController::class, 'updateProfile'])->name('usuarios.updateProfile');
+Route::get('/usuarios/user-list', [App\Http\Controllers\UsuarioController::class, 'getUserList'])->name('usuarios.getUserList');
+
 // Grupo de rutas protegidas por el middleware 'auth'
 Route::group(['middleware' => ['auth']], function() {
     Route::resource('roles', RolController::class);
