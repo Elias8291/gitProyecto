@@ -54,7 +54,7 @@
                                     <option value="">Seleccione un grupo</option>
                                     @foreach ($grupos as $grupo)
                                     <option value="{{ $grupo->id }}" {{ old('grupo_id') == $grupo->id ? 'selected' : '' }}>
-                                        {{ $grupo->clave }} - {{ optional($grupo->materia)->nombre }}
+                                        {{ $grupo->clave }} - {{ optional($grupo->materia)->nombre }} - {{ optional($grupo->horario)->hora_in }} a {{ optional($grupo->horario)->hora_fn }}
                                     </option>
                                     @endforeach
                                 </select>
