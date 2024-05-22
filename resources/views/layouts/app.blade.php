@@ -15,7 +15,6 @@
     <link href="{{ asset('assets/css/sweetalert.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" href="{{ asset('css/boton-eliminar.css') }}">
 
     @yield('page_css')
     <!-- Template CSS -->
@@ -77,11 +76,11 @@
             <nav class="navbar navbar-expand-lg main-navbar">
                 @include('layouts.header')
             </nav>
-            <div class="main-sidebar main-sidebar-postion"  style="background-color:  #f2f2fa">
+            <div class="main-sidebar main-sidebar-postion"  style="background-color:  #f4f4f9">
                 @include('layouts.sidebar')
             </div>
             <!-- Main Content -->
-            <div class="main-content" style="background-color:  #f9f9fd">
+            <div class="main-content" style="background-color:  #e0e0eb">
                 @yield('content')
             </div>
             <footer class="main-footer">
