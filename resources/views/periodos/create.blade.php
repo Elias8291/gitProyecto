@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<section class="section" style="background-color: #e0e0eb; min-height: 100vh; display: flex; align-items: center;">
+<section class="section">
     <div class="container custom-container">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -11,7 +11,7 @@
                             <i class="fas fa-arrow-left mr-2"></i> Regresar
                         </a>
                         <h3 class="page__heading text-center flex-grow-1 m-0">
-                            <i class="fas fa-book mr-2"></i> Editar Grupo
+                            <i class="fas fa-calendar-alt mr-2"></i> Crear Período
                         </h3>
                     </div>
                     <div class="card-body p-4 bg-white">
@@ -19,9 +19,7 @@
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
                             <strong>¡Revise los campos!</strong>
                             @foreach ($errors->all() as $error)
-                            <ul class="list-unstyled">
-                                <li>{{ $error }}</li>
-                            </ul>
+                            <span class="badge badge-danger">{{ $error }}</span>
                             @endforeach
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -29,65 +27,25 @@
                         </div>
                         @endif
 
-                        <form action="{{ route('grupos.update', $grupo->id) }}" method="POST" class="my-4">
+                        <form action="{{ route('periodos.store') }}" method="POST" class="my-4">
                             @csrf
-                            @method('PUT')
-                            <div class="form-group">
-                                <label for="clave" class="form-label">Clave</label>
-                                <input type="text" name="clave" class="form-control" id="clave" value="{{ $grupo->clave }}">
-                            </div>
-
                             <div class="form-group">
                                 <label for="nombre" class="form-label">Nombre</label>
-                                <input type="text" name="nombre" class="form-control" id="nombre" value="{{ $grupo->nombre }}">
+                                <input type="text" name="nombre" class="form-control" id="nombre" required>
                             </div>
-
                             <div class="form-group">
-                                <label for="materia_id" class="form-label">Materia</label>
-                                <select name="materia_id" class="form-control select2" id="materia_id">
-                                    <option value="">Selecciona una materia</option>
-                                    @foreach ($materias as $materia)
-                                    <option value="{{ $materia->id }}" {{ $materia->id == $grupo->materia_id ? 'selected' : '' }}>{{ $materia->nombre }}</option>
-                                    @endforeach
-                                </select>
+                                <label for="fecha_inicio" class="form-label">Fecha de Inicio</label>
+                                <input type="date" name="fecha_inicio" class="form-control flatpickr-input" id="fecha_inicio" required>
                             </div>
-
                             <div class="form-group">
-                                <label for="rango_alumnos_id" class="form-label">Rango de Alumnos</label>
-                                <select name="rango_alumnos_id" class="form-control select2" id="rango_alumnos_id">
-                                    <option value="">Selecciona un rango de alumnos</option>
-                                    @foreach ($rangoAlumnos as $rango)
-                                    <option value="{{ $rango->id }}" {{ $rango->id == $grupo->rango_alumnos_id ? 'selected' : '' }}>{{ $rango->min_alumnos }} - {{ $rango->max_alumnos }}</option>
-                                    @endforeach
-                                </select>
+                                <label for="fecha_fin" class="form-label">Fecha de Fin</label>
+                                <input type="date" name="fecha_fin" class="form-control flatpickr-input" id="fecha_fin" required>
                             </div>
-
                             <div class="form-group">
-                                <label for="horario_id" class="form-label">Horario</label>
-                                <select name="horario_id" class="form-control select2" id="horario_id">
-                                    <option value="">Selecciona un horario</option>
-                                    @foreach ($horarios as $horario)
-                                    <option value="{{ $horario->id }}" {{ $horario->id == $grupo->horario_id ? 'selected' : '' }}>{{ \Carbon\Carbon::parse($horario->hora_in)->format('h:i A') }} - {{ \Carbon\Carbon::parse($horario->hora_fn)->format('h:i A') }}</option>
-                                    @endforeach
-                                </select>
+                                <label for="estatus_text" class="form-label">Estatus</label>
+                                <input type="text" class="form-control" id="estatus_text" readonly>
                             </div>
-
-                            <div class="form-group">
-                                <label for="periodo_id" class="form-label">Periodo</label>
-                                <select name="periodo_id" class="form-control select2" id="periodo_id" onchange="updateStatus()">
-                                    <option value="">Selecciona un periodo</option>
-                                    @foreach ($periodos as $periodo)
-                                    <option value="{{ $periodo->id }}" data-estatus="{{ $periodo->estatus }}" {{ $periodo->id == $grupo->periodo_id ? 'selected' : '' }}>{{ $periodo->nombre }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="activo" class="form-label">Estado del Grupo</label>
-                                <input type="text" name="activo_display" id="activo_display" class="form-control" value="{{ $grupo->activo ? 'Activo' : 'Inactivo' }}" readonly>
-                                <input type="hidden" name="activo" id="activo" value="{{ $grupo->activo }}">
-                            </div>
-                            
+                            <input type="hidden" name="estatus" id="estatus" value="0">
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary btn-block btn-submit">Guardar</button>
                             </div>
@@ -102,26 +60,10 @@
 
 @section('scripts')
 <script>
-    function updateStatus() {
-        const periodoSelect = document.getElementById('periodo_id');
-        const selectedOption = periodoSelect.options[periodoSelect.selectedIndex];
-        const estatus = selectedOption.getAttribute('data-estatus');
-        const activoDisplay = document.getElementById('activo_display');
-        const activoInput = document.getElementById('activo');
-
-        if (estatus == 1) {
-            activoDisplay.value = 'Activo';
-            activoInput.value = 1;
-        } else {
-            activoDisplay.value = 'Inactivo';
-            activoInput.value = 0;
-        }
-    }
-
     $(document).ready(function() {
         $('.select2').select2();
 
-        $('input[type="text"]').focus(function() {
+        $('input[type="date"]').focus(function() {
             $(this).parent().addClass('active');
         }).blur(function() {
             if ($(this).val() === '') {
@@ -129,22 +71,39 @@
             }
         });
 
-        $('#clave').on('input', function(event) {
-            var regex = /[^A-Za-z0-9]/g;
-            var newValue = $(this).val().replace(regex, '');
-            if (!/^[A-Za-z]$|^[A-Za-z][0-9]{0,3}$/.test(newValue)) {
-                newValue = newValue.substring(0, 1) + newValue.substring(1).replace(/[^0-9]/g, '').substring(0, 3);
+        flatpickr(".flatpickr-input", {
+            dateFormat: "Y-m-d",
+            locale: "es",
+            altInput: true,
+            altFormat: "F j, Y",
+            onChange: function(selectedDates, dateStr, instance) {
+                checkStatus();
             }
-            $(this).val(newValue);
         });
 
-        $('#nombre').on('input', function(event) {
-            var regex = /[^a-zA-Z\s]/g;
-            var newValue = $(this).val().replace(regex, '');
-            $(this).val(newValue);
-        });
+        function checkStatus() {
+            var fechaInicio = document.getElementById('fecha_inicio').value;
+            var fechaFin = document.getElementById('fecha_fin').value;
+            var estatus = document.getElementById('estatus');
+            var estatusText = document.getElementById('estatus_text');
+            var today = new Date().toISOString().split('T')[0];
 
-        updateStatus(); // Llamar al cargar la página para configurar el estado inicial
+            if (fechaInicio && fechaFin) {
+                if (today >= fechaInicio && today <= fechaFin) {
+                    estatus.value = 1; // Activo
+                    estatusText.value = "Activo";
+                } else {
+                    estatus.value = 0; // Inactivo
+                    estatusText.value = "Inactivo";
+                }
+            } else {
+                estatus.value = 0; // Inactivo
+                estatusText.value = "Inactivo";
+            }
+        }
+
+        $('#fecha_inicio, #fecha_fin').on('change', checkStatus);
+        checkStatus(); // Llamar al cargar la página para configurar el estado inicial
     });
 </script>
 @endsection
@@ -205,16 +164,11 @@
         padding: 8px 12px;
         border-radius: 8px;
         background-color: rgba(255, 255, 255, 0.1);
-        transition: background-color 0.2s ease, color 0.2s ease;
+        transition: background-color 0.2s ease;
     }
 
     .card-header .btn-back:hover {
-        background-color: #fff;
-        color: #4b479c;
-    }
-
-    .card-header .btn-back:hover .fa-arrow-left {
-        color: #4b479c;
+        background-color: rgba(255, 255, 255, 0.2);
     }
 
     .card-header .page__heading {
@@ -297,6 +251,53 @@
 
     .select2-container--default .select2-selection--single .select2-selection__arrow {
         height: 34px;
+    }
+
+    .flatpickr-input {
+        padding: 12px 15px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        width: 100%;
+        box-sizing: border-box;
+        font-size: 16px;
+        background-color: #f9f9f9;
+        transition: all 0.2s ease;
+    }
+
+    .flatpickr-input:focus {
+        border-color: #4b479c;
+        box-shadow: 0 0 8px rgba(75, 71, 156, 0.3);
+        background-color: #fff;
+    }
+
+    .flatpickr-calendar {
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .flatpickr-month {
+        background-color: #4b479c;
+        color: #fff;
+        border-radius: 8px 8px 0 0;
+    }
+
+    .flatpickr-day.today {
+        background-color: #4b479c;
+        color: #fff;
+    }
+
+    .flatpickr-day:hover {
+        background-color: #4b479c;
+        color: #fff;
+    }
+
+    .flatpickr-day.selected {
+        background-color: #4b479c;
+        color: #fff;
+    }
+
+    .flatpickr-months, .flatpickr-weekdays {
+        border-radius: 8px 8px 0 0;
     }
 </style>
 @endsection

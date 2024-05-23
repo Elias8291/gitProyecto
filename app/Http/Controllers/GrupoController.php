@@ -6,6 +6,7 @@ use App\Models\Grupo;
 use App\Models\RangoAlumno;
 use App\Models\Horario;
 use App\Models\Materia;
+use App\Models\Periodo;
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
 use Box\Spout\Writer\Common\Creator\Style\BorderBuilder;
@@ -34,19 +35,20 @@ class GrupoController extends Controller
             ->join('rango_alumnos', 'grupos.rango_alumnos_id', '=', 'rango_alumnos.id')
             ->join('horarios', 'grupos.horario_id', '=', 'horarios.id')
             ->join('materias', 'grupos.materia_id', '=', 'materias.id')
+            ->join('periodos', 'grupos.periodo_id', '=', 'periodos.id')
+            ->leftJoin('inscripciones', 'grupos.id', '=', 'inscripciones.grupo_id')
             ->select(
                 'grupos.id',
                 'grupos.clave',
                 'grupos.nombre',
                 'materias.nombre as materia_nombre',
-                'rango_alumnos.min_alumnos',
-                'rango_alumnos.max_alumnos',
-                'horarios.hora_in',
-                'horarios.hora_fn',
-                'grupos.activo', // Asegúrate de seleccionar la propiedad 'activo'
-                DB::raw('COUNT(inscripciones.id) AS inscripcionesCount')
+                DB::raw("CONCAT(rango_alumnos.min_alumnos, ' - ', rango_alumnos.max_alumnos) as rango_alumnos"),
+                DB::raw("DATE_FORMAT(horarios.hora_in, '%h:%i %p') as hora_in"),
+                DB::raw("DATE_FORMAT(horarios.hora_fn, '%h:%i %p') as hora_fn"),
+                'grupos.activo',
+                DB::raw('COUNT(inscripciones.id) AS inscripcionesCount'),
+                'periodos.nombre as periodo_nombre'
             )
-            ->leftJoin('inscripciones', 'grupos.id', '=', 'inscripciones.grupo_id')
             ->groupBy(
                 'grupos.id',
                 'grupos.clave',
@@ -56,14 +58,15 @@ class GrupoController extends Controller
                 'rango_alumnos.max_alumnos',
                 'horarios.hora_in',
                 'horarios.hora_fn',
-                'grupos.activo' // Asegúrate de agrupar por 'activo'
+                'grupos.activo',
+                'periodos.nombre'
             )
             ->get();
-
+    
         $rangoAlumnos = RangoAlumno::all();
         $horarios = Horario::all();
         $materias = Materia::all();
-
+    
         return view('grupos.index', compact('grupos', 'rangoAlumnos', 'horarios', 'materias'));
     }
 
@@ -72,9 +75,11 @@ class GrupoController extends Controller
         $rangoAlumnos = RangoAlumno::all();
         $horarios = Horario::all();
         $materias = Materia::all();
+        $periodos = Periodo::all(); // Obtener todos los periodos
 
-        return view('grupos.crear', compact('rangoAlumnos', 'horarios', 'materias'));
+        return view('grupos.crear', compact('rangoAlumnos', 'horarios', 'materias', 'periodos'));
     }
+
 
     public function store(Request $request)
     {
@@ -84,48 +89,52 @@ class GrupoController extends Controller
             'materia_id' => 'required|integer|exists:materias,id',
             'rango_alumnos_id' => 'required|integer|exists:rango_alumnos,id',
             'horario_id' => 'required|integer|exists:horarios,id',
-            'activo' => 'required|boolean'
+            'periodo_id' => 'required|integer|exists:periodos,id',
         ]);
-
-        $grupo = Grupo::create($validatedData);
-
+    
+        // Obtener el estado del periodo seleccionado
+        $periodo = Periodo::findOrFail($validatedData['periodo_id']);
+        $validatedData['activo'] = $periodo->estatus; // Asigna el estado del periodo al grupo
+    
+        Grupo::create($validatedData);
+    
         return redirect()->route('grupos.index')->with('success', 'Grupo creado con éxito.');
     }
-
+    
+    
     public function edit($id)
     {
         $grupo = Grupo::findOrFail($id);
         $rangoAlumnos = RangoAlumno::all();
         $horarios = Horario::all();
         $materias = Materia::all();
+        $periodos = Periodo::all(); // Obtener todos los periodos
 
-        return view('grupos.editar', compact('grupo', 'rangoAlumnos', 'horarios', 'materias'));
+        return view('grupos.editar', compact('grupo', 'rangoAlumnos', 'horarios', 'materias', 'periodos'));
     }
+
 
     public function update(Request $request, $id)
     {
         $grupo = Grupo::findOrFail($id);
-
+    
         $validatedData = $request->validate([
             'clave' => 'required|string|max:50|unique:grupos,clave,' . $grupo->id,
             'nombre' => 'required|string|max:255',
             'materia_id' => 'required|integer|exists:materias,id',
             'rango_alumnos_id' => 'required|integer|exists:rango_alumnos,id',
             'horario_id' => 'required|integer|exists:horarios,id',
-            'activo' => 'required|boolean'
+            'periodo_id' => 'required|integer|exists:periodos,id',
         ]);
-
-        $grupo->clave = $validatedData['clave'];
-        $grupo->nombre = $validatedData['nombre'];
-        $grupo->materia_id = $validatedData['materia_id'];
-        $grupo->rango_alumnos_id = $validatedData['rango_alumnos_id'];
-        $grupo->horario_id = $validatedData['horario_id'];
-        $grupo->activo = $validatedData['activo']; // Asignar el valor de 'activo' directamente
-
-        $grupo->save();
-
+    
+        // Obtener el estado del periodo seleccionado
+        $periodo = Periodo::findOrFail($validatedData['periodo_id']);
+        $validatedData['activo'] = $periodo->estatus; // Asigna el estado del periodo al grupo
+    
+        $grupo->update($validatedData);
+    
         return redirect()->route('grupos.index')->with('success', 'Grupo actualizado correctamente.');
-    }
+    }    
 
     public function destroy($id)
     {

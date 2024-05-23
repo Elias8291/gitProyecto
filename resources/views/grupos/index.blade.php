@@ -1,352 +1,10 @@
 @extends('layouts.app')
 <style>
-    .table-responsive {
-        overflow-x: auto;
-    }
-
-    #miTabla2 {
-        font-family: 'Open Sans', sans-serif;
-        border-collapse: collapse;
-        width: 100%;
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    }
-
-    #miTabla2 thead {
-        background-color: #8c52ff;
-        color: #fff;
-    }
-
-    #miTabla2 thead th {
-        padding: 15px;
-        text-align: left;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
-
-    #miTabla2 tbody tr {
-        border-bottom: 1px solid #ddd;
-        transition: background-color 0.3s ease;
-    }
-
-    #miTabla2 tbody tr:hover {
-        background-color: #f5f5f5;
-    }
-
-    #miTabla2 tbody td {
-        padding: 12px 15px;
-    }
-
-    #miTabla2 tbody td .custom-badge {
-        background-color: #6a11cb;
-        color: #fff;
-        padding: 4px 8px;
-        border-radius: 4px;
-        font-size: 12px;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
-
-    #miTabla2 tbody td .btn {
-        padding: 6px 12px;
-        font-size: 14px;
-        border-radius: 4px;
-        transition: background-color 0.3s ease;
-    }
-
-    .dataTables_filter {
-        position: relative;
-    }
-
-    .dataTables_filter input[type="search"] {
-        padding: 12px 40px 12px 20px;
-        border: none;
-        border-radius: 25px;
-        background-color: #f2f2f2;
-        font-size: 16px;
-        width: 300px;
-        transition: all 0.3s ease;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    .dataTables_filter input[type="search"]:focus {
-        outline: none;
-        width: 350px;
-        background-color: #fff;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    }
-
-    .dataTables_filter::after {
-        content: "\f002";
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
-        position: absolute;
-        top: 50%;
-        right: 20px;
-        transform: translateY(-50%);
-        color: #999;
-        transition: color 0.3s ease;
-    }
-
-    .dataTables_filter input[type="search"]:focus+::after {
-        color: #333;
-    }
-
-    .dataTables_length {
-        position: relative;
-        display: inline-block;
-        margin-bottom: 20px;
-    }
-
-    .dataTables_length label {
-        font-size: 16px;
-        font-weight: bold;
-        color: #555;
-    }
-
-    .dataTables_length select {
-        padding: 10px 40px 10px 20px;
-        border: none;
-        border-radius: 25px;
-        background-color: #f2f2f2;
-        font-size: 16px;
-        width: 120px;
-        appearance: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23999'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
-        background-repeat: no-repeat;
-        background-position: right 15px center;
-        background-size: 20px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    .dataTables_length select:focus {
-        outline: none;
-        background-color: #fff;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    }
-
-    .dataTables_length select:hover {
-        background-color: #e6e6e6;
-    }
-
-    .dataTables_length::after {
-        content: "";
-        position: absolute;
-        top: 50%;
-        right: 30px;
-        transform: translateY(-50%);
-        width: 0;
-        height: 0;
-        border-left: 6px solid transparent;
-        border-right: 6px solid transparent;
-        border-top: 6px solid #999;
-        pointer-events: none;
-        transition: border-color 0.3s ease;
-    }
-
-    .dataTables_length select:focus+::after {
-        border-top-color: #333;
-    }
-
-    .action-buttons {
-        display: flex;
-        gap: 10px;
-    }
-
-    .action-buttons button,
-    .action-buttons a {
-        background-color: transparent;
-        border: none;
-        padding: 10px;
-        cursor: pointer;
-        font-size: 16px;
-        border-radius: 5px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-    .action-buttons button:hover,
-    .action-buttons a:hover {
-        background-color: #d0d0d0;
-    }
-
-    .action-buttons .icon {
-        margin-right: 5px;
-    }
-
-    .edit-btn {
-        background-color: transparent;
-        border: none;
-        color: black;
-        padding: 5px 10px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 14px;
-        margin: 2px 1px;
-        cursor: pointer;
-        border-radius: 4px;
-    }
-
-
-    @media (max-width: 992px) {
-        #miTabla2 {
-            display: none;
-        }
-
-        .mobile-table {
-            display: block;
-        }
-
-        .mobile-card {
-            background: #fff;
-            border: none;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-bottom: 16px;
-            padding: 16px;
-        }
-
-        .mobile-card .row {
-            margin-bottom: 8px;
-        }
-
-        .mobile-card label {
-            font-weight: bold;
-            color: #333;
-        }
-
-        .mobile-card .data {
-            font-size: 14px;
-            color: #666;
-        }
-
-        .action-buttons {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 0;
-        }
-
-        .btn-mobile {
-            flex: 0 1 48%;
-            margin: 0;
-            padding: 10px;
-            border-radius: 4px;
-            font-size: 14px;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .btn-mobile i {
-            font-size: 16px;
-            margin-right: 5px;
-        }
-
-        .btn-mobile:hover {
-            opacity: 0.8;
-        }
-
-        .btn-warning.btn-mobile {
-            background-color: #ffc107;
-            color: #212529;
-        }
-
-        .btn-danger.btn-mobile {
-            background-color: #dc3545;
-            color: #fff;
-        }
-
-        .btn-mobile-action {
-            flex: 0 1 48%;
-            margin: 0;
-            padding: 10px;
-            border-radius: 4px;
-            font-size: 14px;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .btn-mobile-action i {
-            font-size: 16px;
-            margin-right: 5px;
-        }
-
-        .btn-mobile-action:hover {
-            opacity: 0.8;
-        }
-    }
-
-    .delete-btn[disabled] {
-        background-color: #f0f0f0;
-        color: #aaa;
-        border: 1px solid #ccc;
-    }
-
-     .delete-btn {
-        background: none;
-        border: none;
-        border-radius: 5px;
-        padding: 8px 12px;
-        font-size: 14px;
-        color: #d9534f;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        transition: background-color 0.3s, color 0.3s;
-    }
-
-    .delete-btn:hover {
-        background-color: #ff0800;
-        color: rgb(173, 35, 35);
-    }
-
-    .delete-btn:hover i {
-        color: rgb(250, 1, 1);
-    }
-
-    .btn-excel {
-        border: none;
-        border-radius: 5px;
-        padding: 8px 12px;
-        font-size: 14px;
-        color: #06b423;
-        background: none;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        transition: background-color 0.3s, color 0.3s;
-    }
-
-    .btn-excel:hover {
-        background-color: #06b423;
-        color: white;
-    }
-
-    .btn-excel:hover i {
-        color: transparent;
-    }
-    @media (min-width: 993px) {
-        .mobile-table {
-            display: none;
-        }
-    }
+    /* Estilos para la tabla y otros elementos */
 </style>
 
 @section('content')
 <section class="section">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-
     <div class="section-header">
         <h3 class="page__heading">Grupos</h3>
     </div>
@@ -370,12 +28,11 @@
                                         <th style="color:#fff;" class="text-center">Clave</th>
                                         <th style="color:#fff;" class="text-center">Nombre</th>
                                         <th style="color:#fff;" class="text-center">Materia</th>
-                                        <th style="color:#fff;" class="text-center">Rango Alumnos Mínimo</th>
-                                        <th style="color:#fff;" class="text-center">Rango Alumnos Máximo</th>
-                                        <th style="color:#fff;" class="text-center">Horario inicio</th>
-                                        <th style="color:#fff;" class="text-center">Horario fin</th>
+                                        <th style="color:#fff;" class="text-center">Rango de Alumnos</th>
+                                        <th style="color:#fff;" class="text-center">Horario</th>
                                         <th style="color:#fff;" class="text-center">Alumnos inscritos</th>
                                         <th style="color:#fff;" class="text-center">Estado</th>
+                                        <th style="color:#fff;" class="text-center">Periodo</th>
                                         <th style="color:#fff;" class="text-center">Acciones</th>
                                     </tr>
                                 </thead>
@@ -385,10 +42,8 @@
                                         <td class="text-center">{{ $grupo->clave }}</td>
                                         <td class="text-center">{{ $grupo->nombre }}</td>
                                         <td class="text-center">{{ $grupo->materia_nombre }}</td>
-                                        <td class="text-center">{{ $grupo->min_alumnos }}</td>
-                                        <td class="text-center">{{ $grupo->max_alumnos }}</td>
-                                        <td class="text-center">{{ $grupo->hora_in }}</td>
-                                        <td class="text-center">{{ $grupo->hora_fn }}</td>
+                                        <td class="text-center">{{ $grupo->rango_alumnos }}</td>
+                                        <td class="text-center">{{ $grupo->hora_in }} - {{ $grupo->hora_fn }}</td>
                                         <td class="text-center">{{ $grupo->inscripcionesCount }}</td>
                                         <td class="text-center">
                                             @if($grupo->activo)
@@ -401,6 +56,7 @@
                                             </button>
                                             @endif
                                         </td>
+                                        <td class="text-center">{{ $grupo->periodo_nombre }}</td>
                                         <td>
                                             <div class="action-buttons">
                                                 @can('editar-grupos')
@@ -427,8 +83,8 @@
                                                 <button class="delete-btn" disabled style="cursor: not-allowed;">
                                                     <span class="icon"><i class="fas fa-trash-alt "></i></span> Eliminar
                                                 </button>
-                                                @endcan
                                                 @endif
+                                                @endcan
                                             </div>
                                         </td>
                                     </tr>
@@ -450,20 +106,12 @@
                                     <div class="col-6">{{ $grupo->materia_nombre }}</div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-6"><label>Rango Alumnos Mínimo:</label></div>
-                                    <div class="col-6">{{ $grupo->min_alumnos }}</div>
+                                    <div class="col-6"><label>Rango de Alumnos:</label></div>
+                                    <div class="col-6">{{ $grupo->rango_alumnos }}</div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-6"><label>Rango Alumnos Máximo:</label></div>
-                                    <div class="col-6">{{ $grupo->max_alumnos }}</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6"><label>Horario inicio:</label></div>
-                                    <div class="col-6">{{ $grupo->hora_in }}</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6"><label>Horario fin:</label></div>
-                                    <div class="col-6">{{ $grupo->hora_fn }}</div>
+                                    <div class="col-6"><label>Horario:</label></div>
+                                    <div class="col-6">{{ $grupo->hora_in }} - {{ $grupo->hora_fn }}</div>
                                 </div>
                                 <div class="row">
                                     <div class="col-6"><label>Alumnos inscritos:</label></div>
@@ -482,6 +130,10 @@
                                         </button>
                                         @endif
                                     </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6"><label>Periodo:</label></div> <!-- Mostrar el periodo -->
+                                    <div class="col-6">{{ $grupo->periodo_nombre }}</div>
                                 </div>
                                 <div class="row">
                                     <div class="col-6"><label>Acciones:</label></div>
@@ -553,12 +205,11 @@
             { data: 'clave', title: 'Clave' },
             { data: 'nombre', title: 'Nombre' },
             { data: 'materia_nombre', title: 'Materia' },
-            { data: 'min_alumnos', title: 'Rango Alumnos Mínimo' },
-            { data: 'max_alumnos', title: 'Rango Alumnos Máximo' },
-            { data: 'hora_in', title: 'Horario inicio' },
-            { data: 'hora_fn', title: 'Horario fin' },
+            { data: 'rango_alumnos', title: 'Rango de Alumnos' },
+            { data: 'horario', title: 'Horario' },
             { data: 'inscripcionesCount', title: 'Alumnos inscritos' },
             { data: 'activo', title: 'Estado' },
+            { data: 'periodo_nombre', title: 'Periodo' },
             { data: 'acciones', title: 'Acciones' },
         ],
         language: {

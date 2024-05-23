@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Grupo;
 use App\Models\RangoAlumno;
 use Database\Seeders\UserSeeder as SeedersUserSeeder;
 use Illuminate\Database\Seeder;
@@ -22,6 +23,7 @@ class DatabaseSeeder extends Seeder
             HorariosTableSeeder::class,
             RangosAlumnosTableSeeder::class,
             Materias::class,
+            PeriodosTableSeeder::class,
             GruposTableSeeder::class,
             InscripcionesTableSeeder::class,
             SeederTablaPermisos::class,

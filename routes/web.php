@@ -12,6 +12,7 @@ use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\MateriasController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\LogController;
+use App\Http\Controllers\PeriodoController;
 
 // Ruta para la página de bienvenida, accesible para todos los usuarios
 Route::get('/', [WelcomeController::class, 'showWelcomePage'])->name('welcome');
@@ -33,6 +34,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('blogs', BlogController::class);
     Route::resource('estudiantes', EstudianteController::class);
     Route::resource('inscripciones', InscripcionController::class);
+    Route::resource('periodos', PeriodoController::class);
     Route::resource('grupos', GrupoController::class);
     Route::resource('materias', MateriasController::class);
     Route::resource('logs', LogController::class);

@@ -16,7 +16,7 @@ class GruposTableSeeder extends Seeder
                 'rango_alumnos_id' => 1,
                 'horario_id' => 1,
                 'materia_id' => 1,
-                'activo' => true
+                'periodo_id' => 1, // Asumiendo que el período 1 es el primer semestre de 2024
             ],
             [
                 'clave' => 'G102',
@@ -24,7 +24,7 @@ class GruposTableSeeder extends Seeder
                 'rango_alumnos_id' => 2,
                 'horario_id' => 2,
                 'materia_id' => 2,
-                'activo' => false
+                'periodo_id' => 1, // Asumiendo que el período 1 es el primer semestre de 2024
             ],
             [
                 'clave' => 'G201',
@@ -32,7 +32,7 @@ class GruposTableSeeder extends Seeder
                 'rango_alumnos_id' => 3,
                 'horario_id' => 3,
                 'materia_id' => 3,
-                'activo' => true
+                'periodo_id' => 2, // Asumiendo que el período 2 es el segundo semestre de 2024
             ],
             [
                 'clave' => 'G202',
@@ -40,7 +40,7 @@ class GruposTableSeeder extends Seeder
                 'rango_alumnos_id' => 4,
                 'horario_id' => 4,
                 'materia_id' => 4,
-                'activo' => false
+                'periodo_id' => 2, // Asumiendo que el período 2 es el segundo semestre de 2024
             ],
             [
                 'clave' => 'G301',
@@ -48,7 +48,7 @@ class GruposTableSeeder extends Seeder
                 'rango_alumnos_id' => 5,
                 'horario_id' => 5,
                 'materia_id' => 5,
-                'activo' => true
+                'periodo_id' => 3, // Asumiendo que el período 3 es el primer semestre de 2025
             ],
             [
                 'clave' => 'G302',
@@ -56,7 +56,7 @@ class GruposTableSeeder extends Seeder
                 'rango_alumnos_id' => 1,
                 'horario_id' => 1,
                 'materia_id' => 6,
-                'activo' => true
+                'periodo_id' => 3, // Asumiendo que el período 3 es el primer semestre de 2025
             ],
             [
                 'clave' => 'G401',
@@ -64,7 +64,7 @@ class GruposTableSeeder extends Seeder
                 'rango_alumnos_id' => 2,
                 'horario_id' => 2,
                 'materia_id' => 7,
-                'activo' => false
+                'periodo_id' => 4, // Asumiendo que el período 4 es el segundo semestre de 2025
             ],
             [
                 'clave' => 'G402',
@@ -72,7 +72,7 @@ class GruposTableSeeder extends Seeder
                 'rango_alumnos_id' => 3,
                 'horario_id' => 3,
                 'materia_id' => 8,
-                'activo' => true
+                'periodo_id' => 4, // Asumiendo que el período 4 es el segundo semestre de 2025
             ],
             [
                 'clave' => 'G501',
@@ -80,7 +80,7 @@ class GruposTableSeeder extends Seeder
                 'rango_alumnos_id' => 4,
                 'horario_id' => 4,
                 'materia_id' => 9,
-                'activo' => false
+                'periodo_id' => 5, // Asumiendo que el período 5 es el primer semestre de 2026
             ],
             [
                 'clave' => 'G502',
@@ -88,20 +88,25 @@ class GruposTableSeeder extends Seeder
                 'rango_alumnos_id' => 5,
                 'horario_id' => 5,
                 'materia_id' => 10,
-                'activo' => true
+                'periodo_id' => 5, // Asumiendo que el período 5 es el primer semestre de 2026
             ],
             [
                 'clave' => 'G509',
-                'nombre' => 'Grupo 501',
+                'nombre' => 'Grupo 509',
                 'rango_alumnos_id' => 6,
                 'horario_id' => 5,
                 'materia_id' => 10,
-                'activo' => true
+                'periodo_id' => 5, // Asumiendo que el período 5 es el primer semestre de 2026
             ]
         ];
 
-        foreach ($grupos as $grupo) {
-            DB::table('grupos')->insert($grupo);
+        foreach ($grupos as &$grupo) {
+            // Obtener el periodo correspondiente
+            $periodo = DB::table('periodos')->where('id', $grupo['periodo_id'])->first();
+            // Definir el estado del grupo según el estado del periodo
+            $grupo['activo'] = $periodo->estatus;
         }
+
+        DB::table('grupos')->insert($grupos);
     }
 }

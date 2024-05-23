@@ -14,14 +14,15 @@ class Grupo extends Model
     public $incrementing = true;
     protected $keyType = 'integer';
 
-    // Incluir 'activo' en el arreglo $fillable para permitir la asignación masiva
+    // Incluir 'activo' y 'periodo_id' en el arreglo $fillable para permitir la asignación masiva
     protected $fillable = [
         'clave',
         'nombre',
         'rango_alumnos_id',
         'horario_id',
         'materia_id',
-        'activo', // Agregar esta línea
+        'periodo_id', // Agregar esta línea
+        'activo',
     ];
 
     public function rangoAlumno()
@@ -43,9 +44,9 @@ class Grupo extends Model
     {
         return $this->hasMany(Inscripcion::class, 'grupo_id');
     }
-    public function rangoAlumnos()
-{
-    return $this->belongsTo(RangoAlumno::class, 'rango_alumnos_id');
-}
 
+    public function periodo()
+    {
+        return $this->belongsTo(Periodo::class, 'periodo_id');
+    }
 }

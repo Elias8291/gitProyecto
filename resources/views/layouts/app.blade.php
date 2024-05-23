@@ -15,6 +15,9 @@
     <link href="{{ asset('assets/css/sweetalert.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+    
 
     @yield('page_css')
     <!-- Template CSS -->
@@ -106,22 +109,61 @@
 <script src="{{ asset('web/js/scripts.js') }}"></script>
 <script src="{{ mix('assets/js/profile.js') }}"></script>
 <script src="{{ mix('assets/js/custom/custom.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
+
 @yield('page_js')
 @yield('scripts')
 <script>
-    let loggedInUser =@json(\Illuminate\Support\Facades\Auth::user());
-    let loginUrl = '{{ route('login') }}';
-    // Loading button plugin (removed from BS4)
-    (function ($) {
-        $.fn.button = function (action) {
-            if (action === 'loading' && this.data('loading-text')) {
-                this.data('original-text', this.html()).html(this.data('loading-text')).prop('disabled', true);
+    import flatpickr from "flatpickr";
+import "flatpickr/dist/flatpickr.css";
+import { Spanish } from "flatpickr/dist/l10n/es.js";
+flatpickr.localize(Spanish);
+
+  $(document).ready(function() {
+        $('#changePasswordForm').on('submit', function(event) {
+            event.preventDefault(); // Prevent form from submitting normally
+
+            var currentPassword = $('#pfCurrentPassword').val();
+            var newPassword = $('#pfNewPassword').val();
+            var confirmPassword = $('#pfNewConfirmPassword').val();
+
+            // Limpiar mensajes de error anteriores
+            $('#errorAlert').addClass('d-none');
+            $('#errorList').empty();
+
+            // Validar si las contraseñas nuevas coinciden
+            if (newPassword !== confirmPassword) {
+                $('#errorList').append('<li>Las contraseñas no coinciden</li>');
+                $('#errorAlert').removeClass('d-none');
+                return;
             }
-            if (action === 'reset' && this.data('original-text')) {
-                this.html(this.data('original-text')).prop('disabled', false);
-            }
-        };
-    }(jQuery));
+
+            // Submit the form via AJAX
+            $.ajax({
+                url: $('#changePasswordForm').attr('action'),
+                type: 'POST',
+                data: $('#changePasswordForm').serialize(),
+                success: function(response) {
+                    $('#successAlert').removeClass('d-none');
+                    setTimeout(function() {
+                        $('#changePasswordModal').modal('hide');
+                        $('#successAlert').addClass('d-none');
+                        $('#changePasswordForm')[0].reset();
+                    }, 2000);
+                },
+                error: function(response) {
+                    if (response.responseJSON && response.responseJSON.errors) {
+                        var errors = response.responseJSON.errors;
+                        for (var error in errors) {
+                            $('#errorList').append('<li>' + errors[error][0] + '</li>');
+                        }
+                        $('#errorAlert').removeClass('d-none');
+                    }
+                }
+            });
+        });
+    });
 </script>
 
 </html>

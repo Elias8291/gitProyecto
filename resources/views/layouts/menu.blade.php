@@ -41,6 +41,14 @@
 </li>
 @endcan
 
+@can('ver-periodos')
+<li class="{{ Request::is('periodo') ? 'active' : '' }}">
+    <a class="nav-link d-flex align-items-center" href="/periodos">
+        <i class="fas fa-users" style="color: #FF6347; margin-right: 8px;"></i><span class="menu-text"
+            style="font-weight: 600; color: #333;">Periodos</span>
+    </a>
+</li>
+@endcan
 @can('ver-grupos')
 <li class="{{ Request::is('grupos') ? 'active' : '' }}">
     <a class="nav-link d-flex align-items-center" href="/grupos">

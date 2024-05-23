@@ -20,6 +20,7 @@
         "@fortawesome/fontawesome-free": "^5.13.1",
         "bootstrap": "^4.0.0",
         "datatables.net-dt": "^1.10.21",
+        "flatpickr": "^4.6.13",
         "izitoast": "^1.4.0",
         "jquery": "^3.2",
         "jquery.nicescroll": "^3.7.6",

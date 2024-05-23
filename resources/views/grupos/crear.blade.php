@@ -61,16 +61,23 @@
                                 <select name="horario_id" class="form-control select2" id="horario_id">
                                     <option value="">Selecciona un horario</option>
                                     @foreach ($horarios as $horario)
-                                    <option value="{{ $horario->id }}">{{ $horario->hora_in }} - {{ $horario->hora_fn }}</option>
+                                    <option value="{{ $horario->id }}">{{ \Carbon\Carbon::parse($horario->hora_in)->format('h:i A') }} - {{ \Carbon\Carbon::parse($horario->hora_fn)->format('h:i A') }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="periodo_id" class="form-label">Periodo</label>
+                                <select name="periodo_id" class="form-control select2" id="periodo_id" onchange="updateStatus()">
+                                    <option value="">Selecciona un periodo</option>
+                                    @foreach ($periodos as $periodo)
+                                    <option value="{{ $periodo->id }}" data-estatus="{{ $periodo->estatus }}">{{ $periodo->nombre }}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="activo" class="form-label">Estado del Grupo</label>
-                                <select name="activo" class="form-control select2" id="activo">
-                                    <option value="1" selected>Activo</option>
-                                    <option value="0">Inactivo</option>
-                                </select>
+                                <input type="text" name="activo_display" id="activo_display" class="form-control" readonly>
+                                <input type="hidden" name="activo" id="activo">
                             </div>
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary btn-block btn-submit">Guardar</button>
@@ -86,6 +93,22 @@
 
 @section('scripts')
 <script>
+    function updateStatus() {
+        const periodoSelect = document.getElementById('periodo_id');
+        const selectedOption = periodoSelect.options[periodoSelect.selectedIndex];
+        const estatus = selectedOption.getAttribute('data-estatus');
+        const activoDisplay = document.getElementById('activo_display');
+        const activoInput = document.getElementById('activo');
+
+        if (estatus == 1) {
+            activoDisplay.value = 'Activo';
+            activoInput.value = 1;
+        } else {
+            activoDisplay.value = 'Inactivo';
+            activoInput.value = 0;
+        }
+    }
+
     $(document).ready(function() {
         $('.select2').select2();
 
@@ -171,11 +194,16 @@
         padding: 8px 12px;
         border-radius: 8px;
         background-color: rgba(255, 255, 255, 0.1);
-        transition: background-color 0.2s ease;
+        transition: background-color 0.2s ease, color 0.2s ease;
     }
 
     .card-header .btn-back:hover {
-        background-color: rgba(255, 255, 255, 0.2);
+        background-color: #fff;
+        color: #4b479c;
+    }
+
+    .card-header .btn-back:hover .fa-arrow-left {
+        color: #4b479c;
     }
 
     .card-header .page__heading {

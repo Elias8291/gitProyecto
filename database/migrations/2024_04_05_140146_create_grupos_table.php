@@ -29,6 +29,9 @@ class CreateGruposTable extends Migration
             $table->unsignedBigInteger('materia_id');
             $table->foreign('materia_id')->references('id')->on('materias')->onDelete('cascade');
 
+            $table->unsignedBigInteger('periodo_id');
+            $table->foreign('periodo_id')->references('id')->on('periodos')->onDelete('cascade');
+    
             $table->boolean('activo')->default(true); // Campo para el estado del grupo
 
             $table->timestamps(); // Campos opcionales para la fecha de creación y actualización
