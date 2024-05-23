@@ -2,6 +2,9 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Carbon\Carbon;
+
+
 
 class CreateLogsTable extends Migration
 {
@@ -10,6 +13,8 @@ class CreateLogsTable extends Migration
      *
      * @return void
      */
+
+     
     public function up()
     {
         Schema::create('logs', function (Blueprint $table) {
@@ -21,6 +26,7 @@ class CreateLogsTable extends Migration
             $table->text('executedSQL');
             $table->text('reverseSQL');
             $table->string('user_name')->nullable(); // Agregar campo para almacenar el nombre de usuario
+          
             
         });
     }

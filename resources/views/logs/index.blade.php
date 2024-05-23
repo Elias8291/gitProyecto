@@ -288,17 +288,25 @@
                                 <th style="color:#fff;" class="text-center">Id Afectado</th>
                                 <th style="color:#fff;" class="text-center">Ejecutada</th>
                                 <th style="color:#fff;" class="text-center">Usuario</th>
+                                
+                                
                             </thead>
                             <tbody>
                                 @foreach ($logs as $log)
                                 <tr>
                                     <td class="text-center">{{ $log->id}}</td>
-                                    <td class="text-center">{{ $log->created_at }}</td>
+                                    <td class="text-center">{{ $log->formatted_date }}</td>
                                     <td class="text-center">{{ $log->action }}</td>
                                     <td class="text-center">{{ $log->table }}</td>
                                     <td class="text-center">{{ $log->record_id }}</td>
-                                    <td class="text-center">{{ $log->executedSQL }}</td>
-                                    <td class="text-center">{{ $log->user_name }}</td>                                    
+                                    <td class="text-center">
+                                        <button class="btn btn-primary" onclick="mostrarInformacion({{ $log->id }})">Mostrar</button>
+                                        <div id="info-{{ $log->id }}" style="display: none;">
+                                            {{ $log->executedSQL }}
+                                        </div>
+                                    </td>
+                                    <td class="text-center">{{ $log->user_name }}</td>      
+                                                              
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -311,7 +319,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-6"><label>Fecga:</label></div>
-                                <div class="col-6">{{ $log->created_at }}</div>
+                                <div class="col-6">{{ $log->formatted_date}}</div>
                             </div>
                             <div class="row">
                                 <div class="col-6"><label>Accion:</label></div>
@@ -333,6 +341,9 @@
                                 <div class="col-6"><label>Usuario:</label></div>
                                 <div class="col-6">{{ $log->user_name }}</div>
                             </div>
+                            
+                            
+                           
                         </div>
                         @endforeach
 
@@ -355,6 +366,17 @@
 <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
 
 <script>
+
+function mostrarInformacion(id) {
+        var info = document.getElementById('info-' + id).textContent;
+        Swal.fire({
+            title: 'Información del Log',
+            text: info,
+            icon: 'info',
+            confirmButtonText: 'Cerrar'
+        });
+    }
+
     new DataTable('#miTabla2', {
     lengthMenu: [
         [2, 5, 10, 15, 50],
@@ -362,12 +384,13 @@
     ],
     columns: [
         { data: 'id', name: 'Id' },
-        { data: 'created_at', name: 'Fecha' },
+        { data: 'formatted_date', name: 'Fecha' },
         { data: 'action', name: 'Accion' },
         { data: 'table', name: 'Tabla' },
         { data: 'record_id', name: 'Id Afectado' },
         { data: 'executedSQL', name: 'Ejecutada' },
         { data: 'user_name', name: 'Usuario' }
+        
     ],
     language: {
         url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',
