@@ -15,6 +15,7 @@
     <link href="{{ asset('assets/css/sweetalert.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
     
@@ -29,6 +30,10 @@
     @yield('css')
 
     <style>
+        .btn-back:hover {
+    background-color: #2000f1 !important; /* Cambia a un color morado al pasar el cursor */
+}
+
         .main-navbar {
             background: linear-gradient(to right, #4b479c, #2b285c);
             box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
@@ -53,6 +58,7 @@
             color: #ddd;
             text-decoration: none;
             transform: translateY(-5px); /* Desplazamiento vertical en hover */
+            background-color: #6a5acd;
         }
     
         @media (max-width: 992px) {

@@ -381,9 +381,40 @@
     .custom-badge {
     background-color: #483eff;
     color: white; /* Cambia el color del texto a blanco para mejorar la legibilidad */
-
-    
 }
+
+.role-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 12px;
+    color: #fff;
+    margin: 2px;
+}
+
+.role-badge.admin {
+    background-color: #28a745; /* Verde para administradores */
+    border: 1px solid #218838;
+}
+
+.role-badge.user {
+    background-color: #007bff; /* Azul para usuarios */
+    border: 1px solid #0069d9;
+}
+
+.role-badge.moderator {
+    background-color: #ffc107; /* Amarillo para moderadores */
+    border: 1px solid #e0a800;
+}
+
+/* Estilo predeterminado para cualquier otro rol */
+.role-badge.default {
+    background-color: #6c757d; /* Gris para otros roles */
+    border: 1px solid #5a6268;
+}
+
 
 </style>
 
@@ -423,7 +454,10 @@
                                         <td class="text-center">{{ $usuario->email }}</td>
                                         <td class="text-center">
                                             @foreach($usuario->getRoleNames() as $rolNombre)
-                                            <h5><span class="badge custom-badge">{{ $rolNombre }}</span></h5>
+                                            @php
+                                                $roleClass = strtolower($rolNombre) === 'admin' ? 'admin' : (strtolower($rolNombre) === 'user' ? 'user' : (strtolower($rolNombre) === 'moderator' ? 'moderator' : 'default'));
+                                            @endphp
+                                            <span class="role-badge {{ $roleClass }}">{{ $rolNombre }}</span>
                                             @endforeach
                                         </td>
                                         <td class="text-center">

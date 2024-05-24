@@ -266,6 +266,32 @@
             display: none;
         }
     }
+    .truncate {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 200px; /* Ajusta este valor según sea necesario */
+        display: inline-block;
+    }
+     .tooltip-inner {
+        background-color: #fff !important;
+        color: #333 !important;
+        border: 1px solid #ddd;
+        max-width: 350px; /* Ajusta el ancho máximo según sea necesario */
+        text-align: left;
+        padding: 8px 12px;
+        font-size: 14px;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .tooltip.bs-tooltip-top .arrow::before,
+    .tooltip.bs-tooltip-bottom .arrow::before,
+    .tooltip.bs-tooltip-left .arrow::before,
+    .tooltip.bs-tooltip-right .arrow::before {
+        border-width: 0.5rem;
+        border-color: #ddd;
+    }
 </style>
 
 @section('content')
@@ -288,8 +314,6 @@
                                 <th style="color:#fff;" class="text-center">Id Afectado</th>
                                 <th style="color:#fff;" class="text-center">Ejecutada</th>
                                 <th style="color:#fff;" class="text-center">Usuario</th>
-                                
-                                
                             </thead>
                             <tbody>
                                 @foreach ($logs as $log)
@@ -299,14 +323,8 @@
                                     <td class="text-center">{{ $log->action }}</td>
                                     <td class="text-center">{{ $log->table }}</td>
                                     <td class="text-center">{{ $log->record_id }}</td>
-                                    <td class="text-center">
-                                        <button class="btn btn-primary" onclick="mostrarInformacion({{ $log->id }})">Mostrar</button>
-                                        <div id="info-{{ $log->id }}" style="display: none;">
-                                            {{ $log->executedSQL }}
-                                        </div>
-                                    </td>
-                                    <td class="text-center">{{ $log->user_name }}</td>      
-                                                              
+                                    <td class="text-center truncate" data-toggle="tooltip" data-placement="top" title="{{ $log->executedSQL }}">{{ $log->executedSQL }}</td>
+                                    <td class="text-center">{{ $log->user_name }}</td>                                    
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -319,7 +337,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-6"><label>Fecga:</label></div>
-                                <div class="col-6">{{ $log->formatted_date}}</div>
+                                <div class="col-6">{{ $log->created_at }}</div>
                             </div>
                             <div class="row">
                                 <div class="col-6"><label>Accion:</label></div>
@@ -341,9 +359,6 @@
                                 <div class="col-6"><label>Usuario:</label></div>
                                 <div class="col-6">{{ $log->user_name }}</div>
                             </div>
-                            
-                            
-                           
                         </div>
                         @endforeach
 
@@ -366,17 +381,6 @@
 <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
 
 <script>
-
-function mostrarInformacion(id) {
-        var info = document.getElementById('info-' + id).textContent;
-        Swal.fire({
-            title: 'Información del Log',
-            text: info,
-            icon: 'info',
-            confirmButtonText: 'Cerrar'
-        });
-    }
-
     new DataTable('#miTabla2', {
     lengthMenu: [
         [2, 5, 10, 15, 50],
@@ -384,13 +388,12 @@ function mostrarInformacion(id) {
     ],
     columns: [
         { data: 'id', name: 'Id' },
-        { data: 'formatted_date', name: 'Fecha' },
+        { data: 'created_at', name: 'Fecha' },
         { data: 'action', name: 'Accion' },
         { data: 'table', name: 'Tabla' },
         { data: 'record_id', name: 'Id Afectado' },
         { data: 'executedSQL', name: 'Ejecutada' },
         { data: 'user_name', name: 'Usuario' }
-        
     ],
     language: {
         url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',

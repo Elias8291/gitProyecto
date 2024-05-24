@@ -1,3 +1,22 @@
+
+
+<style>
+    .navbar-nav .nav-link {
+        color: #fff;
+        transition: color 0.3s ease-in-out, transform 0.3s ease, background-color 0.3s ease; /* Añadir transición para el fondo */
+        font-size: 1.1em; /* Tamaño de letra más grande */
+        padding: 0.5em 1em; /* Más espaciado */
+        border-radius: 5px; /* Para aplicar un borde redondeado */
+    }
+    
+    .navbar-nav .nav-link:hover {
+        color: #ddd;
+        text-decoration: none;
+        transform: translateY(-5px); /* Desplazamiento vertical en hover */
+        background-color: #6a5acd; /* Fondo morado al pasar el cursor */
+    }
+    
+    </style>
 <form class="form-inline mr-auto" action="#">
     <ul class="navbar-nav mr-3">
         <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars"></i></a></li>
@@ -35,7 +54,7 @@
                 {{--                <img alt="image" src="#" class="rounded-circle mr-1">--}}
                 <div class="d-sm-none d-lg-inline-block">{{ __('messages.common.hello') }}</div>
             </a>
-            <div class="dropdown-menu dropdown-menu-right">
+            <div class="dropdown-menu dropdown-menu-right"  style="background: #6e4141">
                 <div class="dropdown-title">{{ __('messages.common.login') }}
                     / {{ __('messages.common.register') }}</div>
                 <a href="{{ route('login') }}" class="dropdown-item has-icon">
@@ -49,3 +68,4 @@
         </li>
     @endif
 </ul>
+

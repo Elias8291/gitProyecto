@@ -384,6 +384,31 @@
         }
     }
 
+    .btn-status {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 20px;
+    color: #000; /* Color del texto */
+    border: 2px solid transparent;
+}
+
+.btn-status.active {
+    color: #28a745; /* Color verde para 'Activo' */
+}
+
+.btn-status.inactive {
+    color: #dc3545; /* Color rojo para 'Inactivo' */
+}
+
+.btn-status .icon {
+    margin-right: 5px; /* Espacio entre el ícono y el texto */
+}
+
+
     @media (min-width: 993px) {
         .mobile-table {
             display: none;
@@ -408,7 +433,7 @@
                         </div>
                         <div class="table-responsive">
                             <table class="table table-striped mt-2" id="miTabla2">
-                                <thead>
+                                <thead style="background-color:#5f42d4">
                                     <tr>
                                         <th style="color:#fff;" class="text-center">Nombre</th>
                                         <th style="color:#fff;" class="text-center">Fecha Inicio</th>
@@ -424,7 +449,10 @@
                                         <td class="text-center">{{ $periodo->fecha_inicio }}</td>
                                         <td class="text-center">{{ $periodo->fecha_fin }}</td>
                                         <td class="text-center">
-                                            <span class="custom-badge">{{ $periodo->estatus ? 'Activo' : 'Inactivo' }}</span>
+                                            <span class="btn-status {{ $periodo->estatus ? 'active' : 'inactive' }}">
+                                                <i class="icon {{ $periodo->estatus ? 'fas fa-check' : 'fas fa-times' }}"></i>
+                                                {{ $periodo->estatus ? 'Activo' : 'Inactivo' }}
+                                            </span>
                                         </td>
                                         <td class="text-center">
                                             <a href="{{ route('periodos.edit', $periodo->id) }}" class="btn btn-warning css-button-sliding-to-left--yellow">
