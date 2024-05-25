@@ -48,7 +48,7 @@
                             @csrf
                             <div class="form-group">
                                 <label for="control_number_search">Buscar por Número de Control:</label>
-                                <input type="text" class="form-control" id="control_number_search" placeholder="Ingrese el número de control" oninput="filterStudents()" maxlength="8">
+                                <input type="text" class="form-control" id="control_number_search" placeholder="Ingrese el número de control" oninput="filterStudents()" maxlength="8" value="{{ $estudianteId ?? '' }}">
                             </div>
 
                             <div class="form-group">
@@ -56,7 +56,7 @@
                                 <select class="form-control select2 @error('estudiante_id') is-invalid @enderror" name="estudiante_id" id="estudiante_id" required>
                                     <option value="">Seleccione un estudiante</option>
                                     @foreach ($estudiantes as $estudiante)
-                                    <option value="{{ $estudiante->id }}" data-control-number="{{ $estudiante->numeroDeControl }}" {{ old('estudiante_id') == $estudiante->id ? 'selected' : '' }}>
+                                    <option value="{{ $estudiante->id }}" data-control-number="{{ $estudiante->numeroDeControl }}" {{ old('estudiante_id', $estudianteId) == $estudiante->id ? 'selected' : '' }}>
                                         {{ $estudiante->numeroDeControl }} - {{ $estudiante->nombre }}
                                     </option>
                                     @endforeach
@@ -79,9 +79,9 @@
             <div class="col-lg-6 col-md-6 mt-4 mt-md-0">
                 <div class="card shadow border-0">
                     <div class="card-body p-4">
-                        <h5 class="m-0 bg-warning text-white p-3">Grupos del Estudiante</h5>
+                        <h5 class="m-0 bg-warning text-white p-3">Grupos del Estudiante Activos</h5>
                         <div class="container">
-                            <table class="table table-bordered" id="grupos-estudiante-table">
+                            <table class="table table-bordered" id="grupos-estudiante-activos-table">
                                 <thead>
                                     <tr>
                                         <th>Clave</th>
@@ -91,7 +91,37 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!-- Grupos del estudiante se cargarán aquí -->
+                                    @foreach ($gruposActuales as $grupo)
+                                    <tr>
+                                        <td>{{ $grupo->clave }}</td>
+                                        <td>{{ $grupo->grupo_nombre }}</td>
+                                        <td>{{ $grupo->materia_nombre }}</td>
+                                        <td>{{ $grupo->hora_in }} - {{ $grupo->hora_fn }}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        <h5 class="m-0 bg-danger text-white p-3 mt-4">Grupos del Estudiante Inactivos</h5>
+                        <div class="container">
+                            <table class="table table-bordered" id="grupos-estudiante-inactivos-table">
+                                <thead>
+                                    <tr>
+                                        <th>Clave</th>
+                                        <th>Nombre del Grupo</th>
+                                        <th>Materia</th>
+                                        <th>Horario</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($gruposCursados as $grupo)
+                                    <tr>
+                                        <td>{{ $grupo->clave }}</td>
+                                        <td>{{ $grupo->grupo_nombre }}</td>
+                                        <td>{{ $grupo->materia_nombre }}</td>
+                                        <td>{{ $grupo->hora_in }} - {{ $grupo->hora_fn }}</td>
+                                    </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -113,10 +143,16 @@
             if (estudianteId) {
                 fetchGruposEstudiante(estudianteId);
             } else {
-                $('#grupos-estudiante-table tbody').html('');
-                $('#grupos-estudiante-card').hide();
+                $('#grupos-estudiante-activos-table tbody').html('');
+                $('#grupos-estudiante-inactivos-table tbody').html('');
             }
         });
+
+        // Trigger initial fetch if there's a preselected estudiante_id
+        const initialEstudianteId = "{{ old('estudiante_id', $estudianteId ?? '') }}";
+        if (initialEstudianteId) {
+            fetchGruposEstudiante(initialEstudianteId);
+        }
     });
 
     function filterStudents() {
@@ -159,32 +195,40 @@
             }
         } else {
             $('#estudiante_id').val(null).trigger('change');
-            $('#grupos-estudiante-table tbody').html('');
-            $('#grupos-estudiante-card').hide();
+            $('#grupos-estudiante-activos-table tbody').html('');
+            $('#grupos-estudiante-inactivos-table tbody').html('');
         }
     });
 
     function fetchGruposEstudiante(estudianteId) {
         $.get(`/inscripciones/grupos/${estudianteId}`, function(data) {
             if (data.length > 0) {
-                let gruposHtml = '';
+                let gruposActivosHtml = '';
+                let gruposInactivosHtml = '';
                 const horarioGrupoActual = @json(isset($grupo) ? $grupo->horario->hora_in . ' - ' . $grupo->horario->hora_fn : null);
                 
                 data.forEach(grupo => {
                     const horarioGrupo = grupo.hora_in + ' - ' + grupo.hora_fn;
                     const isOverlap = horarioGrupo === horarioGrupoActual;
-                    gruposHtml += `<tr>
+                    const rowHtml = `<tr>
                         <td>${grupo.clave}</td>
                         <td>${grupo.grupo_nombre}</td>
                         <td>${grupo.materia_nombre}</td>
                         <td ${isOverlap ? 'style="background-color: #f8d7da;"' : ''}>${grupo.hora_in} - ${grupo.hora_fn}</td>
                     </tr>`;
+
+                    if (grupo.activo) {
+                        gruposActivosHtml += rowHtml;
+                    } else {
+                        gruposInactivosHtml += rowHtml;
+                    }
                 });
-                $('#grupos-estudiante-table tbody').html(gruposHtml);
-                $('#grupos-estudiante-card').show();
+
+                $('#grupos-estudiante-activos-table tbody').html(gruposActivosHtml);
+                $('#grupos-estudiante-inactivos-table tbody').html(gruposInactivosHtml);
             } else {
-                $('#grupos-estudiante-table tbody').html('');
-                $('#grupos-estudiante-card').hide();
+                $('#grupos-estudiante-activos-table tbody').html('');
+                $('#grupos-estudiante-inactivos-table tbody').html('');
             }
         });
     }
