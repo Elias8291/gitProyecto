@@ -14,14 +14,12 @@ use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\PeriodoController;
 
+
 // Ruta para la página de bienvenida, accesible para todos los usuarios
 Route::get('/', [WelcomeController::class, 'showWelcomePage'])->name('welcome');
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Auth::routes();
-
-Route::get('/home', [HomeController::class, 'index'])->name('home');
-Route::get('/', [WelcomeController::class, 'showWelcomePage'])->name('welcome');
 
 Route::post('/usuarios/changePassword', [App\Http\Controllers\UsuarioController::class, 'changePassword'])->name('usuarios.changePassword');
 Route::post('/usuarios/updateProfile', [App\Http\Controllers\UsuarioController::class, 'updateProfile'])->name('usuarios.updateProfile');
@@ -39,4 +37,9 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('materias', MateriasController::class);
     Route::resource('logs', LogController::class);
     Route::get('/grupos/{clave}/generarPDF', [GrupoController::class, 'generarPDF'])->name('grupos.generarPDF');
+    Route::get('/periodos/{id}/grupos', [InscripcionController::class, 'getGruposByPeriodo'])->name('periodos.grupos');
+    Route::get('/inscripciones/grupos/{estudiante_id}', [InscripcionController::class, 'getGruposEstudiante']);
+    Route::get('/grupos/{grupo}/alumnos', [InscripcionController::class, 'getAlumnosByGrupo'])->name('grupos.alumnos');
+    Route::get('/grupos/{grupoId}/alumnos', [InscripcionController::class, 'getAlumnosByGrupo']);
+
 });

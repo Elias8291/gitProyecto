@@ -28,5 +28,9 @@ class Estudiante extends Model
     {
         return $this->hasMany(Inscripcion::class, 'estudiante_id');
     }
+    public function grupos()
+    {
+        return $this->belongsToMany(Grupo::class, 'inscripciones', 'estudiante_id', 'grupo_id');
+    }
     // Aquí puedes definir relaciones, scopes, y otros comportamientos del modelo
 }

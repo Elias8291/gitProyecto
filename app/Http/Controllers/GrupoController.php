@@ -253,4 +253,11 @@ class GrupoController extends Controller
         return response()->download($fileName)->deleteFileAfterSend(true);
     }
     // ->where('grupos.nombre', 'like', '%' . "grupo 101". '%')
+    // app/Http/Controllers/GrupoController.php
+    public function showAlumnos($grupoId)
+    {
+        $grupo = Grupo::with('alumnos')->findOrFail($grupoId);
+        return view('grupos.alumnos', compact('grupo'));
+    }
+
 }

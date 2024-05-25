@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Estudiante;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 
 class EstudianteController extends Controller
 {
@@ -72,5 +72,22 @@ class EstudianteController extends Controller
         return redirect()->route('estudiantes.index');
     }
 
-    // $estudiantes = Estudiante::where('nombre', 'like', '%' . "Abisai" . '%')->paginate(20);
+    public function alumnosGrupo()
+    {
+        $alumnos = DB::table('inscripciones')
+            ->join('estudiantes', 'inscripciones.estudiante_id', '=', 'estudiantes.id')
+            ->join('grupos', 'inscripciones.grupo_id', '=', 'grupos.id')
+            ->join('materias', 'grupos.materia_id', '=', 'materias.id')
+            ->select(
+                'inscripciones.id',
+                'estudiantes.numeroDeControl',
+                'estudiantes.nombre as nombre_estudiante',
+                'grupos.clave as clave_grupo',
+                'materias.nombre as nombre_materia',
+                'grupos.activo as grupo_activo'
+            )
+            ->paginate(20);
+
+        return view('inscripciones.alumnos', compact('alumnos'));
+    }
 }

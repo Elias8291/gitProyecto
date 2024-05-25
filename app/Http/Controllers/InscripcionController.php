@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Inscripcion;
 use App\Models\Estudiante;
 use App\Models\Grupo;
+use App\Models\Periodo;
 
 class InscripcionController extends Controller
 {
@@ -28,18 +29,29 @@ class InscripcionController extends Controller
                 'estudiantes.numeroDeControl',
                 DB::raw("CONCAT(estudiantes.nombre, ' ', estudiantes.apellidoPaterno, ' ', COALESCE(estudiantes.apellidoMaterno, '')) AS nombre_estudiante"),
                 'grupos.clave AS clave_grupo',
-                'materias.nombre AS nombre_materia'
+                'materias.nombre AS nombre_materia',
+                'grupos.activo AS grupo_activo'
             )
             ->paginate(30);
-
-        return view('inscripciones.index', compact('inscripciones'));
+    
+        $periodos = Periodo::all();
+    
+        return view('inscripciones.index', compact('inscripciones', 'periodos'));
     }
-    public function create()
+    
+
+    public function create(Request $request)
     {
         $estudiantes = Estudiante::all();
-        $grupos = Grupo::where('activo', 1)->get(); 
-        return view('inscripciones.crear', compact('estudiantes', 'grupos'));
+        $grupo = Grupo::with('materia', 'horario', 'rangoAlumno')->find($request->query('grupo_id'));
+
+        if (!$grupo) {
+            return redirect()->back()->withErrors(['Grupo no encontrado.']);
+        }
+
+        return view('inscripciones.crear', compact('estudiantes', 'grupo'));
     }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -47,7 +59,7 @@ class InscripcionController extends Controller
             'grupo_id' => 'required|exists:grupos,id',
         ]);
 
-        $grupo = Grupo::findOrFail($request->grupo_id);
+        $grupo = Grupo::with('rangoAlumno', 'horario')->findOrFail($request->grupo_id);
         $estudiante = Estudiante::findOrFail($request->estudiante_id);
 
         // Verificar si el estudiante ya está inscrito en un grupo con horario traslapado
@@ -59,9 +71,13 @@ class InscripcionController extends Controller
         }
 
         // Verificar el número máximo de inscripciones permitidas en el grupo
-        $maxAlumnos = $grupo->rangoAlumno->max_alumnos;
-        if ($grupo->inscripciones()->count() >= $maxAlumnos) {
-            return redirect()->back()->withErrors(['No se pueden agregar más inscripciones, se ha alcanzado el máximo permitido.']);
+        if ($grupo->rangoAlumno) {
+            $maxAlumnos = $grupo->rangoAlumno->max_alumnos;
+            if ($grupo->inscripciones()->count() >= $maxAlumnos) {
+                return redirect()->back()->withErrors(['No se pueden agregar más inscripciones, se ha alcanzado el máximo permitido.']);
+            }
+        } else {
+            return redirect()->back()->withErrors(['El grupo no tiene un rango de alumnos definido.']);
         }
 
         Inscripcion::create([
@@ -74,7 +90,6 @@ class InscripcionController extends Controller
 
         return redirect()->route('inscripciones.index')->with('success', 'Inscripción creada correctamente.');
     }
-
 
     public function show($id)
     {
@@ -96,16 +111,16 @@ class InscripcionController extends Controller
             'estudiante_id' => 'required|exists:estudiantes,id',
             'grupo_id' => 'required|exists:grupos,id',
         ]);
-    
+
         $inscripcion = Inscripcion::findOrFail($id);
         $inscripcion->update([
             'estudiante_id' => $request->estudiante_id,
             'grupo_id' => $request->grupo_id,
         ]);
-    
+
         return redirect()->route('inscripciones.index')->with('success', 'Inscripción actualizada correctamente.');
     }
-    
+
     public function destroy($id)
     {
         $inscripcion = Inscripcion::findOrFail($id);
@@ -116,11 +131,59 @@ class InscripcionController extends Controller
     private function actualizarEstadoGrupo($grupo)
     {
         $inscripcionesCount = $grupo->inscripciones()->count();
-        if ($inscripcionesCount >= $grupo->rangoAlumnos->max_alumnos) {
+        if ($grupo->rangoAlumno && $inscripcionesCount >= $grupo->rangoAlumno->max_alumnos) {
             $grupo->activo = 0; // Inactivo
         } else {
             $grupo->activo = 1; // Activo
         }
         $grupo->save();
     }
+
+    public function getGruposByPeriodo($periodoId)
+    {
+        $grupos = Grupo::where('periodo_id', $periodoId)
+            ->with(['materia', 'horario', 'rangoAlumno'])
+            ->get();
+
+        return response()->json(['grupos' => $grupos]);
+    }
+
+    public function getGruposEstudiante($estudiante_id)
+    {
+        $grupos = DB::table('inscripciones')
+            ->join('grupos', 'inscripciones.grupo_id', '=', 'grupos.id')
+            ->join('materias', 'grupos.materia_id', '=', 'materias.id')
+            ->join('horarios', 'grupos.horario_id', '=', 'horarios.id')
+            ->select('grupos.clave', 'grupos.nombre as grupo_nombre', 'materias.nombre as materia_nombre', 'horarios.hora_in', 'horarios.hora_fn')
+            ->where('inscripciones.estudiante_id', $estudiante_id)
+            ->get();
+
+        return response()->json($grupos);
+    }
+
+  
+
+
+public function getAlumnosByGrupo($grupoId)
+{
+    $grupo = Grupo::find($grupoId);
+
+    $alumnos = DB::table('inscripciones')
+        ->join('estudiantes', 'inscripciones.estudiante_id', '=', 'estudiantes.id')
+        ->join('grupos', 'inscripciones.grupo_id', '=', 'grupos.id')
+        ->join('materias', 'grupos.materia_id', '=', 'materias.id')
+        ->select(
+            'inscripciones.id',
+            'estudiantes.numeroDeControl',
+            DB::raw("CONCAT(estudiantes.nombre, ' ', estudiantes.apellidoPaterno, ' ', COALESCE(estudiantes.apellidoMaterno, '')) AS nombre_estudiante"),
+            'grupos.clave AS clave_grupo',
+            'materias.nombre AS nombre_materia',
+            'grupos.activo AS grupo_activo'
+        )
+        ->where('inscripciones.grupo_id', $grupoId)
+        ->paginate(10);
+    
+    return view('inscripciones.alumnos', compact('alumnos', 'grupo'));
+}
+
 }

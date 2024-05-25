@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\alumno;
 class Grupo extends Model
 {
     use HasFactory;
@@ -48,5 +48,9 @@ class Grupo extends Model
     public function periodo()
     {
         return $this->belongsTo(Periodo::class, 'periodo_id');
+    }
+    public function estudiantes()
+    {
+        return $this->belongsToMany(Estudiante::class, 'inscripciones', 'grupo_id', 'estudiante_id');
     }
 }
