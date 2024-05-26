@@ -82,29 +82,19 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
-    new DataTable('#alumnosTable', {
-        lengthMenu: [
-            [2, 5, 10, 15, 50],
-            [2, 5, 10, 15, 50]
-        ],
-        columns: [
-            { data: 'numeroDeControl', title: 'Número de Control' },
-            { data: 'nombre_estudiante', title: 'Nombre del Estudiante' },
-            { data: 'clave_grupo', title: 'Clave del Grupo' },
-            { data: 'nombre_materia', title: 'Nombre de la Materia' },
-            { data: 'acciones', title: 'Acciones' },
-        ],
-        language: {
-            url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',
-            search: "_INPUT_",
-            searchPlaceholder: "Buscar...",
-            lengthMenu: "Mostrar registros _MENU_"
-        },
-        dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rt<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
-        pageLength: 10
+    $(document).ready(function() {
+        $('#alumnosTable').DataTable({
+            lengthMenu: [
+                [2, 5, 10],
+                [2, 5, 10]
+            ],
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',
+            }
+        });
     });
 
-    function confirmarEliminacion(estudianteId) {
+    function confirmarEliminacion(inscripcionId) {
         Swal.fire({
             title: '¿Estás seguro?',
             text: "¡No podrás revertir esto!",
@@ -115,10 +105,10 @@
             confirmButtonText: 'Sí, eliminarlo'
         }).then((result) => {
             if (result.isConfirmed) {
-                document.getElementById('eliminar-form-' + estudianteId).submit();
+                document.getElementById('eliminar-form-' + inscripcionId).submit();
                 Swal.fire({
                     title: 'Eliminado!',
-                    text: 'El estudiante ha sido eliminado correctamente.',
+                    text: 'La inscripción ha sido eliminada correctamente.',
                     icon: 'success',
                     timer: 4000,
                     showConfirmButton: false

@@ -41,5 +41,6 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/inscripciones/grupos/{estudiante_id}', [InscripcionController::class, 'getGruposEstudiante']);
     Route::get('/grupos/{grupo}/alumnos', [InscripcionController::class, 'getAlumnosByGrupo'])->name('grupos.alumnos');
     Route::get('/grupos/{grupoId}/alumnos', [InscripcionController::class, 'getAlumnosByGrupo']);
+    Route::get('/inscripciones/alumnos/{grupoId}', [InscripcionController::class, 'getAlumnosByGrupo'])->name('inscripciones.alumnos');
 
 });
