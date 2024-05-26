@@ -95,6 +95,22 @@
                                 </tbody>
                             </table>
                         </div>
+                        <h5 class="m-0 bg-danger text-white p-3">Grupos Inactivos del Estudiante</h5>
+                        <div class="container">
+                            <table class="table table-bordered" id="grupos-estudiante-inactivos-table">
+                                <thead>
+                                    <tr>
+                                        <th>Clave</th>
+                                        <th>Nombre del Grupo</th>
+                                        <th>Materia</th>
+                                        <th>Horario</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Grupos inactivos del estudiante se cargarán aquí -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -163,31 +179,50 @@
             $('#grupos-estudiante-card').hide();
         }
     });
-
+    
     function fetchGruposEstudiante(estudianteId) {
-        $.get(`/inscripciones/grupos/${estudianteId}`, function(data) {
-            if (data.length > 0) {
-                let gruposHtml = '';
-                const horarioGrupoActual = @json(isset($grupo) ? $grupo->horario->hora_in . ' - ' . $grupo->horario->hora_fn : null);
-                
-                data.forEach(grupo => {
-                    const horarioGrupo = grupo.hora_in + ' - ' + grupo.hora_fn;
-                    const isOverlap = horarioGrupo === horarioGrupoActual;
-                    gruposHtml += `<tr>
-                        <td>${grupo.clave}</td>
-                        <td>${grupo.grupo_nombre}</td>
-                        <td>${grupo.materia_nombre}</td>
-                        <td ${isOverlap ? 'style="background-color: #f8d7da;"' : ''}>${grupo.hora_in} - ${grupo.hora_fn}</td>
-                    </tr>`;
-                });
-                $('#grupos-estudiante-table tbody').html(gruposHtml);
-                $('#grupos-estudiante-card').show();
+    $.get(`/inscripciones/grupos/${estudianteId}`, function(data) {
+        let gruposActivosHtml = '';
+        let gruposInactivosHtml = '';
+
+        data.forEach(grupo => {
+            const horarioGrupo = grupo.hora_in + ' - ' + grupo.hora_fn;
+            const isOverlap = horarioGrupo === @json(isset($grupo) ? $grupo->horario->hora_in . ' - ' . $grupo->horario->hora_fn : null);
+
+            if (grupo.grupo_activo === 'Activo') {
+                gruposActivosHtml += `<tr>
+                    <td>${grupo.clave}</td>
+                    <td>${grupo.grupo_nombre}</td>
+                    <td>${grupo.materia_nombre}</td>
+                    <td ${isOverlap ? 'style="background-color: #f8d7da;"' : ''}>${grupo.hora_in} - ${grupo.hora_fn}</td>
+                </tr>`;
             } else {
-                $('#grupos-estudiante-table tbody').html('');
-                $('#grupos-estudiante-card').hide();
+                gruposInactivosHtml += `<tr>
+                    <td>${grupo.clave}</td>
+                    <td>${grupo.grupo_nombre}</td>
+                    <td>${grupo.materia_nombre}</td>
+                    <td ${isOverlap ? 'style="background-color: #f8d7da;"' : ''}>${grupo.hora_in} - ${grupo.hora_fn}</td>
+                </tr>`;
             }
         });
-    }
+
+        $('#grupos-estudiante-table tbody').html(gruposActivosHtml);
+        $('#grupos-estudiante-inactivos-table tbody').html(gruposInactivosHtml);
+
+        if (gruposActivosHtml) {
+            $('#grupos-estudiante-card').show();
+        } else {
+            $('#grupos-estudiante-card').hide();
+        }
+
+        if (gruposInactivosHtml) {
+            $('#grupos-estudiante-inactivos-card').show();
+        } else {
+            $('#grupos-estudiante-inactivos-card').hide();
+        }
+    });
+}
+
 </script>
 @endsection
 

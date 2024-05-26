@@ -154,7 +154,8 @@ class InscripcionController extends Controller
             ->join('grupos', 'inscripciones.grupo_id', '=', 'grupos.id')
             ->join('materias', 'grupos.materia_id', '=', 'materias.id')
             ->join('horarios', 'grupos.horario_id', '=', 'horarios.id')
-            ->select('grupos.clave', 'grupos.nombre as grupo_nombre', 'materias.nombre as materia_nombre', 'horarios.hora_in', 'horarios.hora_fn')
+            ->select('grupos.clave', 'grupos.nombre as grupo_nombre', 'materias.nombre as materia_nombre', 'horarios.hora_in', 'horarios.hora_fn',
+              DB::raw("CASE WHEN grupos.activo = 1 THEN 'Activo' ELSE 'Inactivo' END AS grupo_activo"))
             ->where('inscripciones.estudiante_id', $estudiante_id)
             ->get();
 
