@@ -123,26 +123,21 @@ class GrupoController extends Controller
             'rango_alumnos_id' => 'required|integer|exists:rango_alumnos,id',
             'horario_id' => 'required|integer|exists:horarios,id',
             'periodo_id' => 'required|integer|exists:periodos,id',
-            'activo' => 'required|boolean', // Validar el campo "activo"
         ]);
 
-        // Obtenemos el período asociado al grupo
-        $periodo = Periodo::findOrFail($validatedData['periodo_id']);
+        // Obtener el período asociado al grupo y el nuevo período seleccionado
+        $periodoActual = $grupo->periodo;
+        $nuevoPeriodo = Periodo::findOrFail($validatedData['periodo_id']);
 
-        // Verificar si el período está activo antes de actualizar el campo "activo" del grupo
-        if ($periodo->estatus == 1) {
-            $grupo->update($validatedData);
+        // Verificar si el nuevo período es activo
+        if ($nuevoPeriodo->estatus == 1) {
+            $validatedData['activo'] = $request->input('activo'); // Permitir la edición del estado del grupo
         } else {
-            // Si el período no está activo, mantener el estado actual del grupo
-            $grupo->update([
-                'clave' => $validatedData['clave'],
-                'nombre' => $validatedData['nombre'],
-                'materia_id' => $validatedData['materia_id'],
-                'rango_alumnos_id' => $validatedData['rango_alumnos_id'],
-                'horario_id' => $validatedData['horario_id'],
-                'periodo_id' => $validatedData['periodo_id'],
-            ]);
+            $validatedData['activo'] = $nuevoPeriodo->estatus; // Establecer el estado del grupo según el nuevo período
         }
+
+        // Actualizar el grupo con los datos validados
+        $grupo->update($validatedData);
 
         return redirect()->route('grupos.index')->with('success', 'Grupo actualizado correctamente.');
     }

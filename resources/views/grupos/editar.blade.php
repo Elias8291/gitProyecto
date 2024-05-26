@@ -93,8 +93,7 @@
                                     <input type="text" name="activo_display" id="activo_display" class="form-control" value="{{ $grupo->activo? 'Activo' : 'Inactivo' }}" readonly>
                                     <input type="hidden" name="activo" id="activo" value="{{ $grupo->activo }}">
                                 @endif
-                            </div>
-                            
+                            </div>                             
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary btn-block btn-submit">Guardar</button>
                             </div>
@@ -149,6 +148,11 @@
             var regex = /[^a-zA-Z\s]/g;
             var newValue = $(this).val().replace(regex, '');
             $(this).val(newValue);
+        });
+
+        $('#periodo_id').on('change', function() {
+            $(this).select2('close'); // Cierra la lista desplegable al seleccionar una opción
+            updateStatus();
         });
 
         updateStatus(); // Llamar al cargar la página para configurar el estado inicial
