@@ -84,8 +84,15 @@
 
                             <div class="form-group">
                                 <label for="activo" class="form-label">Estado del Grupo</label>
-                                <input type="text" name="activo_display" id="activo_display" class="form-control" value="{{ $grupo->activo ? 'Activo' : 'Inactivo' }}" readonly>
-                                <input type="hidden" name="activo" id="activo" value="{{ $grupo->activo }}">
+                                @if ($grupo->periodo->estatus == 1)
+                                    <select name="activo" class="form-control" id="activo">
+                                        <option value="1" {{ $grupo->activo ? 'selected' : '' }}>Activo</option>
+                                        <option value="0" {{ !$grupo->activo ? 'selected' : '' }}>Inactivo</option>
+                                    </select>
+                                @else
+                                    <input type="text" name="activo_display" id="activo_display" class="form-control" value="{{ $grupo->activo? 'Activo' : 'Inactivo' }}" readonly>
+                                    <input type="hidden" name="activo" id="activo" value="{{ $grupo->activo }}">
+                                @endif
                             </div>
                             
                             <div class="text-center">
