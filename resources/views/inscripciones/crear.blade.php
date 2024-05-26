@@ -79,7 +79,7 @@
             <div class="col-lg-6 col-md-6 mt-4 mt-md-0">
                 <div class="card shadow border-0">
                     <div class="card-body p-4">
-                        <h5 class="m-0 bg-warning text-white p-3">Grupos del Estudiante</h5>
+                        <h5 class="m-0 bg-warning text-white p-3">Grupos Activos del Estudiante</h5>
                         <div class="container">
                             <table class="table table-bordered" id="grupos-estudiante-table">
                                 <thead>

@@ -46,8 +46,12 @@
                                 <input type="text" class="form-control" id="estatus_text" readonly>
                             </div>
                             <input type="hidden" name="estatus" id="estatus" value="0">
+                            <div id="error_message" class="alert alert-danger" style="display: none;">
+                                <strong>¡Revise los campos!</strong>
+                                <span class="badge badge-danger">La fecha de fin no puede ser el mismo día ni un día antes que la fecha de inicio.</span>
+                            </div>
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary btn-block btn-submit">Guardar</button>
+                                <button type="submit" class="btn btn-primary btn-block btn-submit" id="submit_button">Guardar</button>
                             </div>
                         </form>
                     </div>
@@ -86,19 +90,35 @@
             var fechaFin = document.getElementById('fecha_fin').value;
             var estatus = document.getElementById('estatus');
             var estatusText = document.getElementById('estatus_text');
+            var submitButton = document.getElementById('submit_button');
+            var errorMessage = document.getElementById('error_message');
             var today = new Date().toISOString().split('T')[0];
 
             if (fechaInicio && fechaFin) {
-                if (today >= fechaInicio && today <= fechaFin) {
-                    estatus.value = 1; // Activo
-                    estatusText.value = "Activo";
-                } else {
+                var startDate = new Date(fechaInicio);
+                var endDate = new Date(fechaFin);
+
+                if (endDate <= startDate) {
                     estatus.value = 0; // Inactivo
                     estatusText.value = "Inactivo";
+                    submitButton.disabled = true;
+                    errorMessage.style.display = 'block';
+                } else {
+                    errorMessage.style.display = 'none';
+                    if (today >= fechaInicio && today <= fechaFin) {
+                        estatus.value = 1; // Activo
+                        estatusText.value = "Activo";
+                    } else {
+                        estatus.value = 0; // Inactivo
+                        estatusText.value = "Inactivo";
+                    }
+                    submitButton.disabled = false;
                 }
             } else {
                 estatus.value = 0; // Inactivo
                 estatusText.value = "Inactivo";
+                submitButton.disabled = false;
+                errorMessage.style.display = 'none';
             }
         }
 
@@ -218,6 +238,7 @@
 
     .custom-container {
         max-width: 800px;
+        width: 100%;
         margin: auto;
         border: 3px solid #4b479c;
         border-radius: 15px;
@@ -296,7 +317,8 @@
         color: #fff;
     }
 
-    .flatpickr-months, .flatpickr-weekdays {
+    .flatpickr-months,
+    .flatpickr-weekdays {
         border-radius: 8px 8px 0 0;
     }
 </style>
