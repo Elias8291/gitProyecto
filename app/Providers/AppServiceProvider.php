@@ -12,6 +12,7 @@ use App\Models\Grupo;
 use App\Models\Inscripcion;
 use App\Models\Materia;
 use App\Models\User;
+use App\Models\Periodo;
 use Spatie\Permission\Models\Role;
 use App\Observers\LogObserver;
 
@@ -42,6 +43,6 @@ class AppServiceProvider extends ServiceProvider
         Materia::observe(LogObserver::class);
         User::observe(LogObserver::class);
         Role::observe(LogObserver::class);
-        
+        Periodo::observe(LogObserver::class);
     }
 }
