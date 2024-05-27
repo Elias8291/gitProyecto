@@ -7,7 +7,7 @@
             <div class="col-lg-6 col-md-6">
                 <div class="card shadow border-0">
                     <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center" style="background: #086dd1">
-                        <a href="{{ url()->previous() }}" class="btn btn-back text-white">
+                        <a href=" /inscripciones " class="btn btn-back text-white">
                             <i class="fas fa-arrow-left mr-2"></i> Regresar
                         </a>
                         @if(isset($grupo))
@@ -37,7 +37,7 @@
                         </div>
                         @endif
 
-                        <form action="{{ route('inscripciones.store') }}" method="POST" class="form-floating-labels">
+                        <form id="registerForm" action="{{ route('inscripciones.store') }}" method="POST" class="form-floating-labels">
                             @if(isset($grupo))
                             <div class="mb-4">
                                 <p><strong>Horario:</strong> {{ $grupo->horario->hora_in }} a {{ $grupo->horario->hora_fn }}</p>
@@ -120,6 +120,7 @@
 @endsection
 
 @section('scripts')
+
 <script>
     $(document).ready(function() {
         $('.select2').select2();
@@ -134,6 +135,61 @@
             }
         });
     });
+
+    document.getElementById('registerForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        var formData = new FormData(this);
+
+        fetch('{{ route('inscripciones.store') }}', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Accept': 'application/json',
+                // Aquí más cabeceras si es necesario
+            }
+        }).then(response => {
+            if (response.ok) {
+                exito();
+                // Si el registro es exitoso, puedes redirigir al usuario o mostrar un mensaje de éxito
+                window.location.reload(); // Esto recargará la página
+            } else {
+                response.json().then(data => {
+                    if (data.errors) {
+                        var errorMessage = '';
+                        for (const [key, value] of Object.entries(data.errors)) {
+                            errorMessage += value + '\n';
+                        }
+                        showRegisterErrorModal(errorMessage.trim()); // Mostrar los mensajes de error
+                    } else {
+                        showRegisterErrorModal(data.message); // Mostrar el mensaje de error devuelto por el servidor
+                    }
+                });
+            }
+        }).catch(error => {
+            console.error('Error al registrar:', error);
+            showRegisterErrorModal('Hubo un error al intentar registrarte. Por favor, intenta de nuevo más tarde.'); // Mensaje genérico en caso de error de conexión
+        });
+    });
+
+    function exito() {
+        Swal.fire({
+            title: "Usuario Registrado!",
+            text: "Usted ha sido registrado!",
+            icon: "success",
+            timer: 5000, // Duración de la alerta en milisegundos
+            showConfirmButton: false
+        });
+    }
+
+    function showRegisterErrorModal(message) {
+        Swal.fire({
+            title: "Error al Registrar",
+            text: message,
+            icon: "error",
+            timer: 5000, // Duración de la alerta en milisegundos
+            showConfirmButton: false
+        });
+    }
 
     function filterStudents() {
         const searchValue = document.getElementById('control_number_search').value.toLowerCase();

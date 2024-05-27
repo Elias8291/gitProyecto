@@ -88,6 +88,14 @@ class InscripcionController extends Controller
     $grupo = Grupo::with('rangoAlumno', 'horario')->findOrFail($request->grupo_id);
     $estudiante = Estudiante::findOrFail($request->estudiante_id);
 
+    $inscripcionExistente = Inscripcion::where('estudiante_id', $request->estudiante_id)
+        ->where('grupo_id', $request->grupo_id)
+        ->first();
+
+    if ($inscripcionExistente) {
+        return response()->json(['message' => 'El estudiante ya está inscrito en este grupo.'], 400);
+    }
+
     // Verificar si el estudiante ya está inscrito en un grupo activo con horario traslapado
     $inscripcionesExistentes = $estudiante->inscripciones()->with('grupo.horario')->get();
     foreach ($inscripcionesExistentes as $inscripcionExistente) {
