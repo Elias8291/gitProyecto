@@ -29,6 +29,7 @@ class SeederTablaPermisos extends Seeder
             'editar-usuario',
             'borrar-usuario',
             'ver-inscripcion',
+            'ver-estudiantes-inscritos',
             'crear-inscripcion',
             'editar-inscripcion',
             'borrar-inscripcion',
