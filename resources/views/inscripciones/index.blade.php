@@ -225,6 +225,21 @@
     </div>
 </section>
 <script>
+    // Definir la variable en el contexto de JavaScript
+    const tienePermisoCrearInscripcion = @json(auth()->user()->can('crear-inscripcion'));
+</script>
+
+<div>
+    <select id="periodo-select" onchange="fetchGroups()">
+        <!-- Opciones de periodo -->
+    </select>
+</div>
+
+<div id="grupos-container">
+    <!-- Aquí se llenarán los grupos -->
+</div>
+
+<script>
     function fetchGroups() {
         const periodoId = document.getElementById('periodo-select').value;
         if (periodoId) {
@@ -247,7 +262,7 @@
 
                         const estadoClass = grupo.activo ? 'activo' : 'inactivo';
                         const estadoText = grupo.activo ? 'Activo' : 'Inactivo';
-                        const inscribirButton = grupo.activo ? `<a href="/inscripciones/create?grupo_id=${grupo.id}" class="btn btn-inscribir">Inscribir</a>` : '';
+                        const inscribirButton = grupo.activo && tienePermisoCrearInscripcion ? `<a href="/inscripciones/create?grupo_id=${grupo.id}" class="btn btn-inscribir">Inscribir</a>` : '';
                         const verAlumnosButton = `<a href="/grupos/${grupo.id}/alumnos" class="btn btn-ver-alumnos">Ver Alumnos</a>`;
                         const grupoElement = document.createElement('div');
                         grupoElement.className = 'grupo';
