@@ -271,5 +271,183 @@
         background-color: #3085d6 !important;
         color: #fff !important;
     }
+
+     /* Estilos para el campo de búsqueda */
+     .dataTables_filter {
+        position: relative;
+    }
+
+    .dataTables_filter input[type="search"] {
+        padding: 12px 40px 12px 20px;
+        border: none;
+        border-radius: 25px;
+        background-color: #f2f2f2;
+        font-size: 16px;
+        width: 300px;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .dataTables_filter input[type="search"]:focus {
+        outline: none;
+        width: 350px;
+        background-color: #fff;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .dataTables_filter::after {
+        content: "\f002";
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        position: absolute;
+        top: 50%;
+        right: 20px;
+        transform: translateY(-50%);
+        color: #999;
+        transition: color 0.3s ease;
+    }
+
+    .dataTables_filter input[type="search"]:focus+::after {
+        color: #333;
+    }
+
+     /* Estilos para el menú de selección de registros */
+     .dataTables_length {
+        position: relative;
+        display: inline-block;
+        margin-bottom: 20px;
+    }
+
+    .dataTables_length label {
+        font-size: 16px;
+        font-weight: bold;
+        color: #555;
+    }
+
+    .dataTables_length select {
+        padding: 10px 40px 10px 20px;
+        border: none;
+        border-radius: 25px;
+        background-color: #f2f2f2;
+        font-size: 16px;
+        width: 120px;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23999'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 15px center;
+        background-size: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .dataTables_length select:focus {
+        outline: none;
+        background-color: #fff;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .dataTables_length select:hover {
+        background-color: #e6e6e6;
+    }
+
+
+    @media (max-width: 992px) {
+        #miTabla2 {
+            display: none;
+        }
+
+        .mobile-table {
+            display: block;
+        }
+
+        /* Estilos para las tarjetas en modo móvil */
+        .mobile-card {
+            background: #fff;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 16px;
+            padding: 16px;
+        }
+
+        .mobile-card .row {
+            margin-bottom: 8px;
+        }
+
+        .mobile-card label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .mobile-card .data {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Estilos para los botones de acción en modo móvil */
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+        }
+
+        .btn-mobile {
+            flex: 0 1 48%;
+            margin: 0;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .btn-mobile i {
+            font-size: 16px;
+            margin-right: 5px;
+        }
+
+        .btn-mobile:hover {
+            opacity: 0.8;
+        }
+
+        /* Colores de los botones */
+        .btn-warning.btn-mobile {
+            background-color: #ffc107;
+            color: #212529;
+        }
+
+        .btn-danger.btn-mobile {
+            background-color: #dc3545;
+            color: #fff;
+        }
+
+        .btn-mobile-action {
+            flex: 0 1 48%;
+            margin: 0;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .btn-mobile-action i {
+            font-size: 16px;
+            margin-right: 5px;
+        }
+
+        .btn-mobile-action:hover {
+            opacity: 0.8;
+        }
+    }
+
+    @media (min-width: 993px) {
+        .mobile-table {
+            display: none;
+        }
+    }
 </style>
 @endsection
