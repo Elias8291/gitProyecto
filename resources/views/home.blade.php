@@ -236,6 +236,20 @@ img {
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-4 col-xl-4 custom-column">
+                                <div class="card card-custom bg-primary text-white shadow">
+                                    <div class="card-body">
+                                        <h5 class="card-title"><i class="fas fa-clipboard-list"></i> Periodos</h5>
+                                        @php
+                                        $cant_periodos = \App\Models\Periodo::count();
+                                        @endphp
+                                        <h2 class="text-right">
+                                            <span>{{ $cant_periodos }}</span>
+                                        </h2>
+                                        <p class="mb-0 text-right"><a href="/periodos" class="text-white">Ver más</a></p>
+                                    </div>
+                                </div>
+                            </div>
                             <!-- More card blocks -->
                         </div>
                     </div>
