@@ -36,7 +36,7 @@
 <li class="{{ Request::is('inscripciones*') ? 'active' : '' }}">
     <a class="nav-link d-flex align-items-center" href="/inscripciones">
         <i class="fas fa-user-edit" style="color: #FFD700; margin-right: 8px;"></i><span class="menu-text"
-            style="font-weight: 600; color: #333;">Inscribir Estudiante</span>
+            style="font-weight: 600; color: #333;">Inscripciones</span>
     </a>
 </li>
 @endcan

@@ -173,8 +173,8 @@
 
     function exito() {
         Swal.fire({
-            title: "Usuario Registrado!",
-            text: "Usted ha sido registrado!",
+            title: "Alumno Registrado!",
+            text: "El Alumno ha sido registrado!",
             icon: "success",
             timer: 5000, // Duración de la alerta en milisegundos
             showConfirmButton: false
@@ -257,7 +257,7 @@
                     <td>${grupo.clave}</td>
                     <td>${grupo.grupo_nombre}</td>
                     <td>${grupo.materia_nombre}</td>
-                    <td ${isOverlap ? 'style="background-color: #f8d7da;"' : ''}>${grupo.hora_in} - ${grupo.hora_fn}</td>
+                    <td ${isOverlap ? 'style="background-color: ;"' : ''}>${grupo.hora_in} - ${grupo.hora_fn}</td>
                 </tr>`;
             }
         });
