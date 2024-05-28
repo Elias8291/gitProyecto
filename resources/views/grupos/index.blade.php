@@ -459,7 +459,7 @@
         .dataTables_filter,
         .dataTables_paginate {
             display: none !important;
-        }||
+        }
     }
 
     @media (min-width: 993px) {

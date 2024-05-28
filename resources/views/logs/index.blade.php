@@ -320,6 +320,11 @@
         .btn-mobile-action:hover {
             opacity: 0.8;
         }
+        .dataTables_length,
+        .dataTables_filter,
+        .dataTables_paginate {
+            display: none !important;
+        }
     }
 
     @media (min-width: 993px) {
