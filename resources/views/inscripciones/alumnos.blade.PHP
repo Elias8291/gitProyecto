@@ -297,27 +297,62 @@
         }
 
         .mobile-card {
-            background: #fff;
-            border: none;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-bottom: 16px;
-            padding: 16px;
-        }
+        background: #fff;
+        border: 1px solid #ddd; /* Añadir borde */
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 16px;
+        padding: 16px;
+    }
 
-        .mobile-card .row {
-            margin-bottom: 8px;
-        }
+    .mobile-card .row {
+        margin-bottom: 8px;
+    }
 
-        .mobile-card label {
-            font-weight: bold;
-            color: #333;
-        }
+    .mobile-card label {
+        font-weight: bold;
+        color: #333;
+    }
 
-        .mobile-card .data {
-            font-size: 14px;
-            color: #666;
-        }
+    .mobile-card .data {
+        font-size: 14px;
+        color: #666;
+    }
+
+    .action-buttons {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 0;
+    }
+
+    .btn-mobile {
+        flex: 0 1 48%;
+        margin: 0;
+        padding: 10px;
+        border-radius: 4px;
+        font-size: 14px;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    .btn-mobile i {
+        font-size: 16px;
+        margin-right: 5px;
+    }
+
+    .btn-mobile:hover {
+        opacity: 0.8;
+    }
+
+    .btn-warning.btn-mobile {
+        background-color: #ffc107;
+        color: #212529;
+    }
+
+    .btn-danger.btn-mobile {
+        background-color: #dc3545;
+        color: #fff;
+    }
 
         .action-buttons {
             display: flex;
@@ -462,7 +497,7 @@
                                             </a>
                                             @endcan
 
-                                            @can('borrar-inscripcion')
+                                            @can('eliminar-inscripcion')
                                             <button type="button" class="btn btn-danger css-button-sliding-to-left--red"
                                                 onclick="confirmarEliminacion({{ $alumno->id }})">
                                                 <i class="fas fa-trash-alt"></i> Eliminar
@@ -513,7 +548,7 @@
                                         <i class="fas fa-edit"></i> Editar
                                     </a>
                                     @endcan
-                                    @can('borrar-inscripcion')
+                                    @can('eliminar-inscripcion')
                                     <button type="button" class="btn btn-danger btn-mobile"
                                         onclick="confirmarEliminacion({{ $alumno->id }})">
                                         <i class="fas fa-trash-alt"></i> Eliminar

@@ -1,32 +1,27 @@
+
 @if(auth()->user()->canAny(['ver-rol', 'crear-rol', 'editar-rol', 'borrar-rol', 'ver-estudiante', 'crear-estudiante',
 'editar-estudiante', 'borrar-estudiante', 'ver-grupos', 'ver-materias']))
 <li class="side-menus {{ Request::is('*') ? 'active' : '' }}">
-
-@can(['ver-dashboard'])
+    @canany(['ver-rol', 'crear-rol', 'editar-rol', 'borrar-rol'])
 <li class="{{ Request::is('home*') ? 'active' : '' }}">
     <a class="nav-link d-flex align-items-center" href="/home">
         <i class="fas fa-building" style="color: #9370DB; margin-right: 8px;"></i><span class="menu-text"
             style="font-weight: 600; color: #333;">Dashboard</span>
     </a>
 </li>
-@endcan
-
-@can(['ver-usuarios'])
 <li class="{{ Request::is('usuarios*') ? 'active' : '' }}">
     <a class="nav-link d-flex align-items-center" href="/usuarios">
         <i class="fas fa-users" style="color: #BA55D3; margin-right: 8px;"></i><span class="menu-text"
             style="font-weight: 600; color: #333;">Usuarios</span>
     </a>
 </li>
-@endcan
-@endcan
 <li class="{{ Request::is('roles*') ? 'active' : '' }}">
     <a class="nav-link d-flex align-items-center" href="/roles">
         <i class="fas fa-user-lock" style="color: #8A2BE2; margin-right: 8px;"></i><span class="menu-text"
             style="font-weight: 600; color: #333;">Roles</span>
     </a>
 </li>
-
+@endcanany
 
 @can(['ver-estudiante'])
 <li class="{{ Request::is('estudiantes*') ? 'active' : '' }}">

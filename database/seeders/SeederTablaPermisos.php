@@ -48,10 +48,11 @@ class SeederTablaPermisos extends Seeder
             'eliminar-materias',
             'ver-log',
         ];
-             
 
         foreach ($permisos as $permiso) {
             Permission::create(['name' => $permiso]);
         }
     }
 }
+
+

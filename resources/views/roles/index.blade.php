@@ -259,30 +259,63 @@
             display: block;
         }
 
-        /* Estilos para las tarjetas en modo móvil */
         .mobile-card {
-            background: #fff;
-            border: none;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-bottom: 16px;
-            padding: 16px;
-        }
+        background: #fff;
+        border: 1px solid #ddd; /* Añadir borde */
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 16px;
+        padding: 16px;
+    }
 
-        .mobile-card .row {
-            margin-bottom: 8px;
-        }
+    .mobile-card .row {
+        margin-bottom: 8px;
+    }
 
-        .mobile-card label {
-            font-weight: bold;
-            color: #333;
-        }
+    .mobile-card label {
+        font-weight: bold;
+        color: #333;
+    }
 
-        .mobile-card .data {
-            font-size: 14px;
-            color: #666;
-        }
+    .mobile-card .data {
+        font-size: 14px;
+        color: #666;
+    }
 
+    .action-buttons {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 0;
+    }
+
+    .btn-mobile {
+        flex: 0 1 48%;
+        margin: 0;
+        padding: 10px;
+        border-radius: 4px;
+        font-size: 14px;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    .btn-mobile i {
+        font-size: 16px;
+        margin-right: 5px;
+    }
+
+    .btn-mobile:hover {
+        opacity: 0.8;
+    }
+
+    .btn-warning.btn-mobile {
+        background-color: #ffc107;
+        color: #212529;
+    }
+
+    .btn-danger.btn-mobile {
+        background-color: #dc3545;
+        color: #fff;
+    }
         /* Estilos para los botones de acción en modo móvil */
         .action-buttons {
             display: flex;
@@ -363,7 +396,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            @can('crear-roles')
+                            @can('crear-rol')
                             <a class="btn btn-warning css-button-sliding-to-left--yellow" href="{{ route('roles.create') }}">
                                 Nuevo Rol
                             </a>
@@ -383,13 +416,13 @@
                                     <tr>
                                         <td>{{ $role->name }}</td>
                                         <td class="text-center">
-                                            @can('editar-roles')
+                                            @can('editar-rol')
                                             <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-warning mr-1 css-button-sliding-to-left--yellow">
                                                 Editar
                                             </a>
                                             @endcan
 
-                                            @can('eliminar-roles')
+                                            @can('eliminar-rol')
                                             <button type="button" class="btn btn-danger css-button-sliding-to-left--red" onclick="confirmarEliminacion({{ $role->id }})">
                                                 Eliminar
                                             </button>
@@ -410,13 +443,13 @@
                                     <div class="col-6">{{ $role->name }}</div>
                                 </div>
                                 <div class="row action-buttons">
-                                    @can('editar-roles')
+                                    @can('editar-rol')
                                     <a href="{{ route('roles.edit', $role->id) }}"
                                         class="btn btn-warning btn-mobile">
                                         <i class="fas fa-edit"></i> Editar
                                     </a>
                                     @endcan
-                                    @can('eliminar-roles')
+                                    @can('eliminar-rol')
                                     <button type="button" class="btn btn-danger btn-mobile"
                                         onclick="confirmarEliminacion({{ $role->id }})">
                                         <i class="fas fa-trash-alt"></i> Eliminar

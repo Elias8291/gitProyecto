@@ -304,10 +304,10 @@
             display: block;
         }
 
-        /* Estilos para las tarjetas en modo móvil */
         .mobile-card {
             background: #fff;
-            border: none;
+            border: 1px solid #ddd;
+            /* Añadir borde */
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             margin-bottom: 16px;
@@ -326,6 +326,41 @@
         .mobile-card .data {
             font-size: 14px;
             color: #666;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+        }
+
+        .btn-mobile {
+            flex: 0 1 48%;
+            margin: 0;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .btn-mobile i {
+            font-size: 16px;
+            margin-right: 5px;
+        }
+
+        .btn-mobile:hover {
+            opacity: 0.8;
+        }
+
+        .btn-warning.btn-mobile {
+            background-color: #ffc107;
+            color: #212529;
+        }
+
+        .btn-danger.btn-mobile {
+            background-color: #dc3545;
+            color: #fff;
         }
 
         /* Estilos para los botones de acción en modo móvil */
@@ -480,7 +515,7 @@
                                                 <i class="fas fa-edit"></i> Editar
                                             </a>
                                             @endcan
-                                            @can('borrar-periodos')
+                                            @can('eliminar-periodos')
                                             <button type="button" class="btn btn-danger css-button-sliding-to-left--red"
                                                 onclick="confirmarEliminacion({{ $periodo->id }})">
                                                 <i class="fas fa-trash-alt"></i> Eliminar
@@ -522,7 +557,7 @@
                                         <i class="fas fa-edit"></i> Editar
                                     </a>
                                     @endcan
-                                    @can('editar-periodos')
+                                    @can('eliminar-periodos')
                                     <button type="button" class="btn btn-danger btn-mobile"
                                         onclick="confirmarEliminacion({{ $periodo->id }})">
                                         <i class="fas fa-trash-alt"></i> Eliminar
