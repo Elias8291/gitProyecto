@@ -19,24 +19,24 @@ class SeederTablaPermisos extends Seeder
             'ver-rol',
             'crear-rol',
             'editar-rol',
-            'borrar-rol',
+            'eliminar-rol',
             'ver-estudiante',
             'crear-estudiante',
             'editar-estudiante',
-            'borrar-estudiante',
+            'eliminar-estudiante',
             'ver-usuario',
             'crear-usuario',
             'editar-usuario',
-            'borrar-usuario',
+            'eliminar-usuario',
             'ver-inscripcion',
             'ver-estudiantes-inscritos',
             'crear-inscripcion',
             'editar-inscripcion',
-            'borrar-inscripcion',
+            'eliminar-inscripcion',
             'ver-periodos',
             'crear-periodos',
             'editar-periodos',
-            'borrar-periodos',
+            'eliminar-periodos',
             'ver-grupos',
             'ver_excel_grupo',
             'crear-grupos',
@@ -47,7 +47,8 @@ class SeederTablaPermisos extends Seeder
             'editar-materias',
             'eliminar-materias',
             'ver-log',
-        ];        
+        ];
+             
 
         foreach ($permisos as $permiso) {
             Permission::create(['name' => $permiso]);

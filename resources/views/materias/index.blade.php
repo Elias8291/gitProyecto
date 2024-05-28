@@ -1,150 +1,155 @@
 @extends('layouts.app')
+
 <style>
-   #miTabla2 {
-    font-family: 'Open Sans', sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-}
+    #miTabla2 {
+        font-family: 'Open Sans', sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
 
-#miTabla2 thead {
-    background-color: #483eff;
-    color: #fff;
-}
+    #miTabla2 thead {
+        background-color: #483eff;
+        color: #fff;
+    }
 
-#miTabla2 thead th {
-    padding: 15px;
-    text-align: left;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
+    #miTabla2 thead th {
+        padding: 15px;
+        text-align: left;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
 
-#miTabla2 tbody tr {
-    border-bottom: 1px solid #ddd;
-    transition: background-color 0.3s ease;
-}
+    #miTabla2 tbody tr {
+        border-bottom: 1px solid #ddd;
+        transition: background-color 0.3s ease;
+    }
 
-#miTabla2 tbody tr:hover {
-    background-color: #f5f5f5;
-}
+    #miTabla2 tbody tr:hover {
+        background-color: #f5f5f5;
+    }
 
-#miTabla2 tbody td {
-    padding: 12px 15px;
-}
+    #miTabla2 tbody td {
+        padding: 12px 15px;
+    }
 
-#miTabla2 tbody td .custom-badge {
-    background-color: #000000;
-    color: #fff;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
+    #miTabla2 tbody td .custom-badge {
+        background-color: #000000;
+        color: #fff;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
 
-#miTabla2 tbody td .btn {
-    padding: 6px 12px;
-    font-size: 14px;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-}
+    #miTabla2 tbody td .btn {
+        padding: 6px 12px;
+        font-size: 14px;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+    }
 
-#miTabla2 tbody td .btn-warning {
-    background-color: #fff;
-    color: #212529;
-}
+    #miTabla2 tbody td .btn-warning {
+        background-color: #fff;
+        color: #212529;
+    }
 
-#miTabla2 tbody td .btn-warning:hover {
-    background-color: #e0a800;
-}
+    #miTabla2 tbody td .btn-warning:hover {
+        background-color: #e0a800;
+    }
 
-#miTabla2 tbody td .btn-danger {
-    background-color: #fff;
-    color: #041014;
-}
+    #miTabla2 tbody td .btn-danger {
+        background-color: #fff;
+        color: #041014;
+    }
 
-#miTabla2 tbody td .btn-danger:hover {
-    background-color: #c82333;
-}
+    #miTabla2 tbody td .btn-danger:hover {
+        background-color: #c82333;
+    }
 
-.css-button-sliding-to-left--red {
-  min-width: 130px;
-  height: 40px;
-  color: #fff;
-  padding: 5px 10px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative;
-  display: inline-block;
-  outline: none;
-  border-radius: 5px;
-  z-index: 0;
-  background: #fff;
-  overflow: hidden;
-  border: 2px solid #d90429;
-  color: #d90429;
-}
+    .css-button-sliding-to-left--red {
+        min-width: 130px;
+        height: 40px;
+        color: #fff;
+        padding: 5px 10px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        display: inline-block;
+        outline: none;
+        border-radius: 5px;
+        z-index: 0;
+        background: #fff;
+        overflow: hidden;
+        border: 2px solid #d90429;
+        color: #d90429;
+    }
 
-.css-button-sliding-to-left--red:hover {
-  color: #fff;
-}
+    .css-button-sliding-to-left--red:hover {
+        color: #fff;
+    }
 
-.css-button-sliding-to-left--red:hover:after {
-  width: 100%;
-}
+    .css-button-sliding-to-left--red:hover:after {
+        width: 100%;
+    }
 
-.css-button-sliding-to-left--red:after {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  transition: all 0.3s ease;
-  left: 0;
-  top: 0;
-  width: 0;
-  height: 100%;
-  background: #d90429;
-}
+    .css-button-sliding-to-left--red:after {
+        content: "";
+        position: absolute;
+        z-index: -1;
+        transition: all 0.3s ease;
+        left: 0;
+        top: 0;
+        width: 0;
+        height: 100%;
+        background: #d90429;
+    }
 
-.css-button-sliding-to-left--yellow {
-  min-width: 130px;
-  height: 40px;
-  color: #fff;
-  padding: 5px 10px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative;
-  display: inline-block;
-  outline: none;
-  border-radius: 5px;
-  z-index: 0;
-  background: #fff;
-  overflow: hidden;
-  border: 2px solid #ffd819;
-  color: #ffd819;
-}
-.css-button-sliding-to-left--yellow:hover {
-  color: #fff;
-}
-.css-button-sliding-to-left--yellow:hover:after {
-  width: 100%;
-}
-.css-button-sliding-to-left--yellow:after {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  transition: all 0.3s ease;
-  left: 0;
-  top: 0;
-  width: 0;
-  height: 100%;
-  background: #ffd819;
-}
+    .css-button-sliding-to-left--yellow {
+        min-width: 130px;
+        height: 40px;
+        color: #fff;
+        padding: 5px 10px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        display: inline-block;
+        outline: none;
+        border-radius: 5px;
+        z-index: 0;
+        background: #fff;
+        overflow: hidden;
+        border: 2px solid #ffd819;
+        color: #ffd819;
+    }
+
+    .css-button-sliding-to-left--yellow:hover {
+        color: #fff;
+    }
+
+    .css-button-sliding-to-left--yellow:hover:after {
+        width: 100%;
+    }
+
+    .css-button-sliding-to-left--yellow:after {
+        content: "";
+        position: absolute;
+        z-index: -1;
+        transition: all 0.3s ease;
+        left: 0;
+        top: 0;
+        width: 0;
+        height: 100%;
+        background: #ffd819;
+    }
+
     /* Estilos para el campo de búsqueda */
     .dataTables_filter {
         position: relative;
@@ -285,107 +290,116 @@
     }
 
     @media (max-width: 992px) {
-    #miTabla2 {
-        display: none;
-    }
+        #miTabla2 {
+            display: none;
+        }
 
-    .mobile-table {
-        display: block;
-    }
+        .mobile-table {
+            display: block;
+        }
 
-    /* Estilos para las tarjetas en modo móvil */
-    .mobile-card {
-        background: #fff;
-        border: none;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        margin-bottom: 16px;
-        padding: 16px;
-    }
+        /* Estilos para las tarjetas en modo móvil */
+        .mobile-card {
+            background: #fff;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 16px;
+            padding: 16px;
+        }
 
-    .mobile-card .row {
-        margin-bottom: 8px;
-    }
+        .mobile-card .row {
+            margin-bottom: 8px;
+        }
 
-    .mobile-card label {
-        font-weight: bold;
-        color: #333;
-    }
+        .mobile-card label {
+            font-weight: bold;
+            color: #333;
+        }
 
-    .mobile-card .data {
-        font-size: 14px;
-        color: #666;
-    }
+        .mobile-card .data {
+            font-size: 14px;
+            color: #666;
+        }
 
-    /* Estilos para los botones de acción en modo móvil */
-    .action-buttons {
-        display: flex;
-        justify-content: space-between;
-        padding: 12px 0;
-    }
+        /* Estilos para los botones de acción en modo móvil */
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+        }
 
-    .btn-mobile {
-        flex: 0 1 48%;
-        margin: 0;
-        padding: 10px;
-        border-radius: 4px;
-        font-size: 14px;
-        text-align: center;
-        transition: all 0.3s ease;
-    }
+        .btn-mobile {
+            flex: 0 1 48%;
+            margin: 0;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
 
-    .btn-mobile i {
-        font-size: 16px;
-        margin-right: 5px;
-    }
+        .btn-mobile i {
+            font-size: 16px;
+            margin-right: 5px;
+        }
 
-    .btn-mobile:hover {
-        opacity: 0.8;
-    }
+        .btn-mobile:hover {
+            opacity: 0.8;
+        }
 
-    /* Colores de los botones */
-    .btn-warning.btn-mobile {
-        background-color: #ffc107;
-        color: #212529;
-    }
+        /* Colores de los botones */
+        .btn-warning.btn-mobile {
+            background-color: #ffc107;
+            color: #212529;
+        }
 
-    .btn-danger.btn-mobile {
-        background-color: #dc3545;
-        color: #fff;
-    }
+        .btn-danger.btn-mobile {
+            background-color: #dc3545;
+            color: #fff;
+        }
 
-    .btn-mobile-action {
-        flex: 0 1 48%;
-        margin: 0;
-        padding: 10px;
-        border-radius: 4px;
-        font-size: 14px;
-        text-align: center;
-        transition: all 0.3s ease;
-    }
+        .btn-mobile-action {
+            flex: 0 1 48%;
+            margin: 0;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
 
-    .btn-mobile-action i {
-        font-size: 16px;
-        margin-right: 5px;
-    }
+        .btn-mobile-action i {
+            font-size: 16px;
+            margin-right: 5px;
+        }
 
-    .btn-mobile-action:hover {
-        opacity: 0.8;
+        .btn-mobile-action:hover {
+            opacity: 0.8;
+        }
+
+        .mobile-table {
+            display: none;
+        }
+
+        .dataTables_length,
+        .dataTables_filter,
+        .dataTables_paginate {
+            display: none !important;
+        }
     }
-}
 
     @media (min-width: 993px) {
         .mobile-table {
             display: none;
         }
     }
+
     .custom-badge {
-    background-color: #483eff;
-    color: white; /* Cambia el color del texto a blanco para mejorar la legibilidad */
-
-    
-}
-
+        background-color: #483eff;
+        color: white;
+        /* Cambia el color del texto a blanco para mejorar la legibilidad */
+    }
 </style>
 
 @section('content')
@@ -400,9 +414,9 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             @can('crear-inscripcion')
-                                <a class="btn btn-warning" href="{{ route('materias.create') }}">
-                                    <i class="fas fa-plus"></i> Nueva Materia
-                                </a>
+                            <a class="btn btn-warning css-button-sliding-to-left--yellow" href="{{ route('materias.create') }}">
+                                <i class="fas fa-plus"></i> Nueva Materia
+                            </a>
                             @endcan
                         </div>
                         <div class="table-responsive">
@@ -426,16 +440,15 @@
                                         <td class="text-center">
                                             @can('editar-materias')
                                             <a href="{{ route('materias.edit', $materia->id) }}" class="btn btn-warning css-button-sliding-to-left--yellow">
-                                                <i class="fas fa-edit"></i> <span class="d-none d-sm-inline">Editar</span>
+                                                <i class="fas fa-edit"></i> Editar
                                             </a>
                                             @endcan
                                             @can('eliminar-materias')
-                                            <button type="button" class="btn btn-danger css-button-sliding-to-left--red" 
-                                                    onclick="{{ $materia->grupos_count > 0 ? 'mostrarMensaje()' : 'confirmarEliminacion(' . $materia->id . ')' }}" 
-                                                    title="{{ $materia->grupos_count > 0 ? 'No se puede eliminar porque hay más de un grupo ocupándolo' : '' }}"
-                                                    {{ $materia->grupos_count > 0 ? 'disabled' : '' }}>
-                                                <i class="fas fa-trash-alt"></i>
-                                                Eliminar
+                                            <button type="button" class="btn btn-danger css-button-sliding-to-left--red"
+                                                onclick="{{ $materia->grupos_count > 0 ? 'mostrarMensaje()' : 'confirmarEliminacion(' . $materia->id . ')' }}"
+                                                title="{{ $materia->grupos_count > 0 ? 'No se puede eliminar porque hay más de un grupo ocupándolo' : '' }}"
+                                                {{ $materia->grupos_count > 0 ? 'disabled' : '' }}>
+                                                <i class="fas fa-trash-alt"></i> Eliminar
                                             </button>
                                             <form id="eliminar-form-{{ $materia->id }}" action="{{ route('materias.destroy', $materia->id) }}" method="POST" class="d-none">
                                                 @csrf
@@ -459,42 +472,34 @@
                                     <div class="col-6">{{ $materia->nombre }}</div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-6"><label>creditos:</label></div>
+                                    <div class="col-6"><label>Créditos:</label></div>
                                     <div class="col-6">{{ $materia->creditos }}</div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-6"><label>Cantidad de Grupos</label></div>
-                                    <div class="col-6">{{ $materia->grupos_count}}</div>
+                                    <div class="col-6"><label>Cantidad de Grupos:</label></div>
+                                    <div class="col-6">{{ $materia->grupos_count }}</div>
                                 </div>
-
-                                <div class="row">
-                                    <div class="col-6"><label>Acciones:</label></div>
-                                    < <div class="row action-buttons">
-                                        @can('editar-materias')
-                                        <a href="{{ route('materias.edit', $materia->id) }}" class="btn btn-warning btn-mobile">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        @endcan
-                                        @can('eliminar-materias')
-                                            <button type="button" class="btn btn-danger" 
-                                                    onclick="{{ $materia->grupos_count > 0 ? 'mostrarMensaje()' : 'confirmarEliminacion(' . $materia->id . ')' }}" 
-                                                    title="{{ $materia->grupos_count > 0 ? 'No se puede eliminar porque hay más de un grupo ocupándolo' : '' }}"
-                                                    {{ $materia->grupos_count > 0 ? 'disabled' : '' }}>
-                                                <i class="fas fa-trash-alt"></i>
-                                                Eliminar
-                                            </button>
-                                            <form id="eliminar-form-{{ $materia->id }}" action="{{ route('materias.destroy', $materia->id) }}" method="POST" class="d-none">
-                                                @csrf
-                                                @method('DELETE')
-                                            </form>
-                                        @endcan
-                                    </div>
+                                <div class="row action-buttons">
+                                    @can('editar-materias')
+                                    <a href="{{ route('materias.edit', $materia->id) }}" class="btn btn-warning btn-mobile">
+                                        <i class="fas fa-edit"></i> Editar
+                                    </a>
+                                    @endcan
+                                    @can('eliminar-materias')
+                                    <button type="button" class="btn btn-danger btn-mobile"
+                                        onclick="{{ $materia->grupos_count > 0 ? 'mostrarMensaje()' : 'confirmarEliminacion(' . $materia->id . ')' }}"
+                                        title="{{ $materia->grupos_count > 0 ? 'No se puede eliminar porque hay más de un grupo ocupándolo' : '' }}"
+                                        {{ $materia->grupos_count > 0 ? 'disabled' : '' }}>
+                                        <i class="fas fa-trash-alt"></i> Eliminar
+                                    </button>
+                                    <form id="eliminar-form-{{ $materia->id }}" action="{{ route('materias.destroy', $materia->id) }}" method="POST" class="d-none">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
+                                    @endcan
                                 </div>
                             </div>
                             @endforeach
-
-
-
                         </div>
                         <div class="pagination justify-content-end">
                             {!! $materias->links() !!}
@@ -506,11 +511,8 @@
     </div>
 </section>
 
-
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-<!-- DATATABLES -->
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<!-- BOOTSTRAP -->
 <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -536,27 +538,30 @@
         dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rt<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
         pageLength: 10
     });
+
     function confirmarEliminacion(materiaId) {
-    Swal.fire({
-        title: '¿Estás seguro?',
-        text: "¡No podrás revertir esto!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, eliminarlo'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            document.getElementById('eliminar-form-' + materiaId).submit();
-            Swal.fire({
-                title: 'Eliminado!',
-                text: 'La materia ha sido eliminado correctamente.',
-                icon: 'success',
-                timer: 4000, // Duración en milisegundos
-                showConfirmButton: false
-            });
-        }
-    });
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "¡No podrás revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminarlo'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('eliminar-form-' + materiaId).submit();
+                Swal.fire({
+                    title: 'Eliminado!',
+                    text: 'La materia ha sido eliminada correctamente.',
+                    icon: 'success',
+                    timer: 4000,
+                    showConfirmButton: false
+                });
+            }
+        });
+    }
+
     function mostrarMensaje() {
         Swal.fire({
             title: 'No se puede eliminar',
@@ -565,6 +570,5 @@
             confirmButtonText: 'Entendido'
         });
     }
-}
 </script>
 @endsection

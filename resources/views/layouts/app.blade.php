@@ -16,6 +16,8 @@
     <link href="{{ asset('assets/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- Añade esto en tu archivo layouts/app.blade.php dentro del <head> -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

@@ -152,7 +152,8 @@
 
     .custom-badge {
         background-color: #483eff;
-        color: white; /* Cambia el color del texto a blanco para mejorar la legibilidad */
+        color: white;
+        /* Cambia el color del texto a blanco para mejorar la legibilidad */
     }
 
     /* Estilos para el campo de búsqueda */
@@ -382,31 +383,45 @@
         .btn-mobile-action:hover {
             opacity: 0.8;
         }
+
+        .mobile-table {
+            display: none;
+        }
+
+        .dataTables_length,
+        .dataTables_filter,
+        .dataTables_paginate {
+            display: none !important;
+        }
     }
 
     .btn-status {
-    display: inline-flex;
-    align-items: center;
-    padding: 6px 12px;
-    font-size: 12px;
-    font-weight: bold;
-    text-align: center;
-    border-radius: 20px;
-    color: #000; /* Color del texto */
-    border: 2px solid transparent;
-}
+        display: inline-flex;
+        align-items: center;
+        padding: 6px 12px;
+        font-size: 12px;
+        font-weight: bold;
+        text-align: center;
+        border-radius: 20px;
+        color: #000;
+        /* Color del texto */
+        border: 2px solid transparent;
+    }
 
-.btn-status.active {
-    color: #28a745; /* Color verde para 'Activo' */
-}
+    .btn-status.active {
+        color: #28a745;
+        /* Color verde para 'Activo' */
+    }
 
-.btn-status.inactive {
-    color: #dc3545; /* Color rojo para 'Inactivo' */
-}
+    .btn-status.inactive {
+        color: #dc3545;
+        /* Color rojo para 'Inactivo' */
+    }
 
-.btn-status .icon {
-    margin-right: 5px; /* Espacio entre el ícono y el texto */
-}
+    .btn-status .icon {
+        margin-right: 5px;
+        /* Espacio entre el ícono y el texto */
+    }
 
 
     @media (min-width: 993px) {
@@ -427,9 +442,12 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <a class="btn btn-warning css-button-sliding-to-left--yellow" href="{{ route('periodos.create') }}">
+                            @can('crear-periodos')
+                            <a class="btn btn-warning css-button-sliding-to-left--yellow"
+                                href="{{ route('periodos.create') }}">
                                 <i class="fas fa-plus"></i> Nuevo Período
                             </a>
+                            @endcan
                         </div>
                         <div class="table-responsive">
                             <table class="table table-striped mt-2" id="miTabla2">
@@ -450,22 +468,30 @@
                                         <td class="text-center">{{ $periodo->fecha_fin }}</td>
                                         <td class="text-center">
                                             <span class="btn-status {{ $periodo->estatus ? 'active' : 'inactive' }}">
-                                                <i class="icon {{ $periodo->estatus ? 'fas fa-check' : 'fas fa-times' }}"></i>
+                                                <i
+                                                    class="icon {{ $periodo->estatus ? 'fas fa-check' : 'fas fa-times' }}"></i>
                                                 {{ $periodo->estatus ? 'Activo' : 'Inactivo' }}
                                             </span>
                                         </td>
                                         <td class="text-center">
-                                            <a href="{{ route('periodos.edit', $periodo->id) }}" class="btn btn-warning css-button-sliding-to-left--yellow">
+                                            @can('editar-periodos')
+                                            <a href="{{ route('periodos.edit', $periodo->id) }}"
+                                                class="btn btn-warning css-button-sliding-to-left--yellow">
                                                 <i class="fas fa-edit"></i> Editar
                                             </a>
-                                            <button type="button" class="btn btn-danger css-button-sliding-to-left--red" 
-                                                    onclick="confirmarEliminacion({{ $periodo->id }})">
+                                            @endcan
+                                            @can('borrar-periodos')
+                                            <button type="button" class="btn btn-danger css-button-sliding-to-left--red"
+                                                onclick="confirmarEliminacion({{ $periodo->id }})">
                                                 <i class="fas fa-trash-alt"></i> Eliminar
                                             </button>
-                                            <form id="eliminar-form-{{ $periodo->id }}" action="{{ route('periodos.destroy', $periodo->id) }}" method="POST" class="d-none">
+                                            <form id="eliminar-form-{{ $periodo->id }}"
+                                                action="{{ route('periodos.destroy', $periodo->id) }}" method="POST"
+                                                class="d-none">
                                                 @csrf
                                                 @method('DELETE')
                                             </form>
+                                            @endcan
                                         </td>
                                     </tr>
                                     @endforeach
@@ -485,21 +511,29 @@
                                 <div class="row">
                                     <div class="col-6"><label>Estatus:</label></div>
                                     <div class="col-6">
-                                        <span class="custom-badge">{{ $periodo->estatus ? 'Activo' : 'Inactivo' }}</span>
+                                        <span class="custom-badge">{{ $periodo->estatus ? 'Activo' : 'Inactivo'
+                                            }}</span>
                                     </div>
                                 </div>
                                 <div class="row action-buttons">
-                                    <a href="{{ route('periodos.edit', $periodo->id) }}" class="btn btn-warning btn-mobile">
+                                    @can('editar-periodos')
+                                    <a href="{{ route('periodos.edit', $periodo->id) }}"
+                                        class="btn btn-warning btn-mobile">
                                         <i class="fas fa-edit"></i> Editar
                                     </a>
-                                    <button type="button" class="btn btn-danger btn-mobile" 
-                                            onclick="confirmarEliminacion({{ $periodo->id }})">
+                                    @endcan
+                                    @can('editar-periodos')
+                                    <button type="button" class="btn btn-danger btn-mobile"
+                                        onclick="confirmarEliminacion({{ $periodo->id }})">
                                         <i class="fas fa-trash-alt"></i> Eliminar
                                     </button>
-                                    <form id="eliminar-form-{{ $periodo->id }}" action="{{ route('periodos.destroy', $periodo->id) }}" method="POST" class="d-none">
+                                    <form id="eliminar-form-{{ $periodo->id }}"
+                                        action="{{ route('periodos.destroy', $periodo->id) }}" method="POST"
+                                        class="d-none">
                                         @csrf
                                         @method('DELETE')
                                     </form>
+                                    @endcan
                                 </div>
                             </div>
                             @endforeach
