@@ -15,16 +15,16 @@
     <link href="{{ asset('assets/css/sweetalert.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- Añade esto en tu archivo layouts/app.blade.php dentro del <head> -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
-    
+
 
     @yield('page_css')
     <!-- Template CSS -->
@@ -37,61 +37,69 @@
 
     <style>
         .btn-back:hover {
-    background-color: #2000f1 !important; /* Cambia a un color morado al pasar el cursor */
-}
+            background-color: #621132 !important;
+            /* Guinda más oscuro al pasar el cursor */
+        }
 
         .main-navbar {
-            background: linear-gradient(to right, #4b479c, #2b285c);
+            background: linear-gradient(to right, #800020, #621132);
+            /* Predominancia de guinda */
             box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
             font-family: 'Lato', sans-serif;
             transition: all 0.3s ease;
-            padding: 0.8em 0; /* Espaciado adicional */
+            padding: 0.8em 0;
+            /* Espaciado adicional */
         }
-    
+
         .main-navbar:hover {
-            background: linear-gradient(to right, #332f6c, #20204b);
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
+            background: linear-gradient(to right, #4B0021, #800020);
+            /* Guinda más profundo al pasar el cursor */
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+            /* Sombra más pronunciada */
         }
-    
+
+
         .navbar-nav .nav-link {
             color: #fff;
             transition: color 0.3s ease-in-out, transform 0.3s ease;
-            font-size: 1.1em; /* Tamaño de letra más grande */
-            padding: 0.5em 1em; /* Más espaciado */
+            font-size: 1.1em;
+            /* Tamaño de letra más grande */
+            padding: 0.5em 1em;
+            /* Más espaciado */
         }
-    
+
         .navbar-nav .nav-link:hover {
             color: #ddd;
             text-decoration: none;
-            transform: translateY(-5px); /* Desplazamiento vertical en hover */
+            transform: translateY(-5px);
+            /* Desplazamiento vertical en hover */
             background-color: #6a5acd;
         }
-    
+
         @media (max-width: 992px) {
             .navbar-expand-lg .navbar-nav .nav-link {
                 padding-right: 0.8rem;
                 padding-left: 0.8rem;
             }
-    
+
             .main-navbar {
                 background: linear-gradient(to right, #2b285c, #4b479c);
             }
         }
-
     </style>
-    
-    
+
+
 </head>
 
 <body>
 
     <div id="app">
         <div class="main-wrapper main-wrapper-1">
-            
+
             <nav class="navbar navbar-expand-lg main-navbar">
                 @include('layouts.header')
             </nav>
-            <div class="main-sidebar main-sidebar-postion"  style="background-color:  #f4f4f9">
+            <div class="main-sidebar main-sidebar-postion" style="background-color:  #f4f4f9">
                 @include('layouts.sidebar')
             </div>
             <!-- Main Content -->

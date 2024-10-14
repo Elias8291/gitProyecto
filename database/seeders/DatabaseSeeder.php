@@ -2,11 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Grupo;
-use App\Models\RangoAlumno;
-use Database\Seeders\UserSeeder as SeedersUserSeeder;
 use Illuminate\Database\Seeder;
-use UserSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,18 +13,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-         // Llama a los seeders específicos aquí
-         $this->call([
-            EstudiantesTableSeeder::class,
-            HorariosTableSeeder::class,
-            RangosAlumnosTableSeeder::class,
-            Materias::class,
-            PeriodosTableSeeder::class,
-            GruposTableSeeder::class,
-            InscripcionesTableSeeder::class,
-            SeederTablaPermisos::class,
-            RoleSeeder::class,
-            SeedersUserSeeder::class,
-        ]);
+        $this->call(AreasTableSeeder::class);
+        $this->call(SeederRolesC3::class);
+        $this->call(SeederPermisosC3::class);
+        $this->call(UserSeeder::class);
+        $this->call(EvaluadosSeeder::class);
     }
 }

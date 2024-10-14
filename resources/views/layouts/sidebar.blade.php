@@ -2,14 +2,17 @@
   <div class="sidebar-brand">
     <a href="{{ url('/') }}">
       <div class="d-flex align-items-center">
-        <img class="navbar-brand-full app-header-logo" src="https://cdn-icons-png.flaticon.com/512/2491/2491055.png" width="50" alt="Student Icon">
-        <span class="brand-name ml-2">MINDITO</span>
+        <img class="navbar-brand-full app-header-logo" src="https://i.ibb.co/R68Q7y7/carpeta.png" width="50" alt="Student Icon">
+        <span class="brand-name ml-2">C3</span>
+       
       </div>
     </a>
+    
   </div>
+  
   <div class="sidebar-brand sidebar-brand-sm">
     <a href="{{ url('/') }}">
-      <img class="navbar-brand-full" src="https://cdn-icons-png.flaticon.com/512/2491/2491055.png" width="60px" alt="Student Icon"/>
+      <img class="navbar-brand-full" src="https://i.ibb.co/R68Q7y7/carpeta.png" width="60px" alt="Student Icon"/>
     </a>
   </div>
   <ul class="sidebar-menu">
@@ -35,7 +38,7 @@
     font-size: 24px;
     font-weight: bold;
     color: #fff;
-    background: linear-gradient(to right, #6a11cb, #2575fc);
+    background: linear-gradient(to right, #750606, #ad0606);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     padding: 0 10px;

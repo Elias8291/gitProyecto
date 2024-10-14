@@ -405,7 +405,7 @@
 
                         <div class="table-responsive mt-3">
                             <table class="table table-striped mt-2" id="miTabla2">
-                                <thead style="background-color:#5f42d4">
+                                <thead style="background-color:#252222">
                                     <tr>
                                         <th style="color:#fff;" class="text-center">Rol</th>
                                         <th style="color:#fff;" class="text-center">Acciones</th>

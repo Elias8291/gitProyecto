@@ -1,85 +1,62 @@
-@if(auth()->user()->canAny(['ver-rol', 'crear-rol', 'editar-rol', 'borrar-rol', 'ver-estudiante', 'crear-estudiante', 'editar-estudiante', 'borrar-estudiante', 'ver-grupos', 'ver-materias']))
-<li class="side-menus {{ Request::is('*') ? 'active' : '' }}">
-    @can('ver-dashboard')
-    <li class="{{ Request::is('home*') ? 'active' : '' }}">
-        <a class="nav-link d-flex align-items-center" href="/home">
-            <i class="fas fa-building" style="color: #9370DB; margin-right: 8px;"></i><span class="menu-text"
-                style="font-weight: 600; color: #333;">Dashboard</span>
-        </a>
-    </li>
-    @endcan
+@if(auth()->user()->canAny(['ver-rol', 'ver-usuario', 'ver-log']))
+    <li style="height: 50px; background-color: transparent;"></li>
+    <li class="side-menus {{ Request::is('*') ? 'active' : '' }}">
+    
+        @can('ver-dashboard')
+        <li class="{{ Request::is('home*') ? 'active' : '' }}" style="margin-bottom: 40px;">
+            <a class="nav-link d-flex align-items-center" href="/home" style="padding: 14px 25px; border-radius: 8px; background-color: #f9f9f9; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: background-color 0.3s ease;">
+                <i class="fas fa-building" style="color: #ad0034; margin-right: 12px; font-size: 22px;"></i>
+                <span class="menu-text" style="font-weight: 700; color: #006341; letter-spacing: 0.5px; font-family: 'Lato', sans-serif; font-size: 19px;">
+                    Dashboard
+                </span>
+            </a>
+        </li>
+        @endcan
 
-    @can('ver-usuario')
-    <li class="{{ Request::is('usuarios*') ? 'active' : '' }}">
-        <a class="nav-link d-flex align-items-center" href="/usuarios">
-            <i class="fas fa-users" style="color: #BA55D3; margin-right: 8px;"></i><span class="menu-text"
-                style="font-weight: 600; color: #333;">Usuarios</span>
-        </a>
-    </li>
-    @endcan
+        {{-- 
+        @can('ver-usuario')
+        <li class="{{ Request::is('usuarios*') ? 'active' : '' }}" style="margin-bottom: 25px;">
+            <a class="nav-link d-flex align-items-center" href="/usuarios" style="padding: 14px 25px; border-radius: 8px; background-color: #f9f9f9; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: background-color 0.3s ease;">
+                <i class="fas fa-users" style="color: #AD0034; margin-right: 12px; font-size: 22px;"></i>
+                <span class="menu-text" style="font-weight: 700; color: #AD0034; letter-spacing: 0.5px; font-family: 'Lato', sans-serif; font-size: 19px;">
+                    Usuarios
+                </span>
+            </a>
+        </li>
+        @endcan
+        --}}
 
-    @can('ver-rol')
-    <li class="{{ Request::is('roles*') ? 'active' : '' }}">
-        <a class="nav-link d-flex align-items-center" href="/roles">
-            <i class="fas fa-user-lock" style="color: #8A2BE2; margin-right: 8px;"></i><span class="menu-text"
-                style="font-weight: 600; color: #333;">Roles</span>
-        </a>
-    </li>
-    @endcan
+        @can('ver-rol')
+        <li class="{{ Request::is('roles*') ? 'active' : '' }}" style="margin-bottom: 25px;">
+            <a class="nav-link d-flex align-items-center" href="/roles" style="padding: 14px 25px; border-radius: 8px; background-color: #f9f9f9; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: background-color 0.3s ease;">
+                <i class="fas fa-user-lock" style="color: #ad0034; margin-right: 12px; font-size: 22px;"></i>
+                <span class="menu-text" style="font-weight: 700; color: #006341; letter-spacing: 0.5px; font-family: 'Lato', sans-serif; font-size: 19px;">
+                    Roles
+                </span>
+            </a>
+        </li>
+        @endcan
 
-
-    @can('ver-estudiante')
-    <li class="{{ Request::is('estudiantes*') ? 'active' : '' }}">
-        <a class="nav-link d-flex align-items-center" href="/estudiantes">
-            <i class="fas fa-user-graduate" style="color: #20B2AA; margin-right: 8px;"></i><span class="menu-text"
-                style="font-weight: 600; color: #333;">Estudiantes</span>
-        </a>
+        <li class="{{ Request::is('evaluados*') ? 'active' : '' }}" style="margin-bottom: 25px;">
+            <a class="nav-link d-flex align-items-center" href="/evaluados" style="padding: 14px 25px; border-radius: 8px; background-color: #f9f9f9; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: background-color 0.3s ease;">
+                <i class="fas fa-user-lock" style="color: #ad0034; margin-right: 12px; font-size: 22px;"></i>
+                <span class="menu-text" style="font-weight: 700; color: #006341; letter-spacing: 0.5px; font-family: 'Lato', sans-serif; font-size: 19px;">
+                    Evaluados
+                </span>
+            </a>
+        </li>
+       
+        {{-- 
+        @can('ver-log')
+        <li class="{{ Request::is('logs*') ? 'active' : '' }}" style="margin-bottom: 25px;">
+            <a class="nav-link d-flex align-items-center" href="/logs" style="padding: 14px 25px; border-radius: 8px; background-color: #f9f9f9; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); transition: background-color 0.3s ease;">
+                <i class="fas fa-file-alt" style="color: #AD0034; margin-right: 12px; font-size: 22px;"></i>
+                <span class="menu-text" style="font-weight: 700; color:#AD0034; letter-spacing: 0.5px; font-family: 'Lato', sans-serif; font-size: 19px;">
+                    Logs
+                </span>
+            </a>
+        </li>
+        @endcan
+        --}}
     </li>
-    @endcan
-
-    @can('ver-inscripcion')
-    <li class="{{ Request::is('inscripciones*') ? 'active' : '' }}">
-        <a class="nav-link d-flex align-items-center" href="/inscripciones">
-            <i class="fas fa-user-edit" style="color: #FFD700; margin-right: 8px;"></i><span class="menu-text"
-                style="font-weight: 600; color: #333;">Inscripciones</span>
-        </a>
-    </li>
-    @endcan
-
-    @can('ver-periodos')
-    <li class="{{ Request::is('periodo') ? 'active' : '' }}">
-        <a class="nav-link d-flex align-items-center" href="/periodos">
-            <i class="fas fa-calendar-alt" style="color: #FF6347; margin-right: 8px;"></i><span class="menu-text"
-                style="font-weight: 600; color: #333;">Periodos</span>
-        </a>
-    </li>
-    @endcan
-
-    @can('ver-grupos')
-    <li class="{{ Request::is('grupos') ? 'active' : '' }}">
-        <a class="nav-link d-flex align-items-center" href="/grupos">
-            <i class="fas fa-users" style="color: #FF6347; margin-right: 8px;"></i><span class="menu-text"
-                style="font-weight: 600; color: #333;">Grupos</span>
-        </a>
-    </li>
-    @endcan
-
-    @can('ver-materias')
-    <li class="{{ Request::is('materias') ? 'active' : '' }}">
-        <a class="nav-link d-flex align-items-center" href="/materias">
-            <i class="fas fa-book" style="color: #32CD32; margin-right: 8px;"></i><span class="menu-text"
-                style="font-weight: 600; color: #333;">Materias</span>
-        </a>
-    </li>
-    @endcan
-
-    @can('ver-log')
-    <li class="{{ Request::is('logs') ? 'active' : '' }}">
-        <a class="nav-link d-flex align-items-center" href="/logs">
-            <i class="fas fa-file-alt" style="color: #FF4500; margin-right: 8px;"></i><span class="menu-text"
-                style="font-weight: 600; color: #333;">Logs</span>
-        </a>
-    </li>
-    @endcan
-</ul>
 @endif

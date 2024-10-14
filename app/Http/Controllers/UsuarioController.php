@@ -3,229 +3,132 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
-//agregamos lo siguiente
-use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Area;
 use Spatie\Permission\Models\Role;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class UsuarioController extends Controller
 {
-    function __construct()
+    public function __construct()
     {
         $this->middleware('permission:ver-usuario|crear-usuario|editar-usuario|eliminar-usuario', ['only' => ['index']]);
         $this->middleware('permission:crear-usuario', ['only' => ['create', 'store']]);
         $this->middleware('permission:editar-usuario', ['only' => ['edit', 'update']]);
         $this->middleware('permission:eliminar-usuario', ['only' => ['destroy']]);
     }
+
     public function index(Request $request)
     {
         $searchTerm = $request->get('search');
-        $paginationSize = $request->get('size', 15); // Por defecto, muestra 5 usuarios
+        $paginationSize = $request->get('size', 15); 
 
-        // Calcular el número total de usuarios antes de aplicar la paginación
-        $totalUsuarios = User::when($searchTerm, function ($query, $searchTerm) {
-            return $query->where('name', 'LIKE', "%{$searchTerm}%")
-                ->orWhere('email', 'LIKE', "%{$searchTerm}%");
-        })->count();
+        $usuarios = User::with('area')
+            ->when($searchTerm, function ($query, $searchTerm) {
+                return $query->where('name', 'LIKE', "%{$searchTerm}%")
+                    ->orWhere('email', 'LIKE', "%{$searchTerm}%");
+            })
+            ->paginate($paginationSize);
 
-        // Calcular el número máximo de páginas basado en el tamaño de página seleccionado
-        $maxPage = ceil($totalUsuarios / $paginationSize);
-
-        // Obtener la página actual desde la solicitud o establecerla en 1 por defecto
-        $currentPage = $request->input('page', 1);
-
-        // Ajustar la página actual si excede el número máximo de páginas
-        if ($currentPage > $maxPage) {
-            $currentPage = $maxPage;
-        }
-
-        // Forzar a Laravel a usar la página actual ajustada
-        \Illuminate\Pagination\Paginator::currentPageResolver(function () use ($currentPage) {
-            return $currentPage;
-        });
-
-        $usuarios = User::when($searchTerm, function ($query, $searchTerm) {
-            return $query->where('name', 'LIKE', "%{$searchTerm}%")
-                ->orWhere('email', 'LIKE', "%{$searchTerm}%");
-        })->paginate($paginationSize);
-
-        return view('usuarios.index', compact('usuarios', 'searchTerm', 'totalUsuarios'));
+        return view('usuarios.index', compact('usuarios', 'searchTerm'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //aqui trabajamos con name de las tablas de users
         $roles = Role::pluck('name', 'name')->all();
-        return view('usuarios.crear', compact('roles'));
+        $areas = Area::pluck('nombre', 'id')->all(); // Pluck de áreas
+        return view('usuarios.crear', compact('roles', 'areas'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required',
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'apellido_paterno' => 'required|string|max:255',
+            'apellido_materno' => 'nullable|string|max:255',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|same:confirm-password',
-            'roles' => 'required'
+            'telefono' => 'nullable|string|max:15',
+            'password' => 'required|string|min:8|confirmed',
+            'roles' => 'required|array',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'id_area' => 'required|exists:areas,id' // Asegura que el área exista
         ]);
-    
-        $input = $request->all();
-        $input['password'] = Hash::make($input['password']);
-    
-        $user = User::create($input);
-        $user->assignRole($request->input('roles'));
-    
-        // Redireccionar con mensaje de éxito
-        return redirect()->route('usuarios.index')->with('success', 'Usuario agregado con éxito');
-    }
-    
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        // Subir imagen si está presente
+        if ($request->hasFile('image')) {
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->move(public_path('images'), $imageName);
+            $validatedData['image'] = $imageName;
+        }
+
+        // Crear el nuevo usuario
+        $user = User::create([
+            'name' => $validatedData['name'],
+            'apellido_paterno' => $validatedData['apellido_paterno'],
+            'apellido_materno' => $validatedData['apellido_materno'],
+            'email' => $validatedData['email'],
+            'telefono' => $validatedData['telefono'],
+            'password' => Hash::make($validatedData['password']),
+            'id_area' => $validatedData['id_area'], // Relacionar el área
+            'image' => $validatedData['image'] ?? null,
+        ]);
+
+        // Asignar roles
+        $user->assignRole($validatedData['roles']);
+
+        return redirect()->route('usuarios.index')->with('success', 'Usuario creado exitosamente.');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $user = User::find($id);
         $roles = Role::pluck('name', 'name')->all();
         $userRole = $user->roles->pluck('name', 'name')->all();
+        $areas = Area::pluck('nombre', 'id')->all(); // Obtener las áreas
 
-        return view('usuarios.editar', compact('user', 'roles', 'userRole'));
+        return view('usuarios.editar', compact('user', 'roles', 'userRole', 'areas'));
     }
 
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name' => 'required',
+            'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $id,
-            'password' => 'same:confirm-password',
-            'roles' => 'required'
+            'password' => 'nullable|string|min:8|confirmed',
+            'roles' => 'required|array',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'id_area' => 'required|exists:areas,id' // Validar que el área exista
         ]);
 
+        $user = User::find($id);
         $input = $request->all();
+
+        // Subir nueva imagen si está presente
+        if ($request->hasFile('image')) {
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->move(public_path('images'), $imageName);
+            $input['image'] = $imageName;
+        } else {
+            $input = Arr::except($input, ['image']);
+        }
+
         if (!empty($input['password'])) {
             $input['password'] = Hash::make($input['password']);
         } else {
-            $input = Arr::except($input, array('password'));
+            $input = Arr::except($input, ['password']);
         }
 
-        $user = User::find($id);
         $user->update($input);
         DB::table('model_has_roles')->where('model_id', $id)->delete();
-
         $user->assignRole($request->input('roles'));
 
-        return redirect()->route('usuarios.index');
+        return redirect()->route('usuarios.index')->with('success', 'Usuario actualizado exitosamente.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         User::find($id)->delete();
-        return redirect()->route('usuarios.index');
+        return redirect()->route('usuarios.index')->with('success', 'Usuario eliminado exitosamente.');
     }
-
-    public function changePassword(Request $request)
-    {
-        $request->validate([
-            'current_password' => 'required',
-            'new_password' => 'required|min:8|confirmed',
-        ]);
-
-        $user = Auth::user();
-
-        if (!Hash::check($request->current_password, $user->password)) {
-            return response()->json(['errors' => ['current_password' => ['La contraseña actual no es correcta.']]], 422);
-        }
-
-        if (Hash::check($request->new_password, $user->password)) {
-            return response()->json(['errors' => ['new_password' => ['La nueva contraseña no puede ser igual a la contraseña actual.']]], 422);
-        }
-
-        $user->password = Hash::make($request->new_password);
-        $user->save();
-
-        return response()->json(['success' => 'Contraseña actualizada con éxito.'], 200);
-    }
-
-    public function updateProfile(Request $request)
-    {
-        // Validar los datos recibidos
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . Auth::id(),
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
-        // Obtener el usuario autenticado
-        $user = auth()->user();
-        
-        // Actualizar los datos del usuario
-        $user->name = $request->name;
-        $user->email = $request->email;
-        
-        // Guardar los cambios
-        $user->save();
-
-        // Responder con éxito
-        return response()->json(['success' => 'Perfil actualizado con éxito.']);
-    }
-
-    public function getUserList(Request $request)
-{
-    $searchTerm = $request->get('search');
-    $paginationSize = $request->get('size', 15);
-
-    $usuarios = User::when($searchTerm, function ($query, $searchTerm) {
-        return $query->where('name', 'LIKE', "%{$searchTerm}%")
-            ->orWhere('email', 'LIKE', "%{$searchTerm}%");
-    })->paginate($paginationSize);
-
-    return view('usuarios.partials.user_list', compact('usuarios'));
-}
 }

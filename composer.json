@@ -1,4 +1,4 @@
-                                                                                                                                       {
+{
     "name": "laravel/laravel",
     "type": "project",
     "description": "The Laravel Framework.",
@@ -7,6 +7,7 @@
     "require": {
         "php": "^8.2.17",
         "box/spout": "^3.3",
+        "fakerphp/faker": "^1.23",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "infyomlabs/laravel-ui-stisla": "^3.0",
@@ -15,11 +16,11 @@
         "laravel/tinker": "^2.5",
         "laravelcollective/html": "^6.2",
         "maatwebsite/excel": "^1.1",
+        "nesbot/carbon": "^2.72",
         "spatie/laravel-permission": "^4.3"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
-        "fakerphp/faker": "^1.9.1",
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^5.0",

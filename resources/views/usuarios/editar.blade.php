@@ -123,12 +123,12 @@
 @section('styles')
 <style>
     .bg-primary {
-        background-color: #4b479c;
+        background-color: #000000;
     }
 
     .form-label {
         font-weight: bold;
-        color: #4b479c;
+        color: #000000;
         margin-bottom: 5px;
         font-size: 16px;
     }

@@ -13,7 +13,8 @@ use App\Http\Controllers\MateriasController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\PeriodoController;
-
+use App\Http\Controllers\EvaluadoController;
+use App\Http\Controllers\DocumentoController;
 
 // Ruta para la página de bienvenida, accesible para todos los usuarios
 Route::get('/', [WelcomeController::class, 'showWelcomePage'])->name('welcome');
@@ -36,6 +37,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('grupos', GrupoController::class);
     Route::resource('materias', MateriasController::class);
     Route::resource('logs', LogController::class);
+    Route::resource('evaluados', EvaluadoController::class);
+    Route::resource('documentos', DocumentoController::class);
     Route::get('/grupos/{clave}/generarPDF', [GrupoController::class, 'generarPDF'])->name('grupos.generarPDF');
     Route::get('/periodos/{id}/grupos', [InscripcionController::class, 'getGruposByPeriodo'])->name('periodos.grupos');
     Route::get('/inscripciones/grupos/{estudiante_id}', [InscripcionController::class, 'getGruposEstudiante']);

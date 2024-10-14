@@ -6,15 +6,11 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
-
-
-//Agregamos spatie
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles;
+    use HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -23,8 +19,13 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'apellido_paterno',
+        'apellido_materno',
         'email',
         'password',
+        'telefono',
+        'image',
+        'id_area', // Relación con el área
     ];
 
     /**
@@ -45,4 +46,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Relación: un usuario pertenece a un área.
+     */
+    public function area()
+    {
+        return $this->belongsTo(Area::class, 'id_area');
+    }
 }

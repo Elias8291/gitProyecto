@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -17,8 +18,13 @@ class UserSeeder extends Seeder
         // Creamos el usuario administrador
         $admin = User::create([
             'name' => 'Carlos Eduardo',
+            'apellido_paterno' => 'Pérez',
+            'apellido_materno' => 'González',
             'email' => 'admin@gmail.com',
             'password' => bcrypt('admin12345'), // Aseguramos la contraseña con bcrypt
+            'telefono' => '555-1234',
+            'image' => null, // Puede ser null
+            'id_area' => 1, // Cambia según el id correspondiente del área
         ]);
 
         // Asignamos el rol 'Admin' al usuario administrador
@@ -30,8 +36,13 @@ class UserSeeder extends Seeder
         // Creamos otro usuario
         $user = User::create([
             'name' => 'Rafael Carlos Eduardo',
+            'apellido_paterno' => 'López',
+            'apellido_materno' => 'Martínez',
             'email' => 'abisai@gmail.com',
             'password' => bcrypt('abisai1456'), // Aseguramos la contraseña con bcrypt
+            'telefono' => '555-5678',
+            'image' => null, // Puede ser null
+            'id_area' => 2, // Cambia según el id correspondiente del área
         ]);
 
         // Asignamos el rol 'Secretaria' al otro usuario
@@ -39,5 +50,7 @@ class UserSeeder extends Seeder
         if ($secretaryRole) {
             $user->assignRole($secretaryRole);
         }
+
+        // Puedes agregar más usuarios aquí
     }
 }

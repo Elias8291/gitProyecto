@@ -13,7 +13,7 @@
         color: #ddd;
         text-decoration: none;
         transform: translateY(-5px); /* Desplazamiento vertical en hover */
-        background-color: #6a5acd; /* Fondo morado al pasar el cursor */
+        background-color: #000000; /* Fondo morado al pasar el cursor */
     }
     
     </style>

@@ -449,7 +449,7 @@
                         <!-- Contenedor para la tabla de usuarios -->
                         <div id="userListContainer" class="table-responsive mt-3">
                             <table class="table table-striped mt-2" id="miTabla2">
-                                <thead style="background-color:#5f42d4">
+                                <thead style="background-color:#777480">
                                     <tr>
                                         <th style="color:#fff;" class="text-center">Nombre</th>
                                         <th style="color:#fff;" class="text-center">E-mail</th>

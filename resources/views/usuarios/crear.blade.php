@@ -27,44 +27,84 @@
                         </div>
                         @endif
 
-                        {!! Form::open(['route' => 'usuarios.store', 'method' => 'POST', 'class' => 'my-4']) !!}
+                        <!-- Aquí añadimos el atributo enctype -->
+                        {!! Form::open(['route' => 'usuarios.store', 'method' => 'POST', 'class' => 'my-4', 'enctype' => 'multipart/form-data']) !!}
+
+                        <!-- Primera Parte: Datos Básicos -->
+                        <h5 class="text-center mb-4">Datos Básicos</h5>
                         <div class="form-group">
                             <label for="name" class="form-label">Nombre</label>
                             {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Nombre', 'oninput' => 'validateName(this)']) !!}
                         </div>
                         <div class="form-group">
+                            <label for="apellido_paterno" class="form-label">Apellido Paterno</label>
+                            {!! Form::text('apellido_paterno', null, ['class' => 'form-control', 'placeholder' => 'Apellido Paterno', 'oninput' => 'validateName(this)']) !!}
+                        </div>
+                        <div class="form-group">
+                            <label for="apellido_materno" class="form-label">Apellido Materno</label>
+                            {!! Form::text('apellido_materno', null, ['class' => 'form-control', 'placeholder' => 'Apellido Materno', 'oninput' => 'validateName(this)']) !!}
+                        </div>
+                        <div class="form-group">
                             <label for="email" class="form-label">E-mail</label>
                             {!! Form::email('email', null, ['class' => 'form-control', 'placeholder' => 'E-mail']) !!}
                         </div>
-                        <div class="form-group">
-                            <label for="password" class="form-label">Password</label>
-                            <div class="input-group">
-                                {!! Form::password('password', ['class' => 'form-control', 'placeholder' => 'Password', 'id' => 'password']) !!}
-                                <div class="input-group-append">
-                                    <span class="input-group-text" onclick="togglePasswordVisibility('password')">
-                                        <i class="fas fa-eye" id="togglePasswordIcon-password"></i>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="confirm-password" class="form-label">Confirmar Password</label>
-                            <div class="input-group">
-                                {!! Form::password('confirm-password', ['class' => 'form-control', 'placeholder' => 'Confirmar Password', 'id' => 'confirm-password']) !!}
-                                <div class="input-group-append">
-                                    <span class="input-group-text" onclick="togglePasswordVisibility('confirm-password')">
-                                        <i class="fas fa-eye" id="togglePasswordIcon-confirm-password"></i>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="roles" class="form-control-label">Roles</label>
-                            {!! Form::select('roles[]', $roles, [], ['class' => 'form-control select2']) !!}
-                        </div>
+
+                        <!-- Botón para continuar a la segunda parte -->
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary btn-block btn-submit">Guardar</button>
+                            <button type="button" class="btn btn-primary btn-block" id="nextButton">Continuar</button>
                         </div>
+
+                        <!-- Segunda Parte: Datos Adicionales (oculta por defecto) -->
+                        <div id="additionalFields" style="display: none;">
+                            <h5 class="text-center mb-4">Datos Adicionales</h5>
+                            <div class="form-group">
+                                <label for="telefono" class="form-label">Teléfono</label>
+                                {!! Form::tel('telefono', null, ['class' => 'form-control', 'placeholder' => 'Teléfono']) !!}
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="image" class="form-label">Imagen</label>
+                                <!-- Este es el campo correcto para la subida de archivos -->
+                                {!! Form::file('image', ['class' => 'form-control']) !!}
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="password" class="form-label">Password</label>
+                                <div class="input-group">
+                                    {!! Form::password('password', ['class' => 'form-control', 'placeholder' => 'Password', 'id' => 'password']) !!}
+                                    <div class="input-group-append">
+                                        <span class="input-group-text" onclick="togglePasswordVisibility('password')">
+                                            <i class="fas fa-eye" id="togglePasswordIcon-password"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="password_confirmation" class="form-label">Confirmar Password</label>
+                                <div class="input-group">
+                                    {!! Form::password('password_confirmation', ['class' => 'form-control', 'placeholder' => 'Confirmar Password', 'id' => 'password_confirmation']) !!}
+                                    <div class="input-group-append">
+                                        <span class="input-group-text" onclick="togglePasswordVisibility('password_confirmation')">
+                                            <i class="fas fa-eye" id="togglePasswordIcon-password_confirmation"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="roles" class="form-control-label">Roles</label>
+                                {!! Form::select('roles[]', $roles, [], [
+                                    'class' => 'form-control select2', 
+                                    'multiple' => 'multiple', 
+                                    'style' => 'width: 100%;'
+                                ]) !!}
+                            </div>
+                            <div class="text-center" >
+                                <button type="submit" class="btn btn-primary btn-block btn-submit">Guardar</button>
+                            </div>
+                        </div>
+
                         {!! Form::close() !!}
                     </div>
                 </div>
@@ -100,20 +140,14 @@
     }
 
     $(document).ready(function() {
-        $('.select2').select2();
-
-        $('input[type="text"]').focus(function() {
-            $(this).parent().addClass('active');
-        }).blur(function() {
-            if ($(this).val() === '') {
-                $(this).parent().removeClass('active');
-            }
+        $('.select2').select2({
+            width: '100%',
+            dropdownAutoWidth: true
         });
 
-        $('input[type="text"]').on('input', function(event) {
-            var regex = /[^a-zA-Z\s]/g;
-            var newValue = $(this).val().replace(regex, '');
-            $(this).val(newValue);
+        $('#nextButton').on('click', function() {
+            $('#additionalFields').show();
+            $(this).hide(); // Oculta el botón de continuar
         });
     });
 </script>
@@ -121,6 +155,29 @@
 
 @section('styles')
 <style>
+    /* Asegura que el contenedor de Select2 ocupe el 100% del ancho */
+    .select2-container {
+        width: 100% !important;
+    }
+
+    /* Ajusta el ancho del desplegable */
+    .select2-dropdown {
+        width: auto !important;
+        min-width: 100% !important;
+        box-sizing: border-box;
+    }
+
+    /* Ajusta el ancho de las opciones seleccionadas */
+    .select2-selection__rendered {
+        max-width: 100% !important;
+        word-wrap: break-word !important;
+    }
+
+    /* Ajusta la altura del select para múltiples selecciones */
+    .select2-selection--multiple {
+        min-height: 38px;
+    }
+
     .bg-primary {
         background-color: #4b479c;
     }

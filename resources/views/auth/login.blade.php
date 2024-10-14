@@ -12,10 +12,10 @@
         box-shadow: 0 4px 6px rgba(50,50,93,0.11), 0 1px 3px rgba(0,0,0,0.08); /* Sombra más pronunciada */
         transition: all 0.3s ease-in-out; /* Transición más suave */
         border: none; /* Eliminar el borde para un look más limpio */
-        background: #ffffff; /* Fondo blanco para mejor contraste */
+        background: #f7f9fb; /* Fondo claro para mejor contraste */
     }
     .card-header {
-        background-color: #667eea; /* Un color azul ligeramente diferente */
+        background-color: #003366; /* Un azul marino institucional */
         color: #ffffff;
         font-size: 22px; /* Ligeramente más grande para más énfasis */
         padding: 16px 24px; /* Ajuste de padding para un mejor aspecto */
@@ -24,7 +24,7 @@
         border-top-right-radius: 10px;
     }
     .btn-primary {
-        background-color: #5a67d8; /* Ajuste del color principal */
+        background-color: #005b96; /* Azul institucional más brillante */
         border: none;
         border-radius: 25px; /* Bordes aún más redondeados para botones */
         padding: 12px 30px; /* Ajuste de padding para un botón más prominente */
@@ -33,7 +33,7 @@
         box-shadow: 0 4px 6px rgba(50,50,93,0.11), 0 1px 3px rgba(0,0,0,0.08); /* Sombra consistente con la tarjeta */
     }
     .btn-primary:hover {
-        background-color: #434190; /* Oscurecer al pasar el mouse */
+        background-color: #004080; /* Oscurecer al pasar el mouse */
         transform: translateY(-2px); /* Ligero efecto de elevación al pasar el mouse */
     }
     .form-control {
@@ -43,16 +43,16 @@
         box-shadow: none; /* Eliminar sombra interna para un look más limpio */
     }
     .form-control:focus {
-        border-color: #667eea; /* Cambio de color en el foco */
-        box-shadow: 0 0 0 1px rgba(102,126,234,0.5); /* Sombra de foco suave y coherente */
+        border-color: #005b96; /* Cambio de color en el foco */
+        box-shadow: 0 0 0 1px rgba(0,91,150,0.5); /* Sombra de foco suave y coherente */
     }
     .custom-control-input:checked ~ .custom-control-label::before {
-        background-color: #5a67d8; /* Consistente con el color principal */
-        border-color: #5a67d8;
+        background-color: #005b96; /* Consistente con el color principal */
+        border-color: #005b96;
     }
     .alert-danger {
-        background-color: #fef2f2; /* Fondo más suave para el alerta */
-        border-color: #fed7d7; /* Borde coherente con el fondo */
+        background-color: #ffe5e5; /* Fondo más suave para el alerta */
+        border-color: #ffcccc; /* Borde coherente con el fondo */
         color: #e53e3e; /* Color de texto que contraste bien */
         padding: 12px; /* Ajuste de padding */
         border-radius: 10px; /* Bordes redondeados */
